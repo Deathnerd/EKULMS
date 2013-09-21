@@ -20,5 +20,5 @@
 	}
 
 	//read and return text from the JSON file
-	echo file_get_contents("quiz_JSON/"+$request, true);
+	echo file_get_contents($request, true);
 ?>
