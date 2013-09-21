@@ -1,67 +1,9 @@
 //Client logic goes here
-var json = eval({
-	"_quizName": "Binary Number System",
-	"quiz": {
-		"questions": {
-			"question_1": {
-				"prompt": "Convert the binary number 1000001 to its decimal equivalent",
-				"choice_1": {
-					"value": "32",
-					"correct": false
-					},
-				"choice_2": {
-					"value": "65",
-					"correct": true
-					},
-				"choice_3": {
-					"value": "97",
-					"correct": false
-					},
-				"choice_4": {
-					"value": "127",
-					"correct": false
-				}
-			},
-			"question_2": {
-				"prompt": "Convert the decimal number 127 to its binary equivalent",
-				"choice_1": {
-					"value": "1010101",
-					"correct": false
-					},
-				"choice_2": {
-					"value": "1111111",
-					"correct": true
-					},
-				"choice_3": {
-					"value": "10000000",
-					"correct": false
-					},
-				"choice_4": {
-					"value": "11111111",
-					"correct": false
-				}
-			},
-			"question_3": {
-				"prompt": "What is the sum of two binary numbers, 10101 and 10001",
-				"choice_1": {
-					"value": "10110",
-					"correct": false
-					},
-				"choice_2": {
-					"value": "100110",
-					"correct": true
-					},
-				"choice_3": {
-					"value": "100111",
-					"correct": false
-					},
-				"choice_4": {
-					"value": "1000110",
-					"correct": false
-				}
-			}
-		}
-	}
+var json;
+
+$.getJSON("http://www.wesgilleland.com/projects/quizzes/binary.json", function(returnedJSON) {
+	console.log(json);
+	json = reteurnedJSON;
 });
 
 var generatePage = function(json){

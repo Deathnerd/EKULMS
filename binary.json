@@ -1,0 +1,37 @@
+{
+	"_quizName": "Binary Number System",
+	"quiz": {
+	    "questions": [
+	        
+	        {
+	             "prompt": "Convert number to its decimal equivalent!",
+	             "choices": [
+	                 { "value": "32", "correct": false },
+	                 { "value": "65", "correct": true },
+	                 { "value": "97", "correct": false },
+	                 { "value": "127", "correct": false}
+	             ]
+	        },
+	        
+	        {
+	             "prompt": "Convert the decimal number 127 to its binary equivalent.",
+	             "choices": [
+	             	 { "value": "1010101", "correct": false },
+	             	 { "value": "1111111", "correct": true },
+	             	 { "value": "10000000", "correct": false},
+	             	 { "value": "11111111", "correct": false}
+	             ]
+	        },
+	        
+	        {
+	              "prompt": "What is the sum of two binary numbers, 10101 and 10001.",
+	              "choices": [ 
+	              	 { "value": "10110", "correct": false },
+	             	 { "value": "100110", "correct": true },
+	             	 { "value": "100111", "correct": false},
+	             	 { "value": "1000110", "correct": false}
+	            	]
+	        }
+	    ]
+	}
+}
