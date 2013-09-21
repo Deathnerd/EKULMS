@@ -1,34 +1,56 @@
 //Client logic goes here
-var json;
 
-$.getJSON("http://www.wesgilleland.com/projects/quizzes/binary.json", function(returnedJSON) {
-	console.log(json);
-	json = reteurnedJSON;
+//prep the AJAX request
+// var req = function ajax() {
+// 	//Create new AJAX Object that supports all modern browsers
+// 	if (window.XMLHttpRequest) {
+// 		//code for everything above IE 6
+// 		request = new XMLHttpRequest;
+// 	}
+// 	else {
+// 		//code for IE 6 & 5
+// 		request = new ActiveXObject("Microsoft.XMLHTTP");
+// 	}
+
+// 	//open connection and add custom header
+// 	request.open("GET", "fetch.php", true); //asynchronous
+// 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+// 	//catch the response
+// 	request.onreadystatechange = function() {
+// 		if (request.readystate === 4 && request.status === 200) { //4 = request finished and response ready. 200 = status is "OK"
+// 			response = request.responseText; //actually catch the response
+
+// 			//if the response is null, tell me
+// 			if (response === 'null'){
+// 				console.log("response empty");
+// 			}
+// 			else {
+// 				//print the json to console *TESTING*
+// 				console.log("Here's the JSON");
+// 				console.log(response);
+// 			}
+// 		}
+
+// 		resquest.send("binary.json");
+
+// 		return response;
+// 	};
+
+	
+// }
+
+// var resp = req();
+// console.log(resp);
+
+//the jquery way
+$.ajax({
+	url: "http://www.wesgilleland.com/projects/quizzes/fetch.php",
+	success: function(result) {
+		alert("success!");
+		console.log(result);
+	},
+	data: "request=binary.json",
+	dataType: "jsonp",
+	crossDomain: true
 });
-
-var generatePage = function(json){
-	console.log(json);
-	for(var key in json.quiz.questions) {
-		var questions = json.quiz.questions[key];
-		//console.log(key+" -> "+questions);
-		for (var k in questions){
-			console.log(k+" -> "+questions[k]);
-			var choices = questions[k].choices;
-			for (var c in choices){
-				console.log(c+" -> "+choices[c]);
-			}
-		}
-	}
-}
-
-//generatePage(json);
-console.log(json);
-var question1=json.quiz.questions.question_1;
-for (var key in question1){
-	var stuff = question1[key];
-	console.log("Stuff in the question_1: "+key+" -> "+stuff);
-	if (stuff[key].prompt){
-		console.log("yo, this is a prompt!");
-	}
-	console.log("Stuff in the stuff in question_1: "+key+" ->> "+stuff[key])
-}

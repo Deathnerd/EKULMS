@@ -1,13 +1,19 @@
 <?php  
 	//fetch.php
 	//This will fetch the requested JSON file from an AJAX and return said JSON to the client
+	
+	//TODO
+	//Secure the input
+
+	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
+	header('Access-Control-Allow-Origin: *');
 
 	//set the data type to JSON
 	header('Content-type: application/json');
 		
 	//check to see if $_REQUEST
-	if (isset($_REQUEST['request'])){
-		$request = $_REQUEST['request'];
+	if (isset($_GET['request'])){
+		$request = $_GET['request'];
 	} else {
 		echo "request empty";
 		exit();
