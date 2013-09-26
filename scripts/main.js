@@ -51,6 +51,5 @@ $.ajax({
 		console.log(result);
 	},
 	data: "request=binary.json",
-	dataType: "jsonp",
 	crossDomain: true
 });
