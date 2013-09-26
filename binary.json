@@ -4,7 +4,7 @@
 	    "questions": [
 	        
 	        {
-	             "prompt": "Convert number to its decimal equivalent!",
+	             "prompt": "Convert number to its decimal equivalent.",
 	             "choices": [
 	                 { "value": "32", "correct": false },
 	                 { "value": "65", "correct": true },
