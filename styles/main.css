@@ -1,12 +1,15 @@
 /* Custom styles here */
 #holding_div{
-
+	padding: 5px;
+	border: solid 1px;
 }
 
 #quiz_name{
-	padding-bottom: 5px;
+	margin-bottom: 5px;
+	border: solid 1px;
 }
 
 .question_body{
-	padding: 5px;
+	margin: 5px;
+	border: solid 1px;
 }
