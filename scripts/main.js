@@ -1,21 +1,23 @@
 //Client logic goes here
+
+var answer_check = function(correct, number)
+{
+	if (correct)
+	{
+		$("#box_"+number).text("Correct!");
+		$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
+		$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75) ");
+	}
+	else 
+	{
+		$("#box_"+number).text("Incorrect");
+		$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
+		$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75) ");
+	}
+}
+
 $('document').ready(function()
 {
-	var answer_check = function(correct)
-	{
-		if (correct)
-		{
-			$("#box_"+number).text("Correct!");
-			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75) ");
-		}
-		else 
-		{
-			$("#box_"+number).text("Incorrect");
-			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75) ");
-		}
-	}
 
 	//function to render the questions
 	var render = function(json) 
@@ -28,10 +30,10 @@ $('document').ready(function()
 		//loop through each question
 		var questions = json.quiz.questions;
 
-		for (var question in questions)
+		for (var question = 0; question < questions.length; question++)
 		{
 			
-			console.log(questions[question].prompt);
+			console.log("Prompt: "+questions[question].prompt);
 
 			//create question_body div
 			$("#holding_div").append('<div class="question_body" id="question_'+question+'"></div>');
@@ -41,25 +43,29 @@ $('document').ready(function()
 			question_body.append("<p>"+questions[question].prompt+"</p>");
 
 			//loop through each choice
-			var choices = questions[question];
+			var choices = questions[question].choices;
 			console.log("Choices: "+choices);
 
-			//BUG: Whole loop only running twice. There are 4 choices, it should loop through them all
-			for (var choice in choices)
+			//BUG: Loop not running at all! WHY?!?!
+			for (var choice = 0; choice < choices.length; choice++)
 			{
-				console.log("Choice: "+choices[choice]); //BUG: returning the question text. Should return the choice object
-				console.log(choices[choice].text); //BUG: returning undefined. Should return the text of the choice
-				console.log(choices[choice].correct); ///BUG: returning undefined. Should return either true or false
+				console.log("Choice #"+choice+": "+choices[choice]); //BUG: returning the question text. Should return the choice object
+				console.log("Choice Text: "+choices[choice].text); //BUG: returning undefined. Should return the text of the choice
+				console.log("Choice Value: "+choices[choice].correct); ///BUG: returning undefined. Should return either true or false
 
 				//append the choices inputs to the to the question
 				//BUG: Both returning undefined. Should return their respective values
 				if (choices[choice].correct == true)
 				{
-					question_body.append('<input type="radio" onclick= answer_check(true)>'+choices[choice].text+'</input>');
+					console.log("Printing true statment for choice "+choice);
+					question_body.append('<input type="radio" onclick= answer_check(true, '+question+')>'+choices[choice].text+'</input>');
+					question_body.append('<br />');
 				}
 				else 
 				{
-					question_body.append('<input type="radio" onclick= answer_check(false)>'+choices[choice].text+'</input>');	
+					console.log("Printing fase statment for choice "+choice);
+					question_body.append('<input type="radio" onclick= answer_check(false, '+question+')>'+choices[choice].text+'</input>');	
+					question_body.append('<br />');
 				}
 
 			}
