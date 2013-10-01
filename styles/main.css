@@ -13,3 +13,7 @@
 	margin: 5px;
 	border: solid 1px;
 }
+
+.correct_incorrect{
+	display: none;
+}

@@ -2,7 +2,6 @@
 	"_quizName": "Binary Number System",
 	"quiz": {
 	    "questions": [
-	        
 	        {
 	             "prompt": "Convert number to its decimal equivalent.",
 	             "choices": [

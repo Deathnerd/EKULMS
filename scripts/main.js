@@ -1,22 +1,9 @@
 //Client logic goes here
 $('document').ready(function()
 {
-	//checks if the clicked radial was the correct answer
-	var answer_check = function(correct, number)
-	{
-		if (correct)
-		{
-			$("#box_"+number).text("Correct!");
-			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75) ");
-		}
-		else 
-		{
-			$("#box_"+number).text("Incorrect");
-			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75) ");
-		}
-	}
+	//set globals
+	var site = "http://www.wesgilleland.com/projects/quizzes/fetch.php";
+	var file = "binary.json";
 
 	//function to render the questions
 	var render = function(json) 
@@ -31,8 +18,7 @@ $('document').ready(function()
 
 		for (var question = 0; question < questions.length; question++)
 		{
-			
-			console.log("Prompt: "+questions[question].prompt);
+			//console.log("Prompt: "+questions[question].prompt);
 
 			//create question_body div
 			$("#holding_div").append('<div class="question_body" id="question_'+question+'"></div>');
@@ -43,30 +29,27 @@ $('document').ready(function()
 
 			//loop through each choice
 			var choices = questions[question].choices;
-			console.log("Choices: "+choices);
+			//console.log("Choices: "+choices);
 
-			//BUG: Loop not running at all! WHY?!?!
 			for (var choice = 0; choice < choices.length; choice++)
 			{
-				console.log("Choice #"+choice+": "+choices[choice]); //BUG: returning the question text. Should return the choice object
-				console.log("Choice Text: "+choices[choice].text); //BUG: returning undefined. Should return the text of the choice
-				console.log("Choice Value: "+choices[choice].correct); ///BUG: returning undefined. Should return either true or false
+				// console.log("Choice #"+choice+": "+choices[choice]);
+				// console.log("Choice Text: "+choices[choice].text);
+				// console.log("Choice Value: "+choices[choice].correct);
 
 				//append the choices inputs to the to the question
-				//BUG: Both returning undefined. Should return their respective values
 				if (choices[choice].correct == true)
 				{
-					console.log("Printing true statment for choice "+choice);
-					question_body.append('<input type="radio" onclick= answer_check(true, '+question+')>'+choices[choice].text+'</input>');
+					// console.log("Printing true statment for choice "+choice);
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].text+'</input>');
 					question_body.append('<br />');
 				}
 				else 
 				{
-					console.log("Printing fase statment for choice "+choice);
-					question_body.append('<input type="radio" onclick= answer_check(false, '+question+')>'+choices[choice].text+'</input>');	
+					// console.log("Printing fase statment for choice "+choice);
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].text+'</input>');	
 					question_body.append('<br />');
 				}
-
 			}
 
 			//append a correct/incorrect box to the end of the question. It's set to invisible 
@@ -80,12 +63,12 @@ $('document').ready(function()
 	{
 		$.ajax(
 		{
-			url: "http://www.wesgilleland.com/projects/quizzes/fetch.php",
+			url: site,
 			success: function(result) {
 				render(result); //render the page using fetched JSON
-				console.log(result);
+				//console.log(result);
 			},
-			data: "request=binary.json",
+			data: "request="+file,
 			crossDomain: true
 		});
 	}
@@ -94,4 +77,19 @@ $('document').ready(function()
 	{
 		request();
 	});
+
+	var answer_check = function(correct, number){
+		if (correct)
+		{
+			$("#box_"+number).text("Correct!");
+			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
+			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
+		}
+		else 
+		{
+			$("#box_"+number).text("Incorrect");
+			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
+			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
+		}
+	}
 });
