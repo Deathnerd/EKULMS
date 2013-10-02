@@ -77,19 +77,4 @@ $('document').ready(function()
 	{
 		request();
 	});
-
-	var answer_check = function(correct, number){
-		if (correct)
-		{
-			$("#box_"+number).text("Correct!");
-			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
-		}
-		else 
-		{
-			$("#box_"+number).text("Incorrect");
-			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
-		}
-	}
 });
