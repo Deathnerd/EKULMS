@@ -1,0 +1,9 @@
+**TODO**
+Make quiz creation page
+	Use JSON constructed on the client side
+Lock down any critical files (json, etc)
+Create Students database
+Create login system
+Secure the fetch.php script
+Re-organize js code
+Apply basic styles to the main stylesheet
