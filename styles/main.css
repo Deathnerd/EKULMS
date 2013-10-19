@@ -1,4 +1,9 @@
 /* Custom styles here */
+
+body{
+	padding: 5px;
+}
+
 #holding_div{
 	padding: 5px;
 	border: solid 1px;
