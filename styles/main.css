@@ -22,3 +22,7 @@ body{
 .correct_incorrect{
 	display: none;
 }
+
+div {
+	border: solid 1px;
+}

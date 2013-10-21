@@ -6,11 +6,11 @@ $('document').ready(function()
 	var file = "binary.json";
 
 	//function to render the questions
-	var render = function(json) 
+	var render = function(json)
 	{
 
 		//create the holding div for the quiz
-		$('body').append('<div id="holding_div"></div>')
+		$('body').append('<div id="holding_div"></div>');
 		$('#holding_div').append('<p id="quiz_name">'+json._quizName+'</p>');
 
 		//loop through each question
@@ -38,16 +38,16 @@ $('document').ready(function()
 				// console.log("Choice Value: "+choices[choice].correct);
 
 				//append the choices inputs to the to the question
-				if (choices[choice].correct == true)
+				if (choices[choice].correct === true)
 				{
 					// console.log("Printing true statment for choice "+choice);
 					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].text+'</input>');
 					question_body.append('<br />');
 				}
-				else 
+				else
 				{
 					// console.log("Printing fase statment for choice "+choice);
-					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].text+'</input>');	
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].text+'</input>');
 					question_body.append('<br />');
 				}
 			}
@@ -56,7 +56,7 @@ $('document').ready(function()
 			//at first through the stylesheet
 			$("#holding_div").append('<div class="correct_incorrect_box" id="box_'+question+'"></div>');
 		}
-	}
+	};
 
 	//the request
 	var request = function()
@@ -71,7 +71,7 @@ $('document').ready(function()
 			data: "request="+file,
 			crossDomain: true
 		});
-	}
+	};
 
 	$('#fetch').click(function()
 	{
@@ -85,11 +85,11 @@ $('document').ready(function()
 			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
 			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
 		}
-		else 
+		else
 		{
 			$("#box_"+number).text("Incorrect");
 			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
 			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
 		}
-	}
+	};
 });
