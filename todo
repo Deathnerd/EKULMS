@@ -1,5 +1,9 @@
 **TODO**
 Make quiz creation page
+<<<<<<< HEAD
+=======
+	Use JSON constructed on the client side
+>>>>>>> dev
 Lock down any critical files (json, etc)
 Create Students database
 Create login system

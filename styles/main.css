@@ -1,19 +1,44 @@
 /* Custom styles here */
-#holding_div{
+
+body
+{
+	padding: 5px;
+}
+
+#holding_div
+{
 	padding: 5px;
 	border: solid 1px;
 }
 
-#quiz_name{
+#quiz_name
+{
 	margin-bottom: 5px;
 	border: solid 1px;
 }
 
-.question_body{
+.question_body
+{
 	margin: 5px;
 	border: solid 1px;
 }
 
-.correct_incorrect{
+.correct_incorrect
+{
 	display: none;
+}
+
+.question
+{
+
+}
+
+.question_label
+{
+
+}
+
+div 
+{
+	border: solid 1px;
 }
