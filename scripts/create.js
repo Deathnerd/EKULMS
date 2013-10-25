@@ -27,7 +27,7 @@
 	$('.question').hover(
 		function(){ //Hover-in handler
 			hover_id = $(this).attr('id');
-			current_choice_count = $('#'+hover_id+' > input[type="text"]').length;
+			current_choice_count = $('#'+hover_id+' > input[type="text"]').length; //get the number of choice input elements
 			console.log($(this).attr('id'));
 	},
 		function(){ //hover-out handler
@@ -58,18 +58,9 @@
 		html = '<div class="question" id="question_'+current_question_count+'"><p class="question_label">Question '+current_question_count+'</p><br><textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br><label>Choice 1</label><input type="text" id="choice_'+current_choice_count+'" value="Enter choice"></input><input type="button" value="+" id="add_choice" class="choice_add"></input><br></div>';
 		$('body').append(html);
 	});
-	
-	// //append choices to the question
-	// $(document).on("click", ".choice_add", function(){
-	// 	console.log(this);
-	// 	current_choice_count++;
-	// 	html = '<br/><label>Choice '+current_choice_count+'</label><input type="text" name="" value="Enter choice"></input>';
-	// 	$('#'+hover_id).append(html);
-	// });
 
-	// //when the question div is hovered over, set the global identifier for the currently hovered div
-	// $('.question').on("hover", function(){
-	// 	console.log($(this).attr('id'));
-	// 	hover_id = $(this).attr('id');
-	// });
+	//Should be triggering for all .question class elements... hrm....
+	$(document).on("hover", ".question", function(){
+		console.log(this);
+	});
 });
