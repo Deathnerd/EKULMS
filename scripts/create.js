@@ -6,9 +6,8 @@
 
 /*TODO
  * -Add radial button to the side of a question to indicate a correct answer
- * -Get the number of choices already in the div on hover and use those as values for the add/remove choice functions
+ * -Add functionality to the "X" buttons
  * -Oh boy... Work on function to generate json string from all the forms. Oh boy...
- * -Figure out how to remove elements inline, not just last child. Possibly $(this).remove(); followed by a renumbering of the ids?
  */
 
  //Globals
@@ -24,9 +23,9 @@
 			current_choice_count++;
 			//html for a new choice. Broken up for readability
 			html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
-					'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>';
+					'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
+					'<input type="button" class="remove_inline_choice" id="remove_choice_'+current_choice_count+'" value="X"></input><br>';
 			$('#'+hover_id).append(html);
-			console.log(hover_id);
 		}
 	}, '.choice_add');
 
@@ -36,11 +35,14 @@
 			//if there's only one choice in the question, then we don't need to remove it
 			if ($('#'+hover_id).find('.choice').length !== 1){
 				$('#'+hover_id+' > #choice_'+current_choice_count).remove();
-				$('#'+hover_id+' > br:last-child').remove(); //remove the break below the input
+				$('#'+hover_id+' > br:last-child').remove();//remove the break below the input
+				$('#'+hover_id+' > input:last-child').remove();//remove the "X" button beside the last choice
 				current_choice_count--;
 			}
 		}
 	}, '.choice_remove');
+
+	//remove the inline choice
 
 	//remove a question from the current div
 	$(document).on({
@@ -70,9 +72,10 @@
 						'<p class="question_label">Question '+current_question_count+'</p><br>'+
 						'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>'+
 						'<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br>'+
+						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
+						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
 						'<label>Choice 1</label>'+
-						'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
-						'<input type="button" value="+" id="add_choice" class="choice_add"></input><input type="button" value="-" id="remove_choice" class="choice_remove"></input><br>'+
+						'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>'+
 					'</div>';
 			$('body').append(html);
 		}
@@ -88,6 +91,8 @@
 				num = index+1;
 				$(divs[index]).attr('id', 'question_'+num);
 			});
+
+			//relabel the questions
 			labels = $(document).find('.question_label');
 			$.each(labels, function (index){
 				num = index+1;
