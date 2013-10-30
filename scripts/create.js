@@ -22,17 +22,23 @@
 	$(document).on({
 		click: function(){
 			current_choice_count++;
-			html = '<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label><input type="text" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>';
+			//html for a new choice. Broken up for readability
+			html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
+					'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>';
 			$('#'+hover_id).append(html);
+			console.log(hover_id);
 		}
 	}, '.choice_add');
 
 	//get input and name elements in current question div and remove it
 	$(document).on({
 		click: function(){
-			$('#'+hover_id+' > #choice_'+current_choice_count).remove();
-			$('#'+hover_id+' > br:last-child').remove(); //remove the break below the input
-			current_choice_count--;
+			//if there's only one choice in the question, then we don't need to remove it
+			if ($('#'+hover_id).find('.choice').length !== 1){
+				$('#'+hover_id+' > #choice_'+current_choice_count).remove();
+				$('#'+hover_id+' > br:last-child').remove(); //remove the break below the input
+				current_choice_count--;
+			}
 		}
 	}, '.choice_remove');
 
@@ -44,10 +50,11 @@
 		}
 	}, '.question_remove');
 
-	//set the hover_id to the current question being modified
+	//set the hover_id to the current question being modified. Clear the hover_id when we're not in the div
 	$(document).on({
 		mouseenter: function(){
 			hover_id = $(this).attr('id');
+			current_choice_count = $(this).find('.choice').length; //find the current number of choices in the selected div
 		},
 		mouseleave: function(){
 			hover_id = '';
@@ -57,10 +64,36 @@
 	//generate a new question div
 	$(document).on({
 		click: function(){
-			current_choice_count = 0;
 			current_question_count++;
-			html = '<div class="question" id="question_'+current_question_count+'"><p class="question_label">Question '+current_question_count+'</p><br><textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br><label>Choice 1</label><input type="text" id="choice_'+current_choice_count+'" value="Enter choice"></input><input type="button" value="+" id="add_choice" class="choice_add"></input><br></div>';
+			//html for a new question. Broken up for readability
+			html = 	'<div class="question" id="question_'+current_question_count+'">'+
+						'<p class="question_label">Question '+current_question_count+'</p><br>'+
+						'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>'+
+						'<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br>'+
+						'<label>Choice 1</label>'+
+						'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
+						'<input type="button" value="+" id="add_choice" class="choice_add"></input><input type="button" value="-" id="remove_choice" class="choice_remove"></input><br>'+
+					'</div>';
 			$('body').append(html);
 		}
 	}, '.question_add');
+
+	//remove an inline question
+	$(document).on({
+		click: function(){
+			$('#'+hover_id).remove(); //remove the currently hovered over div
+			//reorder the divs
+			divs = $(document).find('.question');
+			$.each(divs, function (index){
+				num = index+1;
+				$(divs[index]).attr('id', 'question_'+num);
+			});
+			labels = $(document).find('.question_label');
+			$.each(labels, function (index){
+				num = index+1;
+				$(labels[index]).text("Question "+num);
+			});
+			current_question_count = $('.question').length;
+		}
+	}, '.remove_inline_question');
 });
