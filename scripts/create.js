@@ -8,6 +8,7 @@
  * -Add radial button to the side of a question to indicate a correct answer
  * -Add functionality to the "X" buttons
  * -Oh boy... Work on function to generate json string from all the forms. Oh boy...
+ * -Clean all this up from hack code to respectable code
  */
 
  //Globals
@@ -24,7 +25,7 @@
 			//html for a new choice. Broken up for readability
 			html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
 					'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
-					'<input type="button" class="remove_inline_choice" id="remove_choice_'+current_choice_count+'" value="X"></input><br>';
+					'<input type="button" class="remove_inline_choice" id="'+current_choice_count+'" value="X"></input><br>';
 			$('#'+hover_id).append(html);
 		}
 	}, '.choice_add');
@@ -43,6 +44,22 @@
 	}, '.choice_remove');
 
 	//remove the inline choice
+	$(document).on({
+		click: function(){	
+			//get the number of the button and the associated choice input
+			number = parseInt($(this).attr('id'));
+			//remove the break after the button (there are three before we get to the choices)
+			breaks = $('#'+hover_id).find('br');
+			console.log("Length of breaks[]: "+breaks.length);
+			console.log("Breaks.length-3: "+breaks.length-3);
+			console.log("Number+3: "+number+3);
+			$(breaks[number+3]).remove();
+			//remove the choice and the button
+			$('#choice_'+number).remove();
+			$('#choice_'+number).remove();
+			$(this).remove();
+		}
+	}, '.remove_inline_choice');
 
 	//remove a question from the current div
 	$(document).on({
