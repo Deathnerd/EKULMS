@@ -16,7 +16,19 @@
  var current_choice_count = 1; //how many choices are in the current, working question?
  var current_question_count = 1; //how many questions have we created?
 
+ var jsonReady = function(){ //ready the JSON template
+ 	json = new Object();
+ 	json["_quizName"] = "blank";
+ 	json["quiz"] = new Object();
+ 	json.quiz["questions"] = new Array();
+
+ 	return json;
+ }
+
  $(document).ready(function(){
+
+ 	//ready the JSON template
+ 	var json = jsonReady();
 
 	//append choices to the question
 	$(document).on({
@@ -44,6 +56,7 @@
 	}, '.choice_remove');
 
 	//remove the inline choice
+	//TODO: firgure out how to remove breaks properly
 	$(document).on({
 		click: function(){	
 			//get the number of the button and the associated choice input
@@ -118,4 +131,33 @@
 			current_question_count = $('.question').length;
 		}
 	}, '.remove_inline_question');
+
+	//function to construct the JSON to send to the server
+	//structure: ("Key" --Type)
+	//--Object
+	//	"_quizName": "Value"
+	//		"quiz:" --Object
+	//			"questions" --Array
+	//				--Object
+	//					"prompt": "Value", 
+	//					"choices": --Array
+	//						--Object
+	//							"text": "value",
+	//							"correct": true/false
+
+	$(document).on({
+		click: function(){
+			var questions = $(document).find('.question');
+			$.each(questions, function (index){
+
+				//this block will create the questions objects
+				//and the prompt and choices keys along with their values
+				json.quiz.questions[index] = new Object();
+				json.quiz.questions[index]["prompt"] = "This is a prompt";
+				json.quiz.questions[index]["choices"] = new Array();
+			});
+
+		}
+	}, '#constructJSON');
+	//Psuedocode:	
 });
