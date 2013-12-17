@@ -12,16 +12,17 @@
 	</head>
 	<input type="button" value="Add question" class="question_add"></input>
 	<input type="button" value="Remove question" class="question_remove"></input>
+	<input type="button" value="Construct JSON" id="constructJSON"></input>
 	<body>
 		<div class="question" id="question_1">
 			<p class="question_label">Question 1</p>
 			<br>
 			<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea>
 			<br>
+			<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>
+			<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>
 			<label>Choice 1</label>
-			<input type="text" name="" value="Enter choice"></input>
-			<input type="button" value="+" id="add_choice" class="choice_add"></input>
-			<input type="button" value="-" id="remove_choice" class="choice_remove"></input>
+			<input type="text" class="choice" value="Enter choice"></input>
 			<br>
 		</div>
 	</body>
