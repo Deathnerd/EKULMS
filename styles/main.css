@@ -1,12 +1,36 @@
 /* Custom styles here */
 
 body {
-	padding: 5px;
+	background-color:#F4F4F4;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#topNav{
+	height: 35px;
+	background-color: #903;
+	color: white;
+	position: fixed;
+	top: 0px;
+}
+
+#logo{
+	float: left;
+	background-color: black;
+}
+
+#topNav > div, #pageTitle{
+	border: none;
+	width: 100px;
+	height: 100%;
+}
+
+#pageTitle, #dropdown{
+	float: right;
 }
 
 #holding_div {
 	padding: 5px;
-	border: solid 1px;
+	border: solid 1px;s
 }
 
 #quiz_name {
@@ -24,19 +48,19 @@ body {
 }
 
 .question {
-
+	padding: 5px;
 }
 
-.question_label {
-
+textarea{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
-
-div {
-	border: solid 1px;
-}
-
 .choice {
 	width:100%;
+}
+
+table{
+	margin-top: 5px;
 }
 
 td > div {
