@@ -29,7 +29,7 @@
 	             	 { "text": "100110", "correct": true },
 	             	 { "text": "100111", "correct": false},
 	             	 { "text": "1000110", "correct": false}
-	            	]
+	            ]
 	        }
 	    ]
 	}
