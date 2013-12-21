@@ -158,7 +158,7 @@
 				//this block will create the questions objects
 				//and the prompt and choices keys along with their values
 				json.quiz.questions[index] = new Object();
-				json.quiz.questions[index]["prompt"] = $(this).;
+				json.quiz.questions[index]["prompt"] = "";
 				json.quiz.questions[index]["choices"] = new Array();
 
 				//loop and insert all choices and their values into the choices array
