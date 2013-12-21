@@ -42,7 +42,7 @@
 		}
 	}, '.choice_add');
 
-	//get input and name elements in current question div and remove it
+	//get input, name, and checkbox elements in current question div and remove it
 	$(document).on({
 		click: function(){
 			//if there's only one choice in the question, then we don't need to remove it
@@ -50,6 +50,8 @@
 				$('#'+hover_id+' > #choice_'+current_choice_count).remove();
 				$('#'+hover_id+' > br:last-child').remove();//remove the break below the input
 				$('#'+hover_id+' > input:last-child').remove();//remove the "X" button beside the last choice
+				correctBoxes = $.find('#'+hover_id+' > .correctBox');
+				$('#'+hover_id).removeChild(correctBoxes[correctBoxes.length-1]);
 				current_choice_count--;
 			}
 		}
@@ -106,6 +108,8 @@
 						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
 						'<label>Choice 1</label>'+
 						'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>'+
+						'<input type="checkbox" class="correct" class="correctBox"></input>'+
+						'<label class="correctLabel">Correct Question?</label>'+
 					'</div>';
 			$('body').append(html);
 		}
@@ -148,13 +152,16 @@
 	$(document).on({
 		click: function(){
 			var questions = $(document).find('.question');
+			var choices = $()
 			$.each(questions, function (index){
 
 				//this block will create the questions objects
 				//and the prompt and choices keys along with their values
 				json.quiz.questions[index] = new Object();
-				json.quiz.questions[index]["prompt"] = "This is a prompt";
+				json.quiz.questions[index]["prompt"] = $(this).;
 				json.quiz.questions[index]["choices"] = new Array();
+
+				//loop and insert all choices and their values into the choices array
 			});
 
 		}
