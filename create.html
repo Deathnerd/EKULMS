@@ -14,17 +14,25 @@
 	<input type="button" value="Remove question" class="question_remove">
 	<input type="button" value="Construct JSON" id="constructJSON">
 	<body>
+    	<header id="topNav">
+        	<div id="logo">
+            	LOGO HERE
+            </div>
+            <div id="dropdown">
+            	<p>DROPDOWN HERE</p>
+            </div>
+            <p id="pageTitle">PAGE TITLE HERE</p>
+        </header>
 		<div class="question" id="question_1">
 			<!-- Begin question prompt and buttons -->
 			<p class="question_label">Question 1</p>
-			<br>
-			 <textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea>
+			<textarea name="prompt" cols="40" rows="5">Input question here</textarea>
 			<br>
 			<input type="button" value="Add Choice" id="add_choice" class="choice_add">
 			<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"><br>
 			<!-- End question prompt and buttons -->
 			<!-- Begin choices table -->
-            <table width="411" border="0" cellspacing="0" cellpadding="0">
+            <table width="400" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <th width="30" scope="col">#</th>
                 <th width="323" scope="col">Value</th>
@@ -35,7 +43,7 @@
                 <td width="323"><input type="text" class="choice" value="Enter choice"></td>
                 <td width="58"><div align="center">
                   <input name="" type="checkbox" class="correctBox" value="">
-              	</td>
+              	</div></td>
               </tr>
             </table>
             <!-- End choices table -->
