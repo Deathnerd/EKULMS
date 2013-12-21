@@ -10,20 +10,35 @@
 		<link type="text/css" rel="stylesheet" href="styles/reset.css">
 		<link type="text/css" rel="stylesheet" href="styles/main.css">
 	</head>
-	<input type="button" value="Add question" class="question_add"></input>
-	<input type="button" value="Remove question" class="question_remove"></input>
-	<input type="button" value="Construct JSON" id="constructJSON"></input>
+	<input type="button" value="Add question" class="question_add">
+	<input type="button" value="Remove question" class="question_remove">
+	<input type="button" value="Construct JSON" id="constructJSON">
 	<body>
 		<div class="question" id="question_1">
+			<!-- Begin question prompt and buttons -->
 			<p class="question_label">Question 1</p>
 			<br>
-			<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea>
+			 <textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea>
 			<br>
-			<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>
-			<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>
-			<label>Choice 1</label>
-			<input type="text" class="choice" value="Enter choice"></input>
-			<br>
+			<input type="button" value="Add Choice" id="add_choice" class="choice_add">
+			<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"><br>
+			<!-- End question prompt and buttons -->
+			<!-- Begin choices table -->
+            <table width="411" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <th width="30" scope="col">#</th>
+                <th width="323" scope="col">Value</th>
+                <th width="58" scope="col">Correct?</th>
+              </tr>
+              <tr>
+                <td width="30"><div align="center">1</div></td>
+                <td width="323"><input type="text" class="choice" value="Enter choice"></td>
+                <td width="58"><div align="center">
+                  <input name="" type="checkbox" class="correctBox" value="">
+              	</td>
+              </tr>
+            </table>
+            <!-- End choices table -->
 		</div>
 	</body>
 </html>
