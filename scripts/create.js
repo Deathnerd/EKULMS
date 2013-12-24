@@ -35,10 +35,14 @@
 		click: function(){
 			current_choice_count++;
 			//html for a new choice. Broken up for readability
-			html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
-					'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
-					'<input type="button" class="remove_inline_choice" id="'+current_choice_count+'" value="X"></input><br>';
-			$('#'+hover_id).append(html);
+			// html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
+			// 		'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
+			// 		'<input type="button" class="remove_inline_choice" id="'+current_choice_count+'" value="X"></input><br>';
+			html = 	'<tr><td width="30"><div align="center">'+current_choice_count+'</div></td>'+
+					'<td width="323"><input type="text" class="choice" value="Enter choice"></td>'+
+					'<td width="58"><div align="center"><input name="" type="checkbox" class="correctBox" value=""></div></td>'+
+					'<td><input type="button" value="Remove Choice" class="remove_inline_choice" id="'+current_choice_count+'"></td></tr>';
+			$(html).appendTo('#'+hover_id+' > table');
 		}
 	}, '.choice_add');
 
@@ -106,10 +110,20 @@
 						'<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br>'+
 						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
 						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
-						'<label>Choice 1</label>'+
-						'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input><br>'+
-						'<input type="checkbox" class="correct" class="correctBox"></input>'+
-						'<label class="correctLabel">Correct Question?</label>'+
+						'<table width="430" border="0" cellspacing="0" cellpadding="0">'+
+						'<tr>'+
+						'<th width="30" scope="col">#</th>'+
+						'<th width="323" scope="col">Value</th>'+
+						'<th width="58" scope="col">Correct?</th>'+
+						'</tr>'+
+						'<tr>'+
+						'<td width="30"><div align="center">1</div></td>'+
+						'<td width="323"><input type="text" class="choice" value="Enter choice"></td>'+
+						'<td width="58"><div align="center">'+
+						'<input name="" type="checkbox" class="correctBox" value="">'+
+						'</div></td>'+
+						'</tr>'+
+						'</table>'+
 					'</div>';
 			$('body').append(html);
 		}
@@ -124,14 +138,16 @@
 			$.each(divs, function (index){
 				num = index+1;
 				$(divs[index]).attr('id', 'question_'+num);
+				$(divs[index]).find('.question_label').text("Question "+num);
+				// $(divs[index]+' > .question_label').text("Question "+num);
 			});
 
 			//relabel the questions
-			labels = $(document).find('.question_label');
-			$.each(labels, function (index){
-				num = index+1;
-				$(labels[index]).text("Question "+num);
-			});
+			// labels = $(document).find('.question_label');
+			// $.each(labels, function (index){
+			// 	num = index+1;
+			// 	$(labels[index]).text("Question "+num);
+			// });
 			current_question_count = $('.question').length;
 		}
 	}, '.remove_inline_question');
