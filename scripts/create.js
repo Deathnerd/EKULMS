@@ -46,23 +46,19 @@
 		}
 	}, '.choice_add');
 
-	//get input, name, and checkbox elements in current question div and remove it
+	//remove the last choice
 	$(document).on({
 		click: function(){
-			//if there's only one choice in the question, then we don't need to remove it
-			if ($('#'+hover_id).find('.choice').length !== 1){
-				$('#'+hover_id+' > #choice_'+current_choice_count).remove();
-				$('#'+hover_id+' > br:last-child').remove();//remove the break below the input
-				$('#'+hover_id+' > input:last-child').remove();//remove the "X" button beside the last choice
-				correctBoxes = $.find('#'+hover_id+' > .correctBox');
-				$('#'+hover_id).removeChild(correctBoxes[correctBoxes.length-1]);
-				current_choice_count--;
+			question = $('#'+hover_id);
+			//find the number of current <tr> elements in the question div and remove the last one
+			rows = question.find('tr');
+			if (rows.length > 2){	//if there's only one choice in the question, then we don't need to remove it
+				rows[rows.length-1].remove();
 			}
 		}
 	}, '.choice_remove');
 
 	//remove the inline choice
-	//TODO: firgure out how to remove breaks properly
 	$(document).on({
 		click: function(){	
 			//get the number of the button and the associated choice input
