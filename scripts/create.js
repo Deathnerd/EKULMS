@@ -38,7 +38,7 @@
 			// html = 	'<label id="choice_'+current_choice_count+'">Choice '+current_choice_count+'</label>'+
 			// 		'<input type="text" class="choice" id="choice_'+current_choice_count+'" value="Enter choice"></input>'+
 			// 		'<input type="button" class="remove_inline_choice" id="'+current_choice_count+'" value="X"></input><br>';
-			html = 	'<tr><td width="30"><div align="center">'+current_choice_count+'</div></td>'+
+			html = 	'<tr><td width="30"><div align="center" id="choiceLabel">'+current_choice_count+'</div></td>'+
 					'<td width="323"><input type="text" class="choice" value="Enter choice"></td>'+
 					'<td width="58"><div align="center"><input name="" type="checkbox" class="correctBox" value=""></div></td>'+
 					'<td><input type="button" value="Remove Choice" class="remove_inline_choice" id="'+current_choice_count+'"></td></tr>';
@@ -54,6 +54,7 @@
 			rows = question.find('tr');
 			if (rows.length > 2){	//if there's only one choice in the question, then we don't need to remove it
 				rows[rows.length-1].remove();
+				current_choice_count--;
 			}
 		}
 	}, '.choice_remove');
@@ -61,18 +62,14 @@
 	//remove the inline choice
 	$(document).on({
 		click: function(){	
-			//get the number of the button and the associated choice input
-			number = parseInt($(this).attr('id'));
-			//remove the break after the button (there are three before we get to the choices)
-			breaks = $('#'+hover_id).find('br');
-			console.log("Length of breaks[]: "+breaks.length);
-			console.log("Breaks.length-3: "+breaks.length-3);
-			console.log("Number+3: "+number+3);
-			$(breaks[number+3]).remove();
-			//remove the choice and the button
-			$('#choice_'+number).remove();
-			$('#choice_'+number).remove();
-			$(this).remove();
+			$(this).closest('tr').remove();	//find the closest <tr> element and remove it
+			//re-number the labels
+			labels = $('#'+hover_id+' td > #choiceLabel'); //find only the labels in the current question
+			val = 2; //we start numbering at 2 since we skip the first choice
+			for(var x = 0; x < labels.length; x++){
+				$(labels[x]).text(val);
+				val++;
+			}
 		}
 	}, '.remove_inline_choice');
 
