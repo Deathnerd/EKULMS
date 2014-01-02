@@ -15,7 +15,7 @@
 	if (isset($_GET['request'])){
 		$request = $_GET['request']; //$request contains the name of our file
 	} else {
-		echo "request empty";
+		echo "Request empty";
 		exit();
 	}
 
@@ -24,6 +24,6 @@
 		echo file_get_contents($request, true);
 	}
 	else {
-		die("Cannot open file");
+		echo "Cannot open file";
 	}
 ?>
