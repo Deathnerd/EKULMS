@@ -1,7 +1,17 @@
 //Client logic goes here
 $('document').ready(function(){
 	//set globals
-	var site = "http://www.wesgilleland.com/projects/quizzes/fetch.php";
+
+	//construct the url to pass to the ajax function
+	var site = function(){
+	 	url = "http://";
+	 	pathArray = window.location['href'].split('/');
+	 	for(var i = 2; i < pathArray.length-1; i++){
+	 		path = path+pathArray[i]+'/';
+	 	}
+	 	return url;
+	 }
+
 	var file = "binary.json";
 	//function to render the questions
 	var render = function(json) {
@@ -43,7 +53,6 @@ $('document').ready(function(){
 			url: site,
 			success: function(result) {
 				render(result); //render the page using fetched JSON
-				//console.log(result);
 			},
 			data: "request="+file,
 			crossDomain: true
