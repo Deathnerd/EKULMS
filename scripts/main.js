@@ -1,27 +1,17 @@
 //Client logic goes here
-$('document').ready(function()
-{
+$('document').ready(function(){
 	//set globals
 	var site = "http://www.wesgilleland.com/projects/quizzes/fetch.php";
 	var file = "binary.json";
-
 	//function to render the questions
-	var render = function(json) 
-	{
-
+	var render = function(json) {
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>')
 		$('#holding_div').append('<p id="quiz_name">'+json._quizName+'</p>');
+		var questions = json.quiz.questions; //loop through each question
 
-		//loop through each question
-		var questions = json.quiz.questions;
-
-		for (var question = 0; question < questions.length; question++)
-		{
-			//console.log("Prompt: "+questions[question].prompt);
-
-			//create question_body div
-			$("#holding_div").append('<div class="question_body" id="question_'+question+'"></div>');
+		for (var question = 0; question < questions.length; question++){			
+			$("#holding_div").append('<div class="question_body" id="question_'+question+'"></div>'); //create question_body div
 
 			//create a new question div
 			var question_body = $("#question_"+question);
@@ -29,24 +19,13 @@ $('document').ready(function()
 
 			//loop through each choice
 			var choices = questions[question].choices;
-			//console.log("Choices: "+choices);
-
-			for (var choice = 0; choice < choices.length; choice++)
-			{
-				// console.log("Choice #"+choice+": "+choices[choice]);
-				// console.log("Choice Text: "+choices[choice].text);
-				// console.log("Choice Value: "+choices[choice].correct);
-
+			for (var choice = 0; choice < choices.length; choice++){
 				//append the choices inputs to the to the question
-				if (choices[choice].correct == true)
-				{
-					// console.log("Printing true statment for choice "+choice);
+				if (choices[choice].correct == true){
 					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].text+'</input>');
 					question_body.append('<br />');
 				}
-				else 
-				{
-					// console.log("Printing fase statment for choice "+choice);
+				else{
 					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].text+'</input>');	
 					question_body.append('<br />');
 				}
@@ -59,10 +38,8 @@ $('document').ready(function()
 	}
 
 	//the request
-	var request = function()
-	{
-		$.ajax(
-		{
+	var request = function(){
+		$.ajax({
 			url: site,
 			success: function(result) {
 				render(result); //render the page using fetched JSON
@@ -73,8 +50,7 @@ $('document').ready(function()
 		});
 	}
 
-	$('#fetch').click(function()
-	{
+	$('#fetch').click(function(){
 		request();
 	});
 });
