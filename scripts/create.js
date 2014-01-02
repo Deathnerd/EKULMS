@@ -158,22 +158,28 @@
 	//							"text": "value",
 	//							"correct": true/false
 
+	//construct the json from the input fields (works first time! yay!)
 	$(document).on({
 		click: function(){
-			var questions = $(document).find('.question');
-			var choices = $()
-			$.each(questions, function (index){
+			json.quiz._quizName = $('#quizName').val(); //grab the quiz name
+			questions = $('.question'); //find all the questions
+			for(var i = 0; i < questions.length; i++){ //for all the questions in the page
+				json.quiz.questions[i] = new Object(); //create a new object to contain the choices
+				json.quiz.questions[i].prompt = $(questions[i]).find('textarea').val(); //there's only one textarea
+				json.quiz.questions[i].choices = new Array();//create a new array for choices
+				choices = $(questions[i]).find('tr'); //find all the choices within the question
 
-				//this block will create the questions objects
-				//and the prompt and choices keys along with their values
-				json.quiz.questions[index] = new Object();
-				json.quiz.questions[index]["prompt"] = "";
-				json.quiz.questions[index]["choices"] = new Array();
-
-				//loop and insert all choices and their values into the choices array
-			});
-
+				for(var j = 1; j < choices.length; j++){ //loop through the question's choices; start at 1 to skip the header
+					json.quiz.questions[i].choices[j] = new Object(); //
+					json.quiz.questions[i].choices[j].text = $(choices[j]).find('[type=text]').val(); //fetch the value of the choice
+					if ($(choices[j]).find('[type=checkbox]:checked').length > 0){ //if the checkbox is checked set the json property to true
+						json.quiz.questions[i].choices[j].correct = true;	
+					}
+					else{
+						json.quiz.questions[i].choices[j].correct = false;
+					}
+				}
+			}
 		}
-	}, '#constructJSON');
-	//Psuedocode:	
+	}, '#constructJSON')
 });
