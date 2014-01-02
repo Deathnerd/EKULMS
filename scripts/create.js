@@ -15,6 +15,15 @@
  var hover_id = ''; //store the current div being hovered over
  var current_choice_count = 1; //how many choices are in the current, working question?
  var current_question_count = 1; //how many questions have we created?
+ //construct the url string for the ajax request
+ var site = function(){
+ 	url = "http://";
+ 	pathArray = window.location['href'].split('/');
+ 	for(var i = 2; i < pathArray.length-1; i++){
+ 		url = url+pathArray[i]+'/';
+ 	}
+ 	return url+"post.php";
+ }
 
  var jsonReady = function(){ //ready the JSON template
  	json = new Object();
@@ -182,4 +191,17 @@
 			}
 		}
 	}, '#constructJSON')
+
+	$(document).on({
+		click: function(){
+			$.ajax({
+				url: site(),
+				success: function(){
+					console.log("YAY!");
+				},
+				data: 'data='+JSON.stringify(json),
+				crossDomain: true
+			});
+		}
+	}, '#sendJSON');
 });
