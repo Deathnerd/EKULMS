@@ -5,6 +5,7 @@
 	        {
 	             "prompt": "Convert number to its decimal equivalent.",
 	             "choices": [
+	             	null,
 	                 { "text": "32", "correct": false },
 	                 { "text": "65", "correct": true },
 	                 { "text": "97", "correct": false },
@@ -15,6 +16,7 @@
 	        {
 	             "prompt": "Convert the decimal number 127 to its binary equivalent.",
 	             "choices": [
+	             	null,
 	             	 { "text": "1010101", "correct": false },
 	             	 { "text": "1111111", "correct": true },
 	             	 { "text": "10000000", "correct": false},
@@ -25,6 +27,7 @@
 	        {
 	              "prompt": "What is the sum of two binary numbers, 10101 and 10001.",
 	              "choices": [ 
+	              	null,
 	              	 { "text": "10110", "correct": false },
 	             	 { "text": "100110", "correct": true },
 	             	 { "text": "100111", "correct": false},

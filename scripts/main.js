@@ -3,18 +3,20 @@ $('document').ready(function(){
 	//set globals
 
 	//construct the url to pass to the ajax function
-	var site = function(){
+	var site = function(filename){
 	 	url = "http://";
 	 	pathArray = window.location['href'].split('/');
 	 	for(var i = 2; i < pathArray.length-1; i++){
 	 		path = path+pathArray[i]+'/';
 	 	}
+	 	url = url+filename;
 	 	return url;
 	 }
 
 	var file = "binary.json";
 	//function to render the questions
 	var render = function(json) {
+		console.log(json);
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>')
 		$('#holding_div').append('<p id="quiz_name">'+json._quizName+'</p>');
@@ -31,6 +33,9 @@ $('document').ready(function(){
 			var choices = questions[question].choices;
 			for (var choice = 0; choice < choices.length; choice++){
 				//append the choices inputs to the to the question
+				if (choices[choice]==null){ //skip the null values #FIX IN CREATE/POST SCRIPTS
+					continue;
+				}
 				if (choices[choice].correct == true){
 					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].text+'</input>');
 					question_body.append('<br />');
@@ -50,7 +55,7 @@ $('document').ready(function(){
 	//the request
 	var request = function(){
 		$.ajax({
-			url: site,
+			url: "http://www.wesgilleland.com/projects/quizzes/fetch.php",
 			success: function(result) {
 				render(result); //render the page using fetched JSON
 			},

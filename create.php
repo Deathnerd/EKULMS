@@ -1,5 +1,5 @@
 <?
-	$files = glob('quizzes/quiz 1.json');
+	$files = glob('quizzes/*.json');
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +30,13 @@
 		<input type="button" value="Remove question" class="question_remove">
 		<input type="button" value="Construct JSON" id="constructJSON">
 		<input type="button" value="Send AJAX" id="sendJSON">
-		<!-- <select>
+		<select>
 			<?
-				//foreach ($files as $file){ ?>
-				<option value="<? //$file ?>"><? //$file ?></option>
+				foreach($files as $file){
+					echo '<option>'.$file.'</option>';
 				} 
 			?>
-		</select> -->
+		</select>
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>

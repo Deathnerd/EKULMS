@@ -5,16 +5,13 @@
  */
 
 /*TODO
- * -Add radial button to the side of a question to indicate a correct answer
- * -Add functionality to the "X" buttons
- * -Oh boy... Work on function to generate json string from all the forms. Oh boy...
- * -Clean all this up from hack code to respectable code
  */
 
  //Globals
  var hover_id = ''; //store the current div being hovered over
  var current_choice_count = 1; //how many choices are in the current, working question?
  var current_question_count = 1; //how many questions have we created?
+ 
  //construct the url string for the ajax request
  var site = function(){
  	url = "http://";
@@ -35,6 +32,19 @@
  }
 
  $(document).ready(function(){
+
+ 	//fix up the selection box
+ 	options = $('option').splice(0,$('option').length-1);
+	console.log(options);
+
+	//loop through each of the options and trim off the preceeding directory name and following file extension
+	$.each(options, function(index){
+		word = options[index].value;
+		slashSplit = word.split('/');
+		dotSplit = slashSplit[1].split('.');
+		name = dotSplit[0];
+		options[index].text = name;
+	});
 
  	//ready the JSON template
  	var json = jsonReady();
@@ -170,7 +180,7 @@
 	//construct the json from the input fields (works first time! yay!)
 	$(document).on({
 		click: function(){
-			json.quiz._quizName = $('#quizName').val(); //grab the quiz name
+			json._quizName = $('#quizName').val(); //grab the quiz name
 			questions = $('.question'); //find all the questions
 			for(var i = 0; i < questions.length; i++){ //for all the questions in the page
 				json.quiz.questions[i] = new Object(); //create a new object to contain the choices
@@ -195,9 +205,10 @@
 	$(document).on({
 		click: function(){
 			$.ajax({
+				dataType: "json",
 				url: site(),
-				success: function(){
-					console.log("YAY!");
+				success: function(data){
+					console.log(data);
 				},
 				data: 'data='+JSON.stringify(json),
 				crossDomain: true
