@@ -9,7 +9,7 @@
 	header('Access-Control-Allow-Origin: *');
 
 	//set the data type to text
-	header('Content-type: application/text');
+	// header('Content-type: application/text');
 		
 	//check to see if $_REQUEST
 	if (isset($_GET['data'])){
@@ -20,15 +20,21 @@
 	}
 
 	//turn the data into an object
-	$json = json_decode($data, true);
+	$json = json_decode(stripslashes($data), true);
+
+	echo $json;
 
 	//get the name of the quiz
-	$name = $json["_quizName"].'.json';
+	$name = $json["_quizName"];
 
-	//create a file with the name of the quiz
-	fopen($name, 'w') or die ('Cannot open file!');
+	// create a file with the name of the quiz
+	$file = fopen('quizzes/'.$name.'.json', 'w') or die ('Cannot open file!');
+
+	$content = json_encode($json);
 
 	//write to the file the json data
-	fwrite($name, json_encode($json, JSON_PRETTY_PRINT)) or die('Cannot write to file!');
+	fwrite($file, $content) or die('Cannot write to file!');
+
+	echo "Success!";
 
 ?>
