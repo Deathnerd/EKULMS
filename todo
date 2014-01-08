@@ -1,13 +1,9 @@
 **TODO**
-Make quiz creation page
-<<<<<<< HEAD
 =======
-	Use JSON constructed on the client side
->>>>>>> dev
+Fix Cross-Domain errors
 Lock down any critical files (json, etc)
 Create Students database
 Create login system
 Secure the fetch.php script
 Re-organize js code
 Apply basic styles to the main stylesheet
-Convert choices layout into a table
