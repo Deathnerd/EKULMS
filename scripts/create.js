@@ -218,6 +218,12 @@
 				dataType: "json",
 				url: site("post.php"),
 				success: function(data){
+					if (data != "Request empty"){
+						alert("Quiz saved");
+					}
+					else{
+						alert("Quiz not saved with error"+data);
+					}
 					console.log(data);
 				},
 				data: 'data='+JSON.stringify(json),
