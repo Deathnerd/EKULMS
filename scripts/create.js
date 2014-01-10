@@ -239,10 +239,26 @@
 		//Make the questions
 		console.log('Making questions');
 		$('#quizName').attr('value', json._quizName);
-		i = 1;
+
+		//make the first question without the inline removal button
+		html = 	'<div class="question" id="question_1">'+
+						'<p class="question_label">Question 1</p>'+
+						'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>'+
+						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
+						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
+						'<table width="430" border="0" cellspacing="0" cellpadding="0">'+
+						'<tr>'+
+						'<th width="30" scope="col">#</th>'+
+						'<th width="323" scope="col">Value</th>'+
+						'<th width="58" scope="col">Correct?</th>'+
+						'</tr>'+
+						'</table>'+
+					'</div>';
+		$('body').append(html);
+		i = 2;
 		while(i <= json.quiz.questions.length){
 			html = 	'<div class="question" id="question_'+i+'">'+
-						'<p class="question_label">Question '+i+'</p><br>'+
+						'<p class="question_label">Question '+i+'</p>'+
 						'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>'+
 						'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>'+
 						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
