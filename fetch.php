@@ -12,16 +12,16 @@
 	header('Content-type: application/json');
 		
 	//check to see if $_REQUEST
-	if (isset($_GET['request'])){
-		$request = $_GET['request']; //$request contains the name of our file
+	if (isset($_GET['data'])){
+		$file = 'quizzes/'.$_GET['data'].'.json'; //$file contains the name of our file
 	} else {
 		echo "Request empty";
 		exit();
 	}
 
 	//read and return text from the JSON file
-	if (file_get_contents($request, true) == true){
-		echo file_get_contents($request, true);
+	if (file_get_contents($file, true) == true){
+		echo file_get_contents($file, true);
 	}
 	else {
 		echo "Cannot open file";

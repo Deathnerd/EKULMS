@@ -1,7 +1,3 @@
-<?
-	$files = glob('quizzes/*.json');
-?>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,11 +28,14 @@
 		<input type="button" value="Send AJAX" id="sendJSON">
 		<select>
 			<?
+				$files = glob('quizzes/*.json'); //find all the quiz files
+				//populate the dropdown
 				foreach($files as $file){
 					echo '<option>'.$file.'</option>';
-				} 
+				}
 			?>
 		</select>
+		<input type="button" value="Load Quiz" id="load">
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>

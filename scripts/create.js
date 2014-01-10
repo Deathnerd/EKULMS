@@ -13,16 +13,17 @@
  var current_question_count = 1; //how many questions have we created?
  
  //construct the url string for the ajax request
- var site = function(){
+ var site = function(file){
  	url = "http://";
  	pathArray = window.location['href'].split('/');
  	for(var i = 2; i < pathArray.length-1; i++){
  		url = url+pathArray[i]+'/';
  	}
- 	return url+"post.php";
+ 	return url+file;
  }
 
- var jsonReady = function(){ //ready the JSON template
+ //ready the JSON template
+ var jsonReady = function(){
  	json = new Object();
  	json["_quizName"] = "blank";
  	json["quiz"] = new Object();
@@ -31,11 +32,19 @@
  	return json;
  }
 
+ //remove those pesky nulls in the JSON
+ var removeNull = function(json) {
+ 	questions = json.quiz.questions;
+ 	for(var i = 0; i < questions.length; i++){
+ 		questions[i].choices.slice(1); //remove that pesky null at the beginning of the choices array
+ 	}
+ 	return json;
+ }
+
  $(document).ready(function(){
 
  	//fix up the selection box
- 	options = $('option').splice(0,$('option').length-1);
-	console.log(options);
+ 	options = $('option').splice(0,$('option').length);
 
 	//loop through each of the options and trim off the preceeding directory name and following file extension
 	$.each(options, function(index){
@@ -119,7 +128,7 @@
 			html = 	'<div class="question" id="question_'+current_question_count+'">'+
 						'<p class="question_label">Question '+current_question_count+'</p><br>'+
 						'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>'+
-						'<textarea name="prompt"+prompt cols="40" rows="5">Input some text here</textarea><br>'+
+						'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>'+
 						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
 						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
 						'<table width="430" border="0" cellspacing="0" cellpadding="0">'+
@@ -190,7 +199,7 @@
 
 				for(var j = 1; j < choices.length; j++){ //loop through the question's choices; start at 1 to skip the header
 					json.quiz.questions[i].choices[j] = new Object(); //
-					json.quiz.questions[i].choices[j].text = $(choices[j]).find('[type=text]').val(); //fetch the value of the choice
+					json.quiz.questions[i].choices[j].value = $(choices[j]).find('[type=text]').val(); //fetch the value of the choice
 					if ($(choices[j]).find('[type=checkbox]:checked').length > 0){ //if the checkbox is checked set the json property to true
 						json.quiz.questions[i].choices[j].correct = true;	
 					}
@@ -199,6 +208,7 @@
 					}
 				}
 			}
+			console.log(json);
 		}
 	}, '#constructJSON')
 
@@ -206,7 +216,7 @@
 		click: function(){
 			$.ajax({
 				dataType: "json",
-				url: site(),
+				url: site("post.php"),
 				success: function(data){
 					console.log(data);
 				},
@@ -215,4 +225,86 @@
 			});
 		}
 	}, '#sendJSON');
+
+	//function to populate the page from an existing quiz
+	populate = function(json) {
+		$.each($(document).find('.question') , function(){ $(this).remove(); });//this will delete all questions on the page
+
+		//Make the questions
+		console.log('Making questions');
+		$('#quizName').attr('value', json._quizName);
+		i = 1;
+		while(i <= json.quiz.questions.length){
+			html = 	'<div class="question" id="question_'+i+'">'+
+						'<p class="question_label">Question '+i+'</p><br>'+
+						'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>'+
+						'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>'+
+						'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>'+
+						'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>'+
+						'<table width="430" border="0" cellspacing="0" cellpadding="0">'+
+						'<tr>'+
+						'<th width="30" scope="col">#</th>'+
+						'<th width="323" scope="col">Value</th>'+
+						'<th width="58" scope="col">Correct?</th>'+
+						'</tr>'+
+						'</table>'+
+					'</div>';
+			$('body').append(html);
+			i++;
+			current_question_count++;
+		};
+		console.log("Questions complete");
+
+		//make the choices
+		console.log("Making choices");
+		$.each($(document).find('.question'), function(index){ //loop through the questions
+			question = json.quiz.questions[index];
+			$(this).children('textarea').val(question.prompt); //fill in the prompt
+
+			//add choices in this question's choice table
+			c = 1;
+			for(var i = 0; i < question.choices.length; i++){
+				//append the html for the row
+				if (question.choices[i] == null){
+					continue;
+				}
+
+				html = 	'<tr>'+
+						'<td width="30"><div align="center">'+c+'</div></td>'+
+						'<td width="323"><input type="text" class="choice" value="Enter choice"></td>'+
+						'<td width="58"><div align="center">'+
+						'<input name="" type="checkbox" class="correctBox" value="">'+
+						'</div></td>'+
+						'</tr>';
+				$(this).children('table').append(html);
+
+				//fill in the values
+				console.log("Filling in Values");
+				tr = $(this).find('tr'); //find all the current table rows
+				td = $(tr[c]).find('td');
+				$(td[0]).val(c); //fill in the question # label
+				$(tr[c]).find('.choice').attr('value', question.choices[i].value);//change the value of the input box of the current choice
+				$(tr[c]).find('input[type=checkbox]').prop('checked', question.choices[i].correct);//change the checkbox
+				c++;
+			};
+		});
+	};
+
+	$(document).on({
+		click: function(){
+			value = $('select').val();
+			$.ajax({
+				dataType: 'json',
+				url: site("fetch.php"),
+				success: function(data){
+					console.log(data);
+					data = removeNull(data);
+					console.log(data);
+					populate(data);
+				},
+				data: 'data='+value,
+				crossDomain: true
+			});
+		}
+	}, '#load');
 });
