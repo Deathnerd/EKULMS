@@ -7,27 +7,29 @@
 		<meta name="published" content="TODO">
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
-		<script type="text/javascript">
-			//checks if the clicked radial was the correct answer
-			var answer_check = function(correct, number){
-				if (correct)
-				{
-					$("#box_"+number).text("Correct!");
-					$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
-					$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
-				}
-				else 
-				{
-					$("#box_"+number).text("Incorrect");
-					$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
-					$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
-				}
-			}
-		</script>
 		<link type="text/css" rel="stylesheet" href="styles/reset.css">
 		<link type="text/css" rel="stylesheet" href="styles/main.css">
 	</head>
 	<body>
-		<button type="button" id="fetch">FETCH</button>
+		<header id="topNav">
+			<div id="logo">
+				LOGO HERE
+			</div>
+			<div id="dropdown">
+				<p>DROPDOWN HERE</p>
+			</div>
+			<p id="pageTitle">Quiz</p>
+		</header>
+		<p>Select a quiz here:</p>
+		<select>
+			<?
+				$files = glob('quizzes/*.json'); //find all the quiz files
+				//populate the dropdown
+				foreach($files as $file){
+					echo '<option>'.$file.'</option>';
+				}
+			?>
+		</select>
+		<button type="button" id="load">Load Quiz</button>
 	</body>
 </html>

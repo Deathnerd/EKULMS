@@ -1,19 +1,29 @@
 //Client logic goes here
-$('document').ready(function(){
+$(document).ready(function(){
 	//set globals
 
 	//construct the url to pass to the ajax function
-	var site = function(filename){
-	 	url = "http://";
-	 	pathArray = window.location['href'].split('/');
-	 	for(var i = 2; i < pathArray.length-1; i++){
-	 		path = path+pathArray[i]+'/';
-	 	}
-	 	url = url+filename;
-	 	return url;
-	 }
+	var site = function(file){
+		url = "http://";
+		pathArray = window.location['href'].split('/');
+		for(var i = 2; i < pathArray.length-1; i++){
+			url = url+pathArray[i]+'/';
+		}
+		return url+file;
+	}
 
-	var file = "binary.json";
+	//fix up the selection box
+ 	options = $('option').splice(0,$('option').length);
+
+	//loop through each of the options and trim off the preceeding directory name and following file extension
+	$.each(options, function(index){
+		word = options[index].value;
+		slashSplit = word.split('/');
+		dotSplit = slashSplit[1].split('.');
+		name = dotSplit[0];
+		options[index].text = name;
+	});
+
 	//function to render the questions
 	var render = function(json) {
 		console.log(json);
@@ -37,11 +47,11 @@ $('document').ready(function(){
 					continue;
 				}
 				if (choices[choice].correct == true){
-					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].text+'</input>');
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].value+'</input>');
 					question_body.append('<br />');
 				}
 				else{
-					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].text+'</input>');	
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].value+'</input>');	
 					question_body.append('<br />');
 				}
 			}
@@ -52,19 +62,32 @@ $('document').ready(function(){
 		}
 	}
 
-	//the request
-	var request = function(){
+	//checks if the clicked radial was the correct answer
+	var answer_check = function(correct, number){
+		if (correct)
+		{
+			$("#box_"+number).text("Correct!");
+			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
+			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
+		}
+		else 
+		{
+			$("#box_"+number).text("Incorrect");
+			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
+			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
+		}
+	}
+
+	//The request
+	$('#load').click(function(){
+		value = $('select').val();
 		$.ajax({
-			url: "http://www.wesgilleland.com/projects/quizzes/fetch.php",
+			url: site('fetch.php'),
 			success: function(result) {
 				render(result); //render the page using fetched JSON
 			},
-			data: "request="+file,
+			data: "data="+value,
 			crossDomain: true
 		});
-	}
-
-	$('#fetch').click(function(){
-		request();
 	});
 });

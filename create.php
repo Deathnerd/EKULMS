@@ -18,7 +18,7 @@
 			<div id="dropdown">
 				<p>DROPDOWN HERE</p>
 			</div>
-			<p id="pageTitle">PAGE TITLE HERE</p>
+			<p id="pageTitle">Quiz Creation</p>
 		</header>
 		<p class="label">Quiz name</p>
 		<input type="text" value="Quiz 1" id="quizName">
