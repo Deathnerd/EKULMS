@@ -36,7 +36,7 @@
 		</select>
 		<input type="button" value="Load" id="load">
 		<? //<input type="button" value="Delete" id="delete"> ?>
-		<input type="button" value="Download Quizzes" id="download">
+		<input type="button" value="Download All Quizzes" id="download">
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>
