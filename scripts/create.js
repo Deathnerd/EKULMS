@@ -302,6 +302,7 @@
 		}
 	}, '#load');
 
+	//handle the delete button
 	$(document).on({
 		click: function(){
 			alert("Are you sure you wish to delete this quiz? This action cannot be undone");
@@ -323,4 +324,19 @@
 			});
 		}
 	}, "#delete");
+
+	//handle the download button
+	$(document).on({
+		click: function(){
+			$.ajax({
+				url: site('zip.php'),
+				success: function(data){
+					if(typeOf data === "string"){
+						alert('Unable to process your request. Please contact your administrator');
+						console.log(data);
+					}
+				}
+			})
+		}
+	})
 });
