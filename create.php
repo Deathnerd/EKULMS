@@ -24,8 +24,7 @@
 		<input type="text" value="Quiz 1" id="quizName">
 		<input type="button" value="Add question" class="question_add">
 		<input type="button" value="Remove question" class="question_remove">
-		<input type="button" value="Construct JSON" id="constructJSON">
-		<input type="button" value="Send AJAX" id="sendJSON">
+		<input type="button" value="Save Quiz" id="saveQuiz">
 		<select>
 			<?
 				$files = glob('quizzes/*.json'); //find all the quiz files
@@ -35,7 +34,8 @@
 				}
 			?>
 		</select>
-		<input type="button" value="Load Quiz" id="load">
+		<input type="button" value="Load" id="load">
+		<input type="button" value="Delete" id="delete">
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>
@@ -57,7 +57,6 @@
 				<td width="58"><div align="center">
 					<input name="" type="checkbox" class="correctBox" value="">
 				</div></td>
-				<!-- <td><input type="button" value="Remove Choice" class="remove_inline_choice"></td> -->
 			</tr>
 		</table>
 		<!-- End choices table -->

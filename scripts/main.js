@@ -27,6 +27,9 @@ $(document).ready(function(){
 	//function to render the questions
 	var render = function(json) {
 		console.log(json);
+		if($('#holding_div').length !== 0){
+			$('#holding_div').remove();
+		}
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>')
 		$('#holding_div').append('<p id="quiz_name">'+json._quizName+'</p>');
@@ -43,10 +46,10 @@ $(document).ready(function(){
 			var choices = questions[question].choices;
 			for (var choice = 0; choice < choices.length; choice++){
 				//append the choices inputs to the to the question
-				if (choices[choice]==null){ //skip the null values #FIX IN CREATE/POST SCRIPTS
+				if (choices[choice] === null){ //skip the null values #FIX IN CREATE/POST SCRIPTS
 					continue;
 				}
-				if (choices[choice].correct == true){
+				if (choices[choice].correct === true){
 					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(true, '+question+')">'+choices[choice].value+'</input>');
 					question_body.append('<br />');
 				}
@@ -58,23 +61,7 @@ $(document).ready(function(){
 
 			//append a correct/incorrect box to the end of the question. It's set to invisible 
 			//at first through the stylesheet
-			$("#holding_div").append('<div class="correct_incorrect_box" id="box_'+question+'"></div>');
-		}
-	}
-
-	//checks if the clicked radial was the correct answer
-	var answer_check = function(correct, number){
-		if (correct)
-		{
-			$("#box_"+number).text("Correct!");
-			$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
-		}
-		else 
-		{
-			$("#box_"+number).text("Incorrect");
-			$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
-			$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
+			$("#question_"+question).append('<div class="correct_incorrect_box" id="box_'+question+'"></div>');
 		}
 	}
 
@@ -91,3 +78,19 @@ $(document).ready(function(){
 		});
 	});
 });
+
+//checks if the clicked radial was the correct answer
+var answer_check = function(correct, number){
+	if (correct){
+		$("#box_"+number).text("Correct!");
+		$("#box_"+number).css("background-color", "rgba(0, 255, 0, .5)");
+		$("#box_"+number).css("border", "solid 1px rgba(0, 255, 0, .75)");
+		$("#box_"+number).css("display", "block");
+	}
+	else {
+		$("#box_"+number).text("Incorrect");
+		$("#box_"+number).css("background-color", "rgba(255, 0, 0, .5)");
+		$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
+		$("#box_"+number).css("display", "block");
+	}
+}

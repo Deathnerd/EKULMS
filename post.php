@@ -9,7 +9,7 @@
 	header('Access-Control-Allow-Origin: *');
 
 	//set the data type to text
-	// header('Content-type: application/text');
+	header('Content-type: application/text');
 		
 	//check to see if $_REQUEST
 	if (isset($_GET['data'])){

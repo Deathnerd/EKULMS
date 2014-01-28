@@ -6,7 +6,7 @@ body {
 	padding-top: 35px;
 }
 
-#topNav{
+#topNav {
 	height: 35px;
 	background-color: #903;
 	color: white;
@@ -15,12 +15,17 @@ body {
 	width: 100%;
 }
 
-#logo{
-	float: left;
+#logo {
+	/*float: left;
 	background-color: black;
+	background-image: url('../images/eku_logo.png');
+	background-size: 97px 32px;
+	padding: 3px;
+	background-repeat: no-repeat;*/
+	display: none;
 }
 
-#topNav > div, #pageTitle{
+#topNav > div, #pageTitle {
 	border: none;
 	width: 100px;
 	height: 100%;
@@ -32,39 +37,51 @@ body {
 
 #holding_div {
 	padding: 5px;
-	border: solid 1px;s
 }
 
 #quiz_name {
 	margin-bottom: 5px;
-	border: solid 1px;
 }
 
 .question_body {
-	margin: 5px;
-	border: solid 1px;
+	margin: 15px;
 }
 
-.correct_incorrect {
+.correct_incorrect_box {
 	display: none;
+	width: 250px;
+	text-align: center;
 }
 
 .question {
 	padding: 5px;
 }
 
-textarea{
+textarea {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
 .choice {
 	width:100%;
 }
 
-table{
+table {
 	margin-top: 5px;
 }
 
 td > div {
 	border: none;
+}
+
+#dropdown {
+	display: none;
+}
+
+#dropdown * {
+	float: left;
+}
+
+#pageTitle {
+	display: none;
 }

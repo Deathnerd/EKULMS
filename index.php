@@ -13,23 +13,20 @@
 	<body>
 		<header id="topNav">
 			<div id="logo">
-				LOGO HERE
 			</div>
 			<div id="dropdown">
-				<p>DROPDOWN HERE</p>
 			</div>
-			<p id="pageTitle">Quiz</p>
+			<p id="pageTitle"></p>
+			<select>
+				<?
+					$files = glob('quizzes/*.json'); //find all the quiz files
+					//populate the dropdown
+					foreach($files as $file){
+						echo '<option>'.$file.'</option>';
+					}
+				?>
+			</select>
+			<button type="button" id="load">Load</button>
 		</header>
-		<p>Select a quiz here:</p>
-		<select>
-			<?
-				$files = glob('quizzes/*.json'); //find all the quiz files
-				//populate the dropdown
-				foreach($files as $file){
-					echo '<option>'.$file.'</option>';
-				}
-			?>
-		</select>
-		<button type="button" id="load">Load Quiz</button>
 	</body>
 </html>
