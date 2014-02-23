@@ -2,11 +2,11 @@
 	//dbFunctions.php
 	//commonly used database functions
 	class Db {
-		private $databaseName = "db516461409";
+		private $database = "db516461409";
 		private $password = "I3XkiJCGFEjcQTdKF5TC";
 		private $host = "db516461409.db.1and1.com";
 		private $user = "dbo516461409";
-		private $connection = mysqli_connect($host, $user, $password, $databaseName);
+		private $connection = mysqli_connect($host, $user, $password, $database);
 
 		function __construct(){
 			if(mysqli_connect_errorno($connection)){ //failed to connect
@@ -15,16 +15,17 @@
 		}
 
 		function connection(){	//$connection accessor
-			return $connection;
+			return $this->connection;
 		}
 	}
 
 	//functions for user data manipulation
 	class Users extends Db {
+		private $connection;
 
 		function __construct(){
 			parent::__construct(); //call the parent constructor
-			$connection = parent::connection(); //MySQL connection handler
+			$this->connection = parent::connection(); //MySQL connection handler
 		}
 
 		public function checkUserExits(string $userName){
