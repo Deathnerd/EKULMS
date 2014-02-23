@@ -27,8 +27,9 @@
 			<input type="text" id="userName"><br/>
 			<p>Password:</p>
 			<input type="password"><br/>
-			<input type="button" value="login"><br/>
+			<input type="button" value="login" id="loginButton"><br/>
 			<a href="signup.php">Not registered? Sign up</a>
+			<p id="message" style="display: none">Stuff</p>
 		</div>
 	</body>
 </html>

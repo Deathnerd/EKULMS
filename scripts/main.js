@@ -10,18 +10,17 @@ $(document).ready(function(){
 			url = url+pathArray[i]+'/';
 		}
 		return url+file;
-	}
+	};
 
 	//fix up the selection box
- 	options = $('option').splice(0,$('option').length);
+	options = $('option').splice(0,$('option').length);
 
 	//loop through each of the options and trim off the preceeding directory name and following file extension
 	$.each(options, function(index){
 		word = options[index].value;
 		slashSplit = word.split('/');
 		dotSplit = slashSplit[1].split('.');
-		name = dotSplit[0];
-		options[index].text = name;
+		options[index].text = dotSplit[0];
 	});
 
 	//function to render the questions
@@ -31,11 +30,11 @@ $(document).ready(function(){
 			$('#holding_div').remove();
 		}
 		//create the holding div for the quiz
-		$('body').append('<div id="holding_div"></div>')
+		$('body').append('<div id="holding_div"></div>');
 		$('#holding_div').append('<p id="quiz_name">'+json._quizName+'</p>');
 		var questions = json.quiz.questions; //loop through each question
 
-		for (var question = 0; question < questions.length; question++){			
+		for (var question = 0; question < questions.length; question++){
 			$("#holding_div").append('<div class="question_body" id="question_'+question+'"></div>'); //create question_body div
 
 			//create a new question div
@@ -54,7 +53,7 @@ $(document).ready(function(){
 					question_body.append('<br />');
 				}
 				else{
-					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].value+'</input>');	
+					question_body.append('<input name="question_'+question+'_choice" type="radio" onclick="answer_check(false, '+question+')">'+choices[choice].value+'</input>');
 					question_body.append('<br />');
 				}
 			}
@@ -63,7 +62,7 @@ $(document).ready(function(){
 			//at first through the stylesheet
 			$("#question_"+question).append('<div class="correct_incorrect_box" id="box_'+question+'"></div>');
 		}
-	}
+	};
 
 	//The request
 	$('#load').click(function(){
@@ -77,6 +76,23 @@ $(document).ready(function(){
 			crossDomain: true
 		});
 	});
+
+	//handle login request
+	$(document).on({
+		click: function(){
+			userName = $('#userName').val();
+			password = $('[type=password]').val();
+			$.ajax({
+				url: site('login.php'),
+				success: function(message){
+					$('#message').text(message);
+					$('#message').css('display', 'block');
+				},
+				data: "userName="+userName+"&password="+password,
+				crossDomain: true
+			});
+		}
+	}, '#loginButton');
 });
 
 //checks if the clicked radial was the correct answer
@@ -93,4 +109,4 @@ var answer_check = function(correct, number){
 		$("#box_"+number).css("border", "solid 1px rgba(255, 0, 0, .75)");
 		$("#box_"+number).css("display", "block");
 	}
-}
+};
