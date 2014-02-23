@@ -6,7 +6,7 @@ body {
 	padding-top: 35px;
 }
 
-input[type=text], input[type=button], textarea {
+input[type=text], input[type=button], input[type=password], textarea {
 	border: none;
 	border: thin gray solid;
 	border-radius: 5px;
@@ -17,7 +17,7 @@ input[type=text], input[type=button], textarea {
 	background-color: #903;
 	color: white;
 	position: fixed;
-	top: 0px;
+	top: 0;
 	width: 100%;
 }
 
