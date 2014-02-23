@@ -1,8 +1,6 @@
 <?
-	//login.php
-	//logs in a user
-
-	//header('Content-type: application/text'); //set the data type to text
+	//signupUser.php
+	//handles the process of signing up a user
 
 	require('requires/dbFunctions.php'); //import the database functions
 	session_start(); //start the session
@@ -26,23 +24,22 @@
 	$Db = new Db; //base class containing generic database functions
 
 	//check if user exists in database
-	if($Users->checkUserExists($_SESSION['userName'])){ //if user exists
-		if(!$Users->checkPassword($_SESSION['userName'], $_SESSION['password'])){ //if the password is incorrect
-			echo "Incorrect password supplied";
+	if(!$Users->checkUserExists($_SESSION['userName'])){ //if user does not already exist, then attempt to create it
+		if($Users->create($_SESSION['userName'], $_SESSION['password'])){ //if user created successfully
+			$userInfo = $Users->fetchUser($_SESSION['userName']);
+			unset($_SESSION['password']); //trash the password
+			$_SESSION['id'] = $userInfo['id']; //remember the user id
+			$_SESSION['userName'] = $userInfo['userName']; //remember the actual user name
+			echo "Success!";
 			$Db->close();
-			session_destroy();
 			exit();
 		}
-		//if the user exists and the password is correct
-		echo "Success!";
-		$userInfo = $Users->fetchUser($_SESSION['userName']);
-		$_SESSION['id'] = $userInfo['id']; //remember the user id
-		$_SESSION['userName'] = $userInfo['userName']; //remember the actual userName
-		unset($_SESSION['password']);//trash the password
-		$Db->close();//close the database connection
+		echo "Failed to create user!";
+		session_destroy();
+		$Db->close();
 		exit();
 	} else {
-		echo "User not found. Have you created an account?";
+		echo "User already exists!";
 		session_destroy();
 		$Db->close();
 		exit();

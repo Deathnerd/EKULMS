@@ -50,10 +50,18 @@
 			$this->connection = parent::connection(); //MySQL connection handler
 		}
 
+		//returns true if a string is a string and if its length is greater than 0
+		function checkString($string){
+			if(!is_string($string) && strlen($string) == 0){
+				return false;
+			}
+			return true;
+		}
+
 		//returns true if a user exists
 		public function checkUserExists($userName){
 
-			if(!is_string($userName)){
+			if(!$this->checkString($userName)){
 				trigger_error("Argument for Users::checkUserExists must be a string", E_USER_ERROR);
 				return;
 			}
@@ -62,7 +70,6 @@
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
 			$sql = mysqli_query($this->connection, "SELECT * FROM `Users` WHERE userName='$userName'") or die(mysqli_error($this->connection));
 			$results = $sql->fetch_array(MYSQLI_BOTH);
-
 			if($results === NULL || $results === false){ //user doesn't exist, null returned from query
 				return false;
 			}
@@ -75,7 +82,7 @@
 			if(func_num_args() != 2){
 				trigger_error("Users::checkPassword requires exactly two arguments; ".func_num_args()." supplied", E_USER_ERROR);
 			}
-			if(!is_string($userName) || !is_string($password)){
+			if(!$this->checkString($userName) || !$this->checkString($password)){
 				trigger_error("Arguments for Users::checkPassword must be a string", E_USER_ERROR);
 				return;
 			}
@@ -102,7 +109,7 @@
 		//returns a user's row as an array or false if not found
 		public function fetchUser($userName){
 
-			if(!is_string($userName)){
+			if(!$this->checkString($userName)){
 				trigger_error("Argument for Users::fetchUser must be a string", E_USER_ERROR);
 				return;
 			}
@@ -119,60 +126,26 @@
 			return $sql->fetch_array(MYSQLI_BOTH);
 		}
 
-		public function createUser($userName, $password, $admin){
+		public function create($userName, $password){
 			//need at least two arguments
 			if(func_num_args() < 2){
-				trigger_error("Users::createUser requires at least two arguments; ".func_num_args()." arguments supplied", E_USER_ERROR);
+				trigger_error("Users::create requires at least two arguments; ".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
 			}
 
-			//not setting admin pri)vileges
-			if(func_num_args() == 2){
-				if(!is_string($userName) || !is_string($password)){
-					trigger_error("Arguments for Users::createUser must be a string", E_USER_ERROR);
-					return;
-				}
-
-				//lowercase and sanitize inputs
-				$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
-				$password = mysqli_real_escape_string($this->connection, strtolower($password));
-
-				$sql = mysqli_query($this->connection, "INSERT INTO `Users` (userName, password) VALUES ('$userName', '$password')");
-
-				//check if the row is recorded
-				if($this->fetchUser($userName) === false){
-					return false;
-				}
-
-				//success!
-				return true;
-			}
-
-			//setting admin admin
 			//check argument types
-			if(!is_string($userName) || !is_string($password)){ //check for string type on first two arguments
-				trigger_error("First two arguments for Users::createUser must be a string", E_USER_ERROR);
+			if(!$this->checkString($userName) || !$this->checkString($password)){ //check for string type on first two arguments
+				trigger_error("First two arguments for Users::create must be a string", E_USER_ERROR);
 				return;
-			}
-
-			if(!is_bool($admin)) { //check for boolean type on last argument
-				trigger_error("Third argument for Users::createUser must be a boolean", E_USER_ERROR);
 			}
 
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$password = mysqli_real_escape_string($this->connection, strtolower($password));
-
-			if($admin){
-				$admin = 1;
-			} else {
-				$admin = 0;
-			}
-
-			$sql = mysqli_query($this->connection, "INSERT INTO `Users` (userName, password, admin) VALUES ('$userName', '$password', $admin)");
+			$sql = mysqli_query($this->connection, "INSERT INTO `Users` (userName, password) VALUES ('$userName', '$password')");
 
 			//check if the row is recorded
-			if($this->fetchUser($userName) === false){
+			if($this->fetchUser($userName) === false || $sql === false || $sql === NULL){
 				return false;
 			}
 			//success!

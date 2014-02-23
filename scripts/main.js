@@ -93,6 +93,23 @@ $(document).ready(function(){
 			});
 		}
 	}, '#loginButton');
+
+	//handle signUp request
+	$(document).on({
+		click: function(){
+			userName = $('#userName').val();
+			password = $('[type=password]').val();
+			$.ajax({
+				url: site('signupUser.php'),
+				success: function(message){
+					$('#message').text(message);
+					$('#message').css('display', 'block');
+				},
+				data: "userName="+userName+"&password="+password,
+				crossDomain: true
+			});
+		}
+	}, '#signUpButton');
 });
 
 //checks if the clicked radial was the correct answer
