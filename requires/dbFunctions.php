@@ -3,13 +3,32 @@
 	//commonly used database functions
 	class Db {
 
-		private $database = "db516461409";
-		private $password = "I3XkiJCGFEjcQTdKF5TC";
-		private $host = "db516461409.db.1and1.com";
-		private $user = "dbo516461409";
+		private $database;
+		private $password;
+		private $host;
+		private $user;
 		private $connection;
+		public $tables;
 
 		function __construct(){
+			if(!is_file('./user-config.ini')){ //if the user config file isn't there
+				if(!is_file('./default-config.ini')){ //if the default config file isn't there
+					trigger_error("No configuration file found!", E_USER_ERROR);//sound the alarm!
+					return;
+				}
+				//using the default config file
+				$configVals = parse_ini_file('./default-config.ini', true);
+			} else {
+				//using the user config file
+				$configVals = parse_ini_file('./user-config.ini', true);
+			}
+
+			$this->database = $configVals['database']['name'];
+			$this->host = $configVals['database']['host'];
+			$this->user = $configVals['database']['user'];
+			$this->password = $configVals['database']['password'];
+
+			$this->tables = $configVals['tables'];
 
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
@@ -28,17 +47,14 @@
 			}
 		}
 
-		//cleans up and cloases the database connection
-		function close(){
+		function close(){	//cleans up and closes the database connection
 			mysqli_close($this->connection);
 		}
 
-		function connection(){	//$connection accessor
+		function connection(){	//$connection accessor; returns a mysqli link object
 			return $this->connection;
 		}
 
-		function setConnection($name){
-		}
 	}
 
 	//functions for user data manipulation
@@ -52,9 +68,11 @@
 
 		//returns true if a string is a string and if its length is greater than 0
 		function checkString($string){
+
 			if(!is_string($string) && strlen($string) == 0){
 				return false;
 			}
+
 			return true;
 		}
 
@@ -68,8 +86,11 @@
 
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
-			$sql = mysqli_query($this->connection, "SELECT * FROM `Users` WHERE userName='$userName'") or die(mysqli_error($this->connection));
+			
+			$table = $this->tables['Users'];
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 			$results = $sql->fetch_array(MYSQLI_BOTH);
+
 			if($results === NULL || $results === false){ //user doesn't exist, null returned from query
 				return false;
 			}
@@ -79,9 +100,12 @@
 
 		//checks the supplied password against the one in the database. Returns true if found
 		public function checkPassword($userName, $password){
+
 			if(func_num_args() != 2){
 				trigger_error("Users::checkPassword requires exactly two arguments; ".func_num_args()." supplied", E_USER_ERROR);
+				return;
 			}
+
 			if(!$this->checkString($userName) || !$this->checkString($password)){
 				trigger_error("Arguments for Users::checkPassword must be a string", E_USER_ERROR);
 				return;
@@ -91,7 +115,9 @@
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$password = mysqli_real_escape_string($this->connection, strtolower($password));
 
-			$sql = mysqli_query($this->connection, "SELECT password FROM `Users` WHERE userName='$userName'");
+			
+			$table = $this->tables['Users'];
+			$sql = mysqli_query($this->connection, "SELECT password FROM `$table` WHERE userName='$userName'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			if($sql === NULL || $sql === false){
 				return false;
@@ -116,7 +142,9 @@
 
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
-			$sql = mysqli_query($this->connection, "SELECT * FROM `Users` WHERE userName='$userName'");
+			
+			$table = $this->tables['Users'];
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			if($sql === NULL || $sql === false){
 				return false;
@@ -142,7 +170,9 @@
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$password = mysqli_real_escape_string($this->connection, strtolower($password));
-			$sql = mysqli_query($this->connection, "INSERT INTO `Users` (userName, password) VALUES ('$userName', '$password')");
+			
+			$table = $this->tables['Users'];
+			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			//check if the row is recorded
 			if($this->fetchUser($userName) === false || $sql === false || $sql === NULL){
