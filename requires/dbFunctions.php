@@ -1,4 +1,5 @@
 <?
+	//DEPRECIATED
 	//dbFunctions.php
 	//commonly used database functions
 	class Db {

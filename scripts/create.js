@@ -48,8 +48,7 @@
 		word = options[index].value;
 		slashSplit = word.split('/');
 		dotSplit = slashSplit[1].split('.');
-		name = dotSplit[0];
-		options[index].text = name;
+		options[index].text = dotSplit[0];
 	});
 
 	//ready the JSON template
