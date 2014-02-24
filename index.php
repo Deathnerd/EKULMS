@@ -1,3 +1,6 @@
+<?
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -28,5 +31,12 @@
 			</select>
 			<button type="button" id="load">Load</button>
 		</header>
+		<p id="userGreeting"><?
+			if(isset($_SESSION['userName'])){
+				echo "Hello, ".$_SESSION['userName']."!";
+			} else {
+				echo "Hello, stranger!";
+			}
+		?></p>
 	</body>
 </html>

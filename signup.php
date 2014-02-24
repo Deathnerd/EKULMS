@@ -1,12 +1,9 @@
 <?
 	//signup.php
 	//user account creation page
-	if(!is_file('requires/Session.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Session.php! Check your installation");
-	}
-	require('requires/Session.php'); //import special session methods
+	session_start();
 
-	if(Session::is_session_started()){ //if there's already a user logged in, redirect them to the index
+	if(isset($_SESSION['userName'])){ //if there's already a user logged in, redirect them to the index
 		header('Location: index.php');
 	}
 ?>

@@ -1,18 +1,12 @@
 <?
 	//login.php
 	//logs in a user
-
-	if(!is_file('requires/Session.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Session.php! Check your installation");
-	}
-	require('requires/Session.php'); //import special session methods
-
+	session_start();
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
 	require('requires/Users.php'); //import the user database methods
-
-	if(Session::is_session_started()){
+	if(isset($_SESSION['userName'])){
 		echo $_SESSION['userName']." already logged in. Please log out first";
 		exit();
 	}

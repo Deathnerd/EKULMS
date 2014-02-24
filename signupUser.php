@@ -1,4 +1,5 @@
 <?
+	session_start();
 	//signupUser.php
 	//handles the process of signing up a user
 	if(!is_file('requires/Users.php')){
@@ -6,15 +7,10 @@
 	}
 	require('requires/Users.php'); //import the user database functions
 
-	if(!is_file('requires/Session.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Session.php! Check your installation");
-	}
-	require('requires/Session.php'); //import special session methods
-
-	if(Session::is_session_started()){ //if a user is already signed in
+	if($_SESSION['userName'] != ''){ //if a user is already signed in
+		header('Location: index.php');
 		exit();
 	}
-	session_start(); //start the session
 
 	if (isset($_GET['userName']) && strlen($_GET['userName']) > 0){
 		$_SESSION['userName'] = $_GET['userName'];
