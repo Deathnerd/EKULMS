@@ -1,13 +1,22 @@
 <?
+	//account.php
+	//account management page for a user
 	session_start();
-	if(!isset($_SESSION['userName'])){ //if not logged in already, go to login page
-		header('Location: signin.php');
+	if(!isset($_SESSION['userName'])){ //if not logged in, go to the login page
+		header('Location: login.php');
 	}
+
+	if(!is_file('requires/Users.php')){
+		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
+	}
+	require('requires/Users.php'); //import the user database methods
+
+	$User = new Users;
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>CSC 185 Practice Exams</title>
+		<title></title>
 		<meta name="description" content="Practice Exams for CSC 185">
 		<meta name="author" content="Wes Gilleland">
 		<meta name="published" content="TODO">
@@ -23,19 +32,12 @@
 			<div id="dropdown">
 			</div>
 			<p id="pageTitle"></p>
-			<select>
-				<?
-					$files = glob('quizzes/*.json'); //find all the quiz files
-					//populate the dropdown
-					foreach($files as $file){
-						echo '<option>'.$file.'</option>';
-					}
-				?>
-			</select>
-			<button type="button" id="load">Load</button>
 		</header>
 		<p id="userGreeting"><?
 			echo "Hello, ".$_SESSION['userName']."!";
 		?></p>
+		<div class="bodyContainer">
+			
+		</div>
 	</body>
 </html>

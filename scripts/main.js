@@ -85,8 +85,16 @@ $(document).ready(function(){
 			$.ajax({
 				url: site('login.php'),
 				success: function(message){
+					console.log(typeof message);
+					console.log(message);
+					console.log(message === 'Success!');
 					$('#message').text(message);
 					$('#message').css('display', 'block');
+					if(message === 'Success!'){
+						setTimeout(function(){
+							window.location = site('index.php');
+						}, 2000);
+					}
 				},
 				data: "userName="+userName+"&password="+password,
 				crossDomain: true
