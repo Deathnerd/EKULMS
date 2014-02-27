@@ -1,3 +1,13 @@
+<?
+	session_start();
+	if(!isset($_SESSION['userName'])){ //if there isn't a user logged in, send them to the login page
+		header('Location: signin.php');
+	}
+	if($_SESSION['admin'] != '1'){ //if user isn't an admin, send them to the index
+		header('Location: index.php');
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>

@@ -43,6 +43,7 @@
 		$userInfo = $Users->fetchUser($_SESSION['userName']);
 		$_SESSION['id'] = $userInfo['id']; //remember the user id
 		$_SESSION['userName'] = $userInfo['userName']; //remember the actual userName
+		$_SESSION['admin'] = $userInfo['admin'];
 		unset($_SESSION['password']);//trash the password
 		$Db->close();//close the database connection
 		exit();
