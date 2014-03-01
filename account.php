@@ -9,7 +9,7 @@
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
-	require('requires/Users.php'); //import the user database methods
+	require_once('requires/Users.php'); //import the user database methods
 
 	$User = new Users;
 ?>
