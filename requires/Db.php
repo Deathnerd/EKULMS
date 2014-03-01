@@ -1,5 +1,5 @@
 <?
-	//Db.php 
+	//Db.php stuff
 	//class of methods to handle core database functions
 	class Db {
 
