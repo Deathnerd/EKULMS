@@ -32,8 +32,10 @@
 			<input type="text" id="userName"><br/>
 			<p>Password:</p>
 			<input type="password"><br/>
-			<input type="button" value="login" id="signUpButton"><br/>
-			<p id="message" style="display: none">Stuff</p>
+			<p>Special key:</p>
+			<input type="text" id="userKey"><br/>
+			<input type="button" value="Sign up" id="signUpButton"><br/>
+			<p id="message" style="display: none">Default text</p>
 		</div>
 	</body>
 </html>

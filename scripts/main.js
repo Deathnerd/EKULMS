@@ -107,13 +107,14 @@ $(document).ready(function(){
 		click: function(){
 			userName = $('#userName').val();
 			password = $('[type=password]').val();
+			userKey = $('#key').val();
 			$.ajax({
 				url: site('signupUser.php'),
 				success: function(message){
 					$('#message').text(message);
 					$('#message').css('display', 'block');
 				},
-				data: "userName="+userName+"&password="+password,
+				data: "userName="+userName+"&password="+password+"&userKey="+userKey,
 				crossDomain: true
 			});
 		}
