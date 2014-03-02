@@ -3,11 +3,11 @@
 	//class of methods to handle core database functions
 	class Db {
 
-		private $database;
-		private $password;
-		private $host;
-		private $user;
-		private $connection;
+		protected $database;
+		protected $password;
+		protected $host;
+		protected $user;
+		protected $connection;
 		public $tables;
 
 		function __construct(){
@@ -39,7 +39,6 @@
 
 		//reconnects to the database
 		function connect(){
-
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
 			if(mysqli_connect_errno($this->connection)){ //failed to connect
