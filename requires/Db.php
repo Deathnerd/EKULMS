@@ -1,12 +1,6 @@
 <?
-	//Db.php
+	//Db.php stuff
 	//class of methods to handle core database functions
-
-	if(!is_file(realpath(dirname(__FILE__)).'/Encryption.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Encryption.php! Check your installation");
-	}
-	require_once(realpath(dirname(__FILE__))."/Encryption.php");
-
 	class Db {
 
 		protected $database;
@@ -14,7 +8,6 @@
 		protected $host;
 		protected $user;
 		protected $connection;
-		protected $config;
 		public $tables;
 
 		function __construct(){
@@ -24,18 +17,18 @@
 					return;
 				}
 				//using the default config file
-				$this->config = parse_ini_file('./default-config.ini', true);
+				$configVals = parse_ini_file('./default-config.ini', true);
 			} else {
 				//using the user config file
-				$this->config = parse_ini_file('./user-config.ini', true);
+				$configVals = parse_ini_file('./user-config.ini', true);
 			}
 
-			$this->database = $this->config['database']['name'];
-			$this->host = $this->config['database']['host'];
-			$this->user = $this->config['database']['user'];
-			$this->password = $this->config['database']['password'];
+			$this->database = $configVals['database']['name'];
+			$this->host = $configVals['database']['host'];
+			$this->user = $configVals['database']['user'];
+			$this->password = $configVals['database']['password'];
 
-			$this->tables = $this->config['tables'];
+			$this->tables = $configVals['tables'];
 
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
