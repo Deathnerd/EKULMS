@@ -161,11 +161,5 @@ class Encryption {
         }
         return substr($data, 0, -1 * $last);
     }
-
-    protected function makeKey($userKey, $serverKey, $userSuppliedKey) {
-        $key = hash_hmac('sha512', $userKey, $serverKey);
-        $key = hash_hmac('sha512', $key, $userSuppliedKey);
-    return $key;
-}
 }
 ?>
