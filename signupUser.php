@@ -7,11 +7,6 @@
 	}
 	require_once('requires/Users.php'); //import the user database functions
 
-	if(!is_file('requires/Encryption.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Encryption.php! Check your installation");
-	}
-	require_once('requires/Encryption.php'); //import the Encryption functions if not already imported
-
 	if($_SESSION['userName'] != ''){ //if a user is already signed in
 		header('Location: index.php');
 		exit();
@@ -43,7 +38,6 @@
 
 	$Users = new Users; //Users class contains functions related to user interaction/manipulation
 	$Db = new Db; //base class containing generic database functions
-	$Encryption = new Encryption;
 
 	//check if user exists in database
 	if(!$Users->checkUserExists($_SESSION['userName'])){ //if user does not already exist, then attempt to create it

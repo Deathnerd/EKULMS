@@ -3,7 +3,7 @@
  * A class to handle secure encryption and decryption of arbitrary data
  *
  * Credit to ircmaxell@stack-overflow
- 
+ *
  * Note that this is not just straight encryption.  It also has a few other
  *  features in it to make the encrypted data far more secure.  Note that any
  *  other implementations used to decrypt data will have to do the same exact
