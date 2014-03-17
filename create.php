@@ -6,7 +6,7 @@
 	if($_SESSION['admin'] != '1'){ //if user isn't an admin, send them to the index
 		header('Location: index.php');
 	}
-?>
+ 
 
 <!DOCTYPE html>
 <html>
@@ -37,15 +37,15 @@
 		<input type="button" value="Save Quiz" id="saveQuiz">
 		<select>
 			<?
-				$files = glob('quizzes/*.json'); //find all the quiz files
+				$files = glob('quizzes/*.json')//find all the quiz files
 				//populate the dropdown
 				foreach($files as $file){
 					echo '<option>'.$file.'</option>';
 				}
-			?>
+			 
 		</select>
 		<input type="button" value="Load" id="load">
-		<? //<input type="button" value="Delete" id="delete"> ?>
+		<? //<input type="button" value="Delete" id="delete">  
 		<input type="button" value="Download All Quizzes" id="download">
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->

@@ -5,12 +5,12 @@
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
-	require_once('requires/Users.php'); //import the user database methods
+	require_once('requires/Users.php')//import the user database methods
 	if(isset($_SESSION['userName'])){
 		echo $_SESSION['userName']." already logged in. Please log out first";
 		exit();
 	}
-	session_start(); //start the session
+	session_start()//start the session
 
 	if (isset($_GET['userName']) && strlen($_GET['userName']) > 0){
 		$_SESSION['userName'] = $_GET['userName'];
@@ -27,8 +27,8 @@
 		exit();
 	}
 
-	$Users = new Users; //Users class contains functions related to user interaction/manipulation
-	$Db = new Db; //base class containing generic database functions
+	$Users = new Users//Users class contains functions related to user interaction/manipulation
+	$Db = new Db//base class containing generic database functions
 
 	//check if user exists in database
 	if($Users->checkUserExists($_SESSION['userName'])){ //if user exists
@@ -41,8 +41,8 @@
 		//if the user exists and the password is correct
 		echo "Success!";
 		$userInfo = $Users->fetchUser($_SESSION['userName']);
-		$_SESSION['id'] = $userInfo['id']; //remember the user id
-		$_SESSION['userName'] = $userInfo['userName']; //remember the actual userName
+		$_SESSION['id'] = $userInfo['id']//remember the user id
+		$_SESSION['userName'] = $userInfo['userName']//remember the actual userName
 		$_SESSION['admin'] = $userInfo['admin'];
 		unset($_SESSION['password']);//trash the password
 		$Db->close();//close the database connection
@@ -53,4 +53,4 @@
 		$Db->close();
 		exit();
 	}
-?>
+ 

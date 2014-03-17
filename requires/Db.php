@@ -50,8 +50,8 @@
 			mysqli_close($this->connection);
 		}
 
-		function connection(){	//$connection accessor; returns a mysqli link object
+		function connection(){	//$connection accessorreturns a mysqli link object
 			return $this->connection;
 		}
 	}
-?>
+ 

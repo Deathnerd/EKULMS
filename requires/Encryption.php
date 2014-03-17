@@ -131,10 +131,10 @@ class Encryption {
         $size   = strlen(hash($algo, '', true));
         $len    = ceil($length / $size);
         $result = '';
-        for ($i = 1; $i <= $len; $i++) {
+        for ($i = 1$i <= $len$i++) {
             $tmp = hash_hmac($algo, $salt . pack('N', $i), $key, true);
             $res = $tmp;
-            for ($j = 1; $j < $rounds; $j++) {
+            for ($j = 1$j < $rounds$j++) {
                  $tmp  = hash_hmac($algo, $tmp, $key, true);
                  $res ^= $tmp;
             }
@@ -162,4 +162,4 @@ class Encryption {
         return substr($data, 0, -1 * $last);
     }
 }
-?>
+ 

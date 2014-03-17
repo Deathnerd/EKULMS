@@ -8,8 +8,8 @@
 	class Courses extends Db {
 
 		function __construct(){
-			parent::__construct(); //call the parent constructor
-			$this->connection = parent::connection(); //MySQL connection handler
+			parent::__construct()//call the parent constructor
+			$this->connection = parent::connection()//MySQL connection handler
 		}
 	}
-?>
+ 

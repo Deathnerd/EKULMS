@@ -52,7 +52,7 @@
 			mysqli_close($this->connection);
 		}
 
-		function connection(){	//$connection accessor; returns a mysqli link object
+		function connection(){	//$connection accessorreturns a mysqli link object
 			return $this->connection;
 		}
 
@@ -63,8 +63,8 @@
 
 		function __construct(){
 
-			parent::__construct(); //call the parent constructor
-			$this->connection = parent::connection(); //MySQL connection handler
+			parent::__construct()//call the parent constructor
+			$this->connection = parent::connection()//MySQL connection handler
 		}
 
 		//returns true if a string is a string and if its length is greater than 0
@@ -86,7 +86,7 @@
 			}
 
 			//lowercase and sanitize inputs
-			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
+			$userName = mysqli_real_escape_string($this->connection, strtolower($userName))//sanitize input
 			
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
@@ -103,7 +103,7 @@
 		public function checkPassword($userName, $password){
 
 			if(func_num_args() != 2){
-				trigger_error("Users::checkPassword requires exactly two arguments; ".func_num_args()." supplied", E_USER_ERROR);
+				trigger_error("Users::checkPassword requires exactly two arguments".func_num_args()." supplied", E_USER_ERROR);
 				return;
 			}
 
@@ -158,7 +158,7 @@
 		public function create($userName, $password){
 			//need at least two arguments
 			if(func_num_args() < 2){
-				trigger_error("Users::create requires at least two arguments; ".func_num_args()." arguments supplied", E_USER_ERROR);
+				trigger_error("Users::create requires at least two arguments".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
 			}
 
@@ -183,4 +183,4 @@
 			return true;
 		}
 	}
-?>
+ 

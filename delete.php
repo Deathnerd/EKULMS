@@ -12,7 +12,7 @@
 		
 	//check to see if $_REQUEST
 	if (isset($_GET['data'])){
-		$file = 'quizzes/'.$_GET['data'].'.json'; //$file contains the name of our file
+		$file = 'quizzes/'.$_GET['data'].'.json'//$file contains the name of our file
 	} else {
 		echo "Request empty";
 		exit();
@@ -22,6 +22,6 @@
 		echo "File not found!";
 		exit();
 	}
-	unlink($file) or die("Some stuff happened here!");
+	unlink($file) or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 	echo "Success";
-?>
+ 

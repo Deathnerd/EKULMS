@@ -3,7 +3,7 @@
 	if(!isset($_SESSION['userName'])){ //if not logged in already, go to login page
 		header('Location: signin.php');
 	}
-?>
+ 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -25,17 +25,17 @@
 			<p id="pageTitle"></p>
 			<select>
 				<?
-					$files = glob('quizzes/*.json'); //find all the quiz files
+					$files = glob('quizzes/*.json')//find all the quiz files
 					//populate the dropdown
 					foreach($files as $file){
 						echo '<option>'.$file.'</option>';
 					}
-				?>
+				 
 			</select>
 			<button type="button" id="load">Load</button>
 		</header>
 		<p id="userGreeting"><?
 			echo "Hello, ".$_SESSION['userName']."!";
-		?></p>
+		 </p>
 	</body>
 </html>

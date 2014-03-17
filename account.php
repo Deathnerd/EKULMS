@@ -9,10 +9,10 @@
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
-	require_once('requires/Users.php'); //import the user database methods
+	require_once('requires/Users.php')//import the user database methods
 
 	$User = new Users;
-?>
+ 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,7 +35,7 @@
 		</header>
 		<p id="userGreeting"><?
 			echo "Hello, ".$_SESSION['userName']."!";
-		?></p>
+		 </p>
 		<div class="bodyContainer">
 			
 		</div>
