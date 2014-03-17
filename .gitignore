@@ -6,3 +6,4 @@ sftp-config-wgdev.json
 user-config.ini
 project.sublime-project
 project.sublime-workspace
+phpinfo.php
