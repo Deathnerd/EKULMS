@@ -1,6 +1,9 @@
 <?
-	//account.php
-	//account management page for a user
+	/**
+	* Lists a user's account information along with links to course pages and statistitcs. The usser will be redirected to the login page if they are not currently logged in
+	* @todo everything
+	*/
+
 	session_start();
 	if(!isset($_SESSION['userName'])){ //if not logged in, go to the login page
 		header('Location: login.php');
@@ -10,9 +13,8 @@
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
 	require_once('requires/Users.php')//import the user database methods
-
 	$User = new Users;
- 
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -33,8 +35,8 @@
 			</div>
 			<p id="pageTitle"></p>
 		</header>
-		<p id="userGreeting"><?
-			echo "Hello, ".$_SESSION['userName']."!";
+		<p id="userGreeting">
+			<? echo "Hello, ".$_SESSION['userName']."!"; ?>
 		 </p>
 		<div class="bodyContainer">
 			

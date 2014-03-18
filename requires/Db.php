@@ -1,15 +1,42 @@
 <?
-	//Db.php stuff
-	//class of methods to handle core database functions
-	class Db {
+	/**
+	* Contains the Db class
+	*/
 
+	/**
+	* Class for facilitating Database connections
+	*/
+	class Db {
+		/**
+		* @var string The database name from the config file
+		*/
 		protected $database;
+		/**
+		* @var string The database password from the config file
+		*/
 		protected $password;
+		/**
+		* @var string The database host from the config file
+		*/
 		protected $host;
+		/**
+		* @var string The database user from the config file
+		*/
 		protected $user;
+		/**
+		* @var object The MySQL connection object
+		*/
 		protected $connection;
+		/**
+		* @var array An array of tables from the config file
+		*/
 		public $tables;
 
+		/**
+		* Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
+		*
+		* @throws error Complains that configuration file is not found and halts execution
+		*/
 		function __construct(){
 			if(!is_file('./user-config.ini')){ //if the user config file isn't there
 				if(!is_file('./default-config.ini')){ //if the default config file isn't there
@@ -27,30 +54,36 @@
 			$this->host = $configVals['database']['host'];
 			$this->user = $configVals['database']['user'];
 			$this->password = $configVals['database']['password'];
-
 			$this->tables = $configVals['tables'];
-
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
-
+			
 			if(mysqli_connect_errno($this->connection)){ //failed to connect
 				die("Failed to connect with error: ".mysqli_connect_error());
 			}
 		}
 
-		//reconnects to the database
+		/**
+		* Connects to the database. Dies if it fails
+		*/
 		function connect(){
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
-
 			if(mysqli_connect_errno($this->connection)){ //failed to connect
 				die("Failed to connect with error: ".mysqli_connect_error());
 			}
 		}
 
-		function close(){	//cleans up and closes the database connection
-			mysqli_close($this->connection);
+		/**
+		* Closes the connection. Dies if it fails
+		*/
+		function close(){
+			mysqli_close($this->connection) or die("Failed to close connection with erro: ".mysqli_connect_error());
 		}
 
-		function connection(){	//$connection accessorreturns a mysqli link object
+		/**
+		* Connection accessor
+		* @return object MySQLi connection object
+		*/
+		function connection(){
 			return $this->connection;
 		}
 	}

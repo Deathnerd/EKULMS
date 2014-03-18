@@ -52,7 +52,7 @@ class Encryption {
      * @param string $data The encrypted datat to decrypt
      * @param string $key  The key to use for decryption
      * 
-     * @returns string|false The returned string if decryption is successful
+     * @return string|false The returned string if decryption is successful
      *                           false if it is not
      */
     public function decrypt($data, $key) {
@@ -79,7 +79,7 @@ class Encryption {
      * @param string $data The data to encrypt
      * @param string $key  The key to encrypt with
      *
-     * @returns string The encrypted data
+     * @return string The encrypted data
      */
     public function encrypt($data, $key) {
         $salt = mcrypt_create_iv(128, MCRYPT_DEV_URANDOM);
@@ -99,7 +99,7 @@ class Encryption {
      * @param string $salt A random string to change the keys each encryption
      * @param string $key  The supplied key to encrypt with
      *
-     * @returns array An array of keys (a cipher key, a mac key, and a IV)
+     * @return array An array of keys (a cipher key, a mac key, and a IV)
      */
     protected function getKeys($salt, $key) {
         $ivSize = mcrypt_get_iv_size($this->cipher, $this->mode);
@@ -125,16 +125,16 @@ class Encryption {
      * @param int    $rounds The number of rounds to derive
      * @param int    $length The length of the output key
      *
-     * @returns string The derived key.
+     * @return string The derived key.
      */
     protected function pbkdf2($algo, $key, $salt, $rounds, $length) {
         $size   = strlen(hash($algo, '', true));
         $len    = ceil($length / $size);
         $result = '';
-        for ($i = 1$i <= $len$i++) {
+        for ($i = 1; $i <= $len; $i++) {
             $tmp = hash_hmac($algo, $salt . pack('N', $i), $key, true);
             $res = $tmp;
-            for ($j = 1$j < $rounds$j++) {
+            for ($j = 1; $j < $rounds; $j++) {
                  $tmp  = hash_hmac($algo, $tmp, $key, true);
                  $res ^= $tmp;
             }
@@ -162,4 +162,3 @@ class Encryption {
         return substr($data, 0, -1 * $last);
     }
 }
- 

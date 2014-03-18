@@ -1,7 +1,8 @@
 <?
+	/**
+	* This script handles the logic of signing up a user. If the user exists, it returns with a string saying so. Otherwise, the user is added to the database and a success message is returned
+	*/
 	session_start();
-	//signupUser.php
-	//handles the process of signing up a user
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
@@ -43,9 +44,9 @@
 	if(!$Users->checkUserExists($_SESSION['userName'])){ //if user does not already exist, then attempt to create it
 		if($Users->create($_SESSION['userName'], $_SESSION['password'])){ //if user created successfully
 			$userInfo = $Users->fetchUser($_SESSION['userName']);
-			unset($_SESSION['password'])//trash the password
-			$_SESSION['id'] = $userInfo['id']//remember the user id
-			$_SESSION['userName'] = $userInfo['userName']//remember the actual user name
+			unset($_SESSION['password']);//trash the password
+			$_SESSION['id'] = $userInfo['id'];//remember the user id
+			$_SESSION['userName'] = $userInfo['userName'];//remember the actual user name
 			echo "Success!";
 			$Db->close();
 			exit();
@@ -60,4 +61,3 @@
 		$Db->close();
 		exit();
 	}
- 

@@ -1,4 +1,8 @@
 <?
+	/**
+	* This page will provide an interface for instructor users to create quizzes.
+	* @todo check if user is an admin or an instructor. Currently checking only for admin
+	*/
 	session_start();
 	if(!isset($_SESSION['userName'])){ //if there isn't a user logged in, send them to the login page
 		header('Location: signin.php');
@@ -6,8 +10,7 @@
 	if($_SESSION['admin'] != '1'){ //if user isn't an admin, send them to the index
 		header('Location: index.php');
 	}
- 
-
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,17 +38,14 @@
 		<input type="button" value="Add question" class="question_add">
 		<input type="button" value="Remove question" class="question_remove">
 		<input type="button" value="Save Quiz" id="saveQuiz">
-		<select>
-			<?
+		<select><?
 				$files = glob('quizzes/*.json')//find all the quiz files
 				//populate the dropdown
 				foreach($files as $file){
 					echo '<option>'.$file.'</option>';
-				}
-			 
+				} ?>
 		</select>
 		<input type="button" value="Load" id="load">
-		<? //<input type="button" value="Delete" id="delete">  
 		<input type="button" value="Download All Quizzes" id="download">
 		<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->

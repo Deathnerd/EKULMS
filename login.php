@@ -1,6 +1,7 @@
 <?
-	//login.php
-	//logs in a user
+	/**
+	* This page logs in the user and requires the User.php file.
+	*/
 	session_start();
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
@@ -41,8 +42,8 @@
 		//if the user exists and the password is correct
 		echo "Success!";
 		$userInfo = $Users->fetchUser($_SESSION['userName']);
-		$_SESSION['id'] = $userInfo['id']//remember the user id
-		$_SESSION['userName'] = $userInfo['userName']//remember the actual userName
+		$_SESSION['id'] = $userInfo['id'];//remember the user id
+		$_SESSION['userName'] = $userInfo['userName'];//remember the actual userName
 		$_SESSION['admin'] = $userInfo['admin'];
 		unset($_SESSION['password']);//trash the password
 		$Db->close();//close the database connection
@@ -53,4 +54,3 @@
 		$Db->close();
 		exit();
 	}
- 

@@ -1,11 +1,11 @@
-<?php  
-	//fetch.php
-	//This will fetch the requested JSON file from an AJAX and return said JSON to the client
+<?  
+	/**
+	* This page fetches a requested quiz
+	* @todo Secure input
+	* @todo Change to SQL instead of JSON when quiz creation is set up to SQL
+	* @todo Fix cross-domain AJAX requests
+	*/
 	
-	//TODO
-	//Secure the input
-
-	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
 
 	//set the data type to JSON
@@ -26,4 +26,3 @@
 	else {
 		echo "Cannot open file";
 	}
- 
