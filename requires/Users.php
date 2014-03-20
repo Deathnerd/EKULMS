@@ -18,8 +18,8 @@
 		* @var object $this->connection returned from parent::connection()
 		*/
 		function __construct(){
-			parent::__construct()//call the parent constructor
-			$this->connection = parent::connection()//MySQL connection handler
+			parent::__construct();//call the parent constructor
+			$this->connection = parent::connection();//MySQL connection handler
 		}
 
 		/**
@@ -45,7 +45,7 @@
 				return;
 			}
 			//lowercase and sanitize inputs
-			$userName = mysqli_real_escape_string($this->connection, strtolower($userName))//sanitize input
+			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));//sanitize input
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 			$results = $sql->fetch_array(MYSQLI_BOTH);

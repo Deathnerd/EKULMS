@@ -39,7 +39,7 @@
 		<input type="button" value="Remove question" class="question_remove">
 		<input type="button" value="Save Quiz" id="saveQuiz">
 		<select><?
-				$files = glob('quizzes/*.json')//find all the quiz files
+				$files = glob('quizzes/*.json');//find all the quiz files
 				//populate the dropdown
 				foreach($files as $file){
 					echo '<option>'.$file.'</option>';

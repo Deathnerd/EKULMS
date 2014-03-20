@@ -1,4 +1,4 @@
-<?
+<?php
 
 	/**
 	* This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
@@ -28,7 +28,7 @@
 			</div>
 			<p id="pageTitle"></p>
 			<select><?
-					$files = glob('quizzes/*.json')//find all the quiz files
+					$files = glob('quizzes/*.json');//find all the quiz files
 					//populate the dropdown
 					foreach($files as $file){
 						echo '<option>'.$file.'</option>';
