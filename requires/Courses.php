@@ -5,7 +5,7 @@
 	require(realpath(dirname(__FILE__))."/Db.php");
 
 	//contains methods for manipulating courses
-	class Courses extends Db {
+	class Courses extends Users {
 
 		function __construct(){
 			parent::__construct()//call the parent constructor
