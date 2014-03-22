@@ -24,10 +24,17 @@
 
 		/**
 		* Simple method to check if the supplied argument is a string and has a length greater than zero
-		* @param string $string the string to check
+		* @param string|array $string the string or array containing strings to check
 		* @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
 		*/
 		function checkString($string){
+			if(gettype($string) == "array"){
+				for($i = 1; i <=count(array); i++){
+					if(!is_string($string[i]) && strlen($string[i]) == 0){
+						return false;
+					}
+				}
+			}
 			if(!is_string($string) && strlen($string) == 0){
 				return false;
 			}
