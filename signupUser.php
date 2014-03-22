@@ -29,16 +29,8 @@
 		exit();
 	}
 
-	if(isset($_GET['userKey']) && strlen($_GET['userKey']) > 0){
-		$_SESSION['userKey'] = $_GET['userKey'];
-	} else {
-		echo "No user key recieved";
-		session_destroy();
-		exit();
-	}
-
-	$Users = new Users//Users class contains functions related to user interaction/manipulation
-	$Db = new Db//base class containing generic database functions
+	$Users = new Users;//Users class contains functions related to user interaction/manipulation
+	$Db = new Db;//base class containing generic database functions
 
 	//check if user exists in database
 	if(!$Users->checkUserExists($_SESSION['userName'])){ //if user does not already exist, then attempt to create it
