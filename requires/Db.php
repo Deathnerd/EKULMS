@@ -6,6 +6,7 @@
 	/**
 	* Class for facilitating Database connections
 	*/
+	error_reporting(E_ALL);
 	class Db {
 		/**
 		* @var string The database name from the config file
@@ -32,24 +33,30 @@
 		*/
 		public $tables;
 
+		private $debug = true;
+
 		/**
 		* Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
 		*
 		* @throws error Complains that configuration file is not found and halts execution
 		*/
 		function __construct(){
-			if(!is_file('./user-config.ini')){ //if the user config file isn't there
-				if(!is_file('./default-config.ini')){ //if the default config file isn't there
+			if($this->debug){
+				$site = "/site";
+			} else {
+				$site = "";
+			}
+			if(!is_file($_SERVER['DOCUMENT_ROOT'].$site."/user-config.ini")){ //if the user config file isn't there
+				if(!is_file($_SERVER['DOCUMENT_ROOT'].$site.'/default-config.ini')){ //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR);//sound the alarm!
 					return;
 				}
 				//using the default config file
-				$configVals = parse_ini_file('./default-config.ini', true);
+				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'].$site.'/default-config.ini', true);
 			} else {
 				//using the user config file
-				$configVals = parse_ini_file('./user-config.ini', true);
+				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'].$site.'/user-config.ini', true);
 			}
-
 			$this->database = $configVals['database']['name'];
 			$this->host = $configVals['database']['host'];
 			$this->user = $configVals['database']['user'];
@@ -75,7 +82,7 @@
 		/**
 		* Closes the connection. Dies if it fails
 		*/
-		function close(){
+		public function close(){
 			mysqli_close($this->connection) or die("Failed to close connection with erro: ".mysqli_connect_error());
 		}
 
@@ -83,7 +90,7 @@
 		* Connection accessor
 		* @return object MySQLi connection object
 		*/
-		function connection(){
+		public function connection(){
 			return $this->connection;
 		}
 	}

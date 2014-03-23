@@ -29,7 +29,7 @@
 		*/
 		function checkString($string){
 			if(gettype($string) == "array"){
-				for($i = 1; i <=count(array); i++){
+				for($i = 1; $i <=count($string); $i++){
 					if(!is_string($string[i]) && strlen($string[i]) == 0){
 						return false;
 					}

@@ -15,21 +15,33 @@ $(document).ready(function(){
 	//handles sending a course creation form
 	$(document).on({
 		click: function(){
-			description = $("#courseDescription").val();
-			if(description === ""){
-				description = " ";
-			}
+			description = $("#description").val();
 			courseId = $("#courseId").val();
 			courseName = $("#courseName").val();
 			$.ajax({
-				url: site("admin/createCourse.php"),
+				url: site("course.php"),
 				success: function(message){
 					$("#message").text(message);
 					$("#message").css('display', 'block');
 				},
-				data: "courseId="+courseId+"&courseName="+courseName+"&description="+description,
-				crossDomain: true
+				data: "courseId="+courseId+"&courseName="+courseName+"&description="+description+"&action="+add,
 			});
 		}
 	}, "#addCourse");
+
+	//handles sending a request to list coures
+	$(document).on({
+		click: function(){
+			$.ajax({
+				url: site("course.php"),
+				success: function(results){
+					$('#listResults').text(results);
+					$('#listResults').css('display', 'block');
+					console.log(results);
+					console.log(typeof results);
+				},
+				data: "action=list",
+			});
+		}
+	}, '#listCourses');
 });

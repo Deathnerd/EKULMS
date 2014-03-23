@@ -2,6 +2,7 @@
 	/**
 	* This page logs in the user and requires the User.php file.
 	*/
+	error_reporting(E_ALL);
 	session_start();
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
@@ -29,27 +30,29 @@
 	}
 
 	$Users = new Users;//Users class contains functions related to user interaction/manipulation
+	$Db = new Db;
 
 	//check if user exists in database
 	if($Users->checkUserExists($_SESSION['userName'])){ //if user exists
 		if(!$Users->checkPassword($_SESSION['userName'], $_SESSION['password'])){ //if the password is incorrect
 			echo "Incorrect password";
-			$Users->parent::close();
+			$Db->close();
 			session_destroy();
 			exit();
 		}
 		//if the user exists and the password is correct
 		echo "Success!";
 		$userInfo = $Users->fetchUser($_SESSION['userName']);
+		var_dump($userInfo);
 		$_SESSION['id'] = $userInfo['id'];//remember the user id
 		$_SESSION['userName'] = $userInfo['userName'];//remember the actual userName
 		$_SESSION['admin'] = $userInfo['admin'];
 		unset($_SESSION['password']);//trash the password
-		$Users->parent::close();//close the database connection
+		$Db->close();//close the database connection
 		exit();
 	} else {
 		echo "User not found. Have you created an account?";
 		session_destroy();
-		$Users->parent::close();
+		$Db->close();
 		exit();
 	}

@@ -1,8 +1,8 @@
 <?
-	if(!is_file(realpath(dirname(__FILE__)).'/Db.php')){
-		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Db.php! Check your installation");
+	if(!is_file(realpath(dirname(__FILE__)).'/Users.php')){
+		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
-	require(realpath(dirname(__FILE__))."/Db.php");
+	require(realpath(dirname(__FILE__))."/Users.php");
 
 	/**
 	* This file manages all things related to courses
@@ -18,7 +18,7 @@
 		*/
 		function __construct(){
 			parent::__construct();//call the parent constructor
-			$this->connection = parent::connection();//MySQL connection handler
+			$this->connection = Db::connection();//MySQL connection handler
 		}
 
 		/**
@@ -28,12 +28,16 @@
 		function fetchAll(){
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
-			
+			echo mysqli_info($this->connection);
 			if($sql === NULL || $sql === false){
 				return false;
 			}
+			$rows = array();
+			while ($row = $sql->fetch_assoc()){
+				$rows[]=$row;
+			}
 			//return all results as an array
-			return $sql->fetch_array(MYSQLI_BOTH);
+			return $rows;
 		}
 
 		/**
@@ -42,6 +46,7 @@
 		* @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		*/
 		function fetchById($id){
+			$table = $this->tables['Courses'];
 			if(!$this->checkString($id)){
 				trigger_error("Argument for Courses::fetchCourseById must be a string", E_USER_ERROR);
 				return;
@@ -53,7 +58,7 @@
 			//lowercase and sanitize input
 			$courseName = mysqli_real_escape_string($this->connection, strtolower($id));
 			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$id'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "SELECT * FROM `Courses` WHERE courseId='$id'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			if($sql === NULL || $sql === false){
 				return false;
@@ -105,8 +110,9 @@
 				return;
 			}
 			//lowercase and sanitize input
-			$courseName = mysqli_real_escape_string($this->connection, strtolower($courseName));
-			$id = mysqli_real_escape_string($this->connection, strtolower($id));
+			$table = $this->tables['Courses'];
+			$courseName = mysqli_real_escape_string($this->connection, $courseName);
+			$id = mysqli_real_escape_string($this->connection, $id);
 			$description = mysqli_real_escape_string($this->connection, $description);
 
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')") or die("Error in file ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
