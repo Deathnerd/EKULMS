@@ -1,6 +1,7 @@
 <?
 	/**
 	* This script handles the logic to make a course
+	* @todo Add database disconnect
 	*/
 
 	//need an action
@@ -8,51 +9,43 @@
 		echo "Action not set!";
 		exit();
 	}
-	if($_GET['action'] != "list"){ //if not listing courses
-		if(!isset($_GET['courseName'])){
-			echo "Course Name required";
-			exit();
-		} else if(!isset($_GET['courseId'])){
-			echo "Course Id required";
-			exit();
-		}
-		$courseId = $_GET['courseId'];
-		$courseName = $_GET['courseName'];
-		$description = $_GET['description'];
-		if($_GET['action'] == 'addStudent' || $_GET['action'] == 'addInstructor'){
-			$userName = $_GET['userName'];
-		}
-	}
 	$action = $_GET['action'];
 
 	if(!is_file('../requires/Courses.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Courses.php! Check your installation");
 	}
 	require_once('../requires/Courses.php');//import the user database methods
-	// require_once('../requires/Db.php');
 	$Courses = new Courses;
 
 	switch ($action){
 		//if the action is to create a course
 		case "createCourse": {
+			//create course requires $courseName, $courseId, and $description
+			if(!isset($_GET['courseName'])){
+				echo "Course name required!";
+				exit();
+			} else if(!isset($_GET['courseId'])){
+				echo "Course id required!";
+				exit();
+			} else if(!isset($_GET['userName'])){
+				echo "Username required!";
+				exit();
+			}
 			//if the course does not exist
 			if($Courses->fetchById($courseId) == false){
 				//create it
 				if(!$Courses->create($courseName, $courseId, $description)){
-					echo "Ruh-roh, Raggy! Something went wrong!";
-					// $Db->close();
-					exit();
+					echo "Ruh-roh, Raggy!";
 				} else {
-					echo "Success`fully created course";
-					// $Db->close();
-					exit();
+					echo "Successfully created course";
 				}
 			} else {
 				echo "Course already exists!";
 				exit();
 			}
 			break;
-		} 
+		}
+		//if the action is to list the courses
 		case "list": {
 			$list = $Courses->fetchAll();
 			if(is_array($list)){
@@ -64,13 +57,44 @@
 				echo "Nothing there!";
 			}
 		} 
+		//if the action is to add a student
 		case "addStudent": {
-			if($Courses->addStudent($courseId, $))
+			//requires $courseId an and $userName
+			if(!isset($_GET['courseId'])){
+				echo "Course id required!";
+				exit();
+			} else if(!isset($_GET['userName'])){
+				echo "Username required!";
+				exit();
+			}
+			//if the user was successfully added
+			if($Courses->addStudent($courseId, $userName)){
+				echo $userName." succefully added to ".$courseId;
+			} else {
+				echo "Error adding student";
+			}
+			break;
 		}
+		//if the action is to add a student
 		case "addInstructor": {
+			//requires $courseId and $userName
+			if(!isset($_GET['courseId'])){
+				echo "Course id required!";
+				exit();
+			} else if(!isset($_GET['userName'])){
+				echo "Username required!";
+				exit();
+			}
+			//if the user was successfully added
+			if($Courses->addInstructor($courseId, $userName)){
+				echo $userName." succefully added to ".$courseId;
+			} else {
+				echo "Error adding instructor";
+			}
 			break;
 		}
 		default: {
+			echo "No action sent";
 			die("Error in ".__FILE__." on line ".__LINE__.". ".$action." is not a valid action");
 		}
 	}
