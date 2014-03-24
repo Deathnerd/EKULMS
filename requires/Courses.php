@@ -213,10 +213,10 @@
 
 			//get the userId from the Users table
 			$userId = $this->fetchUser($userName);
-			$userId = $userId['id'];
+			$userId = intval($userId['id']);
 			//add instructor to the Teach table
 			$table = $this->tables['Enrollment'];
-			$sql = mysqli_query("INSERT INTO `$table` (id, courseId) VALUES ('$userId', '$courseId'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			if($sql == false || $sql === null){
 				return false;
