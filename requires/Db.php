@@ -5,6 +5,7 @@
 
 	/**
 	* Class for facilitating Database connections
+	* @todo change from ini configuration file to JSON
 	*/
 	error_reporting(E_ALL);
 	class Db {
