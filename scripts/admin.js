@@ -59,7 +59,7 @@ $(document).ready(function(){
 		}
 	}, '#listCourses');
 
-	//handles adding an instructor 
+	//handles adding a user to either the instructors course table or the student course table
 	$(document).on({
 		click: function(){
 			userName = $("#addUserToCourse > #userName").val();
@@ -70,11 +70,12 @@ $(document).ready(function(){
 				$("#message").text("Course id and Username may not contain spaces");
 				return;
 			}
+			//check if adding an instructor
 			instructor = $("#instructor").prop('checked');
-			if(instructor){
-				action = "addInstructor";
-			} else {
+			if(!instructor){
 				action = "addStudent";
+			} else {
+				action = "addInstructor";
 			}
 			$.ajax({
 				url:site("course.php"),

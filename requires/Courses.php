@@ -174,23 +174,23 @@
 
 		public function addInstructor($courseId, $userName){
 			if(func_num_args() < 2){
-				trigger_error("Courses::addInstructor requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
+				trigger_error("Courses::addInstructor requires two arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
 			}
-			// if(!$this->checkString($courseId) || $this->checkString($userName)){
-			// 	trigger_error("Arguments for Courses::addInstructor must be a string", E_USER_ERROR);
-			// 	return;
-			// }
-			$table = $this->tables['Users'];
+			if(!$this->checkString($courseId) || !$this->checkString($userName)){
+				trigger_error("Arguments for Courses::addInstructor must be a string", E_USER_ERROR);
+				return;
+			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 
 			//get the userId from the Users table
 			$userId = $this->fetchUser($userName);
-			$userId = $userId['id'];
+			$userId = intval($userId['id']);
+			var_dump($userId);
 			//add instructor to the Teach table
 			$table = $this->tables['Teach'];
-			$sql = mysqli_query("INSERT INTO `$table` (id, courseId) VALUES ('$userId', '$courseId'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 
 			if($sql == false || $sql === null){
 				return false;
@@ -200,14 +200,13 @@
 
 		public function addStudent($courseId, $userName){
 			if(func_num_args() < 2){
-				trigger_error("Courses::addStudent requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
+				trigger_error("Courses::addStudent requires two arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
 			}
-			// if(!$this->checkString($courseId) || $this->checkString($userName)){
-			// 	trigger_error("Arguments for Courses::addStudent must be a string", E_USER_ERROR);
-			// 	return;
-			// }
-			$table = $this->tables['Users'];
+			if(!$this->checkString($courseId) || !$this->checkString($userName)){
+				trigger_error("Arguments for Courses::addStudent must be a string", E_USER_ERROR);
+				return;
+			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 

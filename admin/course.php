@@ -3,7 +3,6 @@
 	* This script handles the logic to make a course
 	* @todo Add database disconnect
 	*/
-
 	//need an action
 	if(!isset($_GET['action'])){
 		echo "Action not set!";
@@ -23,13 +22,13 @@
 			//create course requires $courseName, $courseId, and $description
 			if(!isset($_GET['courseName'])){
 				echo "Course name required!";
-				exit();
+				break;
 			} else if(!isset($_GET['courseId'])){
 				echo "Course id required!";
-				exit();
+				break;
 			} else if(!isset($_GET['userName'])){
 				echo "Username required!";
-				exit();
+				break;
 			}
 			//if the course does not exist
 			if($Courses->fetchById($courseId) == false){
@@ -41,7 +40,6 @@
 				}
 			} else {
 				echo "Course already exists!";
-				exit();
 			}
 			break;
 		}
@@ -52,9 +50,10 @@
 				header('Access-Control-Allow-Origin: *');
 				header("Content-type: application/json");
 				echo json_encode($list);
-				exit();
-			} else{
+				break;
+			} else {
 				echo "Nothing there!";
+				break;
 			}
 		} 
 		//if the action is to add a student
@@ -65,8 +64,10 @@
 				exit();
 			} else if(!isset($_GET['userName'])){
 				echo "Username required!";
-				exit();
+				break;
 			}
+			$userName = $_GET['userName'];
+			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if($Courses->addStudent($courseId, $userName)){
 				echo $userName." succefully added to ".$courseId;
@@ -85,6 +86,8 @@
 				echo "Username required!";
 				exit();
 			}
+			$userName = $_GET['userName'];
+			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if($Courses->addInstructor($courseId, $userName)){
 				echo $userName." succefully added to ".$courseId;
