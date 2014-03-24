@@ -59,6 +59,7 @@
 				<input type="checkbox" id="instructor"></input>
 				<br>
 				<input type="button" id="addUser" value="Add User to Course"></input>
+				<div id="message"></div>
 			</div>
 			<br>
 			<div id="list">
