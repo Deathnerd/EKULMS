@@ -18,13 +18,19 @@ $(document).ready(function(){
 			description = $("#description").val();
 			courseId = $("#courseId").val();
 			courseName = $("#courseName").val();
+			//check for whitespace strings in course id
+			if(/\s/.test(courseId)){
+				$("#message").css("display", "block");
+				$("#message").text("Course id cannot have whitespace");
+				return;
+			}
 			$.ajax({
 				url: site("course.php"),
 				success: function(message){
 					$("#message").text(message);
 					$("#message").css('display', 'block');
 				},
-				data: "courseId="+courseId+"&courseName="+courseName+"&description="+description+"&action="+add,
+				data: "courseId="+courseId+"&courseName="+courseName+"&description="+description+"&action=createCourse",
 			});
 		}
 	}, "#addCourse");
@@ -52,4 +58,32 @@ $(document).ready(function(){
 			});
 		}
 	}, '#listCourses');
+
+	//handles adding an instructor 
+	$(document).on({
+		click: function(){
+			userName = $("#addUserToCourse > #userName").val();
+			courseId = $("#addUserToCourse > #courseId").val();
+			//check for whitespace in the course id and username
+			if(/\s/.test(courseId) || /\s/.test(userName)){
+				$("#message").css("display", "block");
+				$("#message").text("Course id and Username may not contain spaces");
+				return;
+			}
+			instructor = $("#instructor").prop('checked');
+			if(instructor){
+				action = "addInstructor";
+			} else {
+				action = "addStudent";
+			}
+			$.ajax({
+				url:site("course.php"),
+				success: function(message){
+					$('#addUserToCourse > div').text(message);
+					$('#addUserToCourse > div').css('display', 'block');
+				},
+				data: "action="+action+"&courseId="+courseId+"&userName="+userName,
+			});
+		}
+	}, '#addUser');
 });
