@@ -25,7 +25,7 @@
 		* This returns all courses in the database
 		* @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		*/
-		function fetchAll(){
+		public function fetchAll(){
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 			echo mysqli_info($this->connection);
@@ -45,7 +45,7 @@
 		* @param string $id The course id being searched for
 		* @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		*/
-		function fetchById($id){
+		public function fetchById($id){
 			$table = $this->tables['Courses'];
 			if(!$this->checkString($id)){
 				trigger_error("Argument for Courses::fetchCourseById must be a string", E_USER_ERROR);
@@ -72,7 +72,7 @@
 		* @param string $courseName The course name being searched 
 		* @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		*/
-		function fetchByName($courseName){
+		public function fetchByName($courseName){
 			if(func_num_args() < 1){
 				trigger_error("Courses::fetchByName requires at least one argument".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
@@ -100,7 +100,7 @@
 		* @param string $description
 		* @return boolean Return true if successful, or false if not
 		*/
-		function create($courseName, $id, $description){
+		public function create($courseName, $id, $description){
 			if(func_num_args() < 3){
 				trigger_error("Courses::create requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
@@ -132,7 +132,7 @@
 		* @return boolean Returns true if successful, otherwise false
 		*/
 
-		function modify($id, $column, $value){
+		public function modify($id, $column, $value){
 			if(func_num_args() < 3){
 				trigger_error("Courses::modify requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
 				return;
@@ -147,9 +147,10 @@
 			if($value == "description"){ //don't lowercase the value if it's a description
 				$value = mysqli_real_escape_string($this->connection, $value);
 			} else {
-				$value == mysqli_real_escape_string($this->connection, strtolower($value));
+				$value == mysqli_real_escape_string($this->connection, $value);
 			}
 
+			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "UPDATE `Courses` SET $column='$value' WHERE courseId='$id'") or die("Error in file ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
 			//if the course id was changed, then update the $id to the changed id
 			if($column == "courseId"){
@@ -161,6 +162,64 @@
 				if($changedValue[$column] != $value){ //check if the value was not actually changed
 					return false;
 				}
+			}
+			return true;
+		}
+		/**
+		* This function adds an instructor and assigns them to a course
+		* @param string $courseId The course id to add the user to
+		* @param string $userName The userName to be associated with the course
+		* @return boolean Returns true if successful, false if otherwise
+		*/
+
+		public function addInstructor($courseId, $userName){
+			if(func_num_args() < 2){
+				trigger_error("Courses::addInstructor requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
+				return;
+			}
+			// if(!$this->checkString($courseId) || $this->checkString($userName)){
+			// 	trigger_error("Arguments for Courses::addInstructor must be a string", E_USER_ERROR);
+			// 	return;
+			// }
+			$table = $this->tables['Users'];
+			$courseId = mysqli_real_escape_string($this->connection, $courseId);
+			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
+
+			//get the userId from the Users table
+			$userId = $this->fetchUser($userName);
+			$userId = $userId['id'];
+			//add instructor to the Teach table
+			$table = $this->tables['Teach'];
+			$sql = mysqli_query("INSERT INTO `$table` (id, courseId) VALUES ('$userId', '$courseId'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
+
+			if($sql == false || $sql === null){
+				return false;
+			}
+			return true;
+		}
+
+		public function addStudent($courseId, $userName){
+			if(func_num_args() < 2){
+				trigger_error("Courses::addStudent requires three arguments. ".func_num_args()." arguments supplied", E_USER_ERROR);
+				return;
+			}
+			// if(!$this->checkString($courseId) || $this->checkString($userName)){
+			// 	trigger_error("Arguments for Courses::addStudent must be a string", E_USER_ERROR);
+			// 	return;
+			// }
+			$table = $this->tables['Users'];
+			$courseId = mysqli_real_escape_string($this->connection, $courseId);
+			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
+
+			//get the userId from the Users table
+			$userId = $this->fetchUser($userName);
+			$userId = $userId['id'];
+			//add instructor to the Teach table
+			$table = $this->tables['Enrollment'];
+			$sql = mysqli_query("INSERT INTO `$table` (id, courseId) VALUES ('$userId', '$courseId'") or die("Error in ".__FILE__." on line ".__LINE__.": ".mysqli_error($this->connection));
+
+			if($sql == false || $sql === null){
+				return false;
 			}
 			return true;
 		}

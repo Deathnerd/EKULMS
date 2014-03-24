@@ -48,10 +48,32 @@
 				<br>
 				<div id="message"></div>
 			</div>
+			<div id="addUserToCourse">
+				<p>Username:</p>
+				<input type="text" id="userName"></input>
+				<br>
+				<p>Course Id:</p>
+				<input type="text" id="courseId"></input>
+				<br>
+				<p>Instructor:</p>
+				<input type="checkbox" id="instructor"></input>
+				<br>
+				<input type="button" id="addUser" value="Add User to Course"></input>
+			</div>
 			<br>
 			<div id="list">
 				<input type="button" id="listCourses" value="List courses">
-				<div id="listResults"></div>
+				<div id="listResults" style="display: hidden">
+					<table>
+						<tbody>
+							<tr>
+								<th>Course Name</th>
+								<th>Course Id</th>
+								<th>Course Description</th>
+							</tr>
+						</table>
+					</tbody>
+				</div>
 			</div>
 		</div>
 	</body>

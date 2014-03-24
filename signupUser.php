@@ -6,7 +6,7 @@
 	if(!is_file('requires/Users.php')){
 		die("Error in ".__FILE__." on line ".__LINE__.": Cannot find Users.php! Check your installation");
 	}
-	require_once('requires/Users.php')//import the user database functions
+	require_once('requires/Users.php');//import the user database functions
 
 	if($_SESSION['userName'] != ''){ //if a user is already signed in
 		header('Location: index.php');

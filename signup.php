@@ -7,7 +7,7 @@
 		header('Location: index.php');
 	}
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Sign Up</title>
@@ -32,8 +32,7 @@
 			<input type="text" id="userName"><br/>
 			<p>Password:</p>
 			<input type="password"><br/>
-			<p>Special key:</p>
-			<input type="text" id="userKey"><br/>
+			<br>
 			<input type="button" value="Sign up" id="signUpButton"><br/>
 			<p id="message" style="display: none">Default text</p>
 		</div>

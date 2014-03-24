@@ -1,4 +1,4 @@
 <?
-	var_dump(isset($_SERVER));
-	require_once("Db.php");
-	$Db = new Db;
+	require_once("Courses.php");
+	$Courses = new Courses;
+	$Courses->addInstructor("CSC191", "admin");

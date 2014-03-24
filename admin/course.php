@@ -7,8 +7,9 @@
 	if(!isset($_GET['action'])){
 		echo "Action not set!";
 		exit();
+	}
 	if($_GET['action'] != "list"){ //if not listing courses
-		} else if(!isset($_GET['courseName'])){
+		if(!isset($_GET['courseName'])){
 			echo "Course Name required";
 			exit();
 		} else if(!isset($_GET['courseId'])){
@@ -18,6 +19,9 @@
 		$courseId = $_GET['courseId'];
 		$courseName = $_GET['courseName'];
 		$description = $_GET['description'];
+		if($_GET['action'] == 'addStudent' || $_GET['action'] == 'addInstructor'){
+			$userName = $_GET['userName'];
+		}
 	}
 	$action = $_GET['action'];
 
@@ -28,34 +32,46 @@
 	// require_once('../requires/Db.php');
 	$Courses = new Courses;
 
-	//if the action is to create a course
-	if($action == "createCourse"){
-		//if the course does not exist
-		if($Courses->fetchById($courseId) == false){
-			//create it
-			if(!$Courses->create($courseName, $courseId, $description)){
-				echo "Ruh-roh, Raggy! Something went wrong!";
-				// $Db->close();
-				exit();
+	switch ($action){
+		//if the action is to create a course
+		case "createCourse": {
+			//if the course does not exist
+			if($Courses->fetchById($courseId) == false){
+				//create it
+				if(!$Courses->create($courseName, $courseId, $description)){
+					echo "Ruh-roh, Raggy! Something went wrong!";
+					// $Db->close();
+					exit();
+				} else {
+					echo "Success`fully created course";
+					// $Db->close();
+					exit();
+				}
 			} else {
-				echo "Success`fully created course";
-				// $Db->close();
+				echo "Course already exists!";
 				exit();
 			}
-		} else {
-			echo "Course already exists!";
-			exit();
+			break;
+		} 
+		case "list": {
+			$list = $Courses->fetchAll();
+			if(is_array($list)){
+				header('Access-Control-Allow-Origin: *');
+				header("Content-type: application/json");
+				echo json_encode($list);
+				exit();
+			} else{
+				echo "Nothing there!";
+			}
+		} 
+		case "addStudent": {
+			if($Courses->addStudent($courseId, $))
 		}
-		exit(); //safety exit
-	} else if($action == "list") {
-		$list = $Courses->fetchAll();
-		if(is_array($list)){
-			header('Access-Control-Allow-Origin: *');
-			header("Content-type: application/json");
-			$json = json_encode($list, JSON_PRETTY_PRINT);
-			echo var_dump($json);
-			exit();
-		} else{
-			echo "Nothing there!";
+		case "addInstructor": {
+			break;
+		}
+		default: {
+			die("Error in ".__FILE__." on line ".__LINE__.". ".$action." is not a valid action");
 		}
 	}
+	exit();

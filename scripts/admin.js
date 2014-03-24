@@ -35,10 +35,18 @@ $(document).ready(function(){
 			$.ajax({
 				url: site("course.php"),
 				success: function(results){
-					$('#listResults').text(results);
 					$('#listResults').css('display', 'block');
-					console.log(results);
-					console.log(typeof results);
+					table = $('#listResults > table > tbody');
+					for(i = 0; i < results.length; i++){
+						courseName = results[i].courseName;
+						courseId = results[i].courseId;
+						description = results[i].description;
+						//append to the table
+						table.append("<tr>"+
+								"<td>"+courseName+"</td>"+
+								"<td>"+courseId+"</td>"+
+								"<td>"+description+"</td>"+"<tr>");
+					}
 				},
 				data: "action=list",
 			});
