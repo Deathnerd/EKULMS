@@ -1,7 +1,7 @@
 /* Custom styles here */
 
 body {
-	background-color:#F4F4F4;
+	background-color: #f4f4f4;
 	font-family: Arial, Helvetica, sans-serif;
 	padding-top: 35px;
 }
@@ -16,19 +16,9 @@ input[type=text], input[type=button], input[type=password], textarea {
 	height: 35px;
 	background-color: #903;
 	color: white;
-	position: fixed;
-	top: 0;
+	/*	position: fixed;
+		top: 0;*/
 	width: 100%;
-}
-
-#logo {
-	/*float: left;
-	background-color: black;
-	background-image: url('../images/eku_logo.png');
-	background-size: 97px 32px;
-	padding: 3px;
-	background-repeat: no-repeat;*/
-	display: none;
 }
 
 #topNav > div, #pageTitle {
@@ -37,7 +27,7 @@ input[type=text], input[type=button], input[type=password], textarea {
 	height: 100%;
 }
 
-#pageTitle, #dropdown{
+#pageTitle, #dropdown {
 	float: right;
 }
 
@@ -69,7 +59,7 @@ textarea {
 }
 
 .choice {
-	width:100%;
+	width: 100%;
 }
 
 table {
@@ -80,7 +70,7 @@ td > div {
 	border: none;
 }
 
-#dropdown {
+#dropdown, #pageTitle, #logo {
 	display: none;
 }
 
@@ -88,6 +78,10 @@ td > div {
 	float: left;
 }
 
-#pageTitle {
-	display: none;
+header p, header a, header a:hover {
+	color: white;
+}
+
+header a:visited {
+	color: gray;
 }

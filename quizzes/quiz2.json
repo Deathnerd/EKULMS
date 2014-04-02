@@ -1,1 +1,20 @@
-{"_quizName":"quiz2","quiz":{"questions":[{"prompt":"Input question here","choices":[null,{"value":"Enter choice","correct":false},{"value":"Enter choice","correct":false},{"value":"Enter choice","correct":false},{"value":"Enter choice","correct":false}]}]}}
+{"_quizName": "quiz2", "quiz": {
+	"questions": [
+		{
+			"prompt":  "Input question here",
+			"choices": [null, {
+				"value":   "Enter choice",
+				"correct": false
+			}, {
+				"value":   "Enter choice",
+				"correct": false
+			}, {
+				"value":   "Enter choice",
+				"correct": false
+			}, {
+				"value":   "Enter choice",
+				"correct": false
+			}]
+		}
+	]
+}}
