@@ -1,5 +1,3 @@
-/* Custom styles here */
-
 body {
 	background-color: #f4f4f4;
 	font-family: Arial, Helvetica, sans-serif;
@@ -16,9 +14,8 @@ input[type=text], input[type=button], input[type=password], textarea {
 	height: 35px;
 	background-color: #903;
 	color: white;
-	/*	position: fixed;
-		top: 0;*/
-	width: 100%;
+	position: fixed;
+	top: 0;
 }
 
 #topNav > div, #pageTitle {
@@ -44,7 +41,6 @@ input[type=text], input[type=button], input[type=password], textarea {
 }
 
 .correct_incorrect_box {
-	display: none;
 	width: 250px;
 	text-align: center;
 }
@@ -58,7 +54,7 @@ textarea {
 	margin-bottom: 5px;
 }
 
-.choice {
+.choice, #topNav {
 	width: 100%;
 }
 
@@ -70,7 +66,7 @@ td > div {
 	border: none;
 }
 
-#dropdown, #pageTitle, #logo {
+#dropdown, #pageTitle, #logo, .correct_incorrect_box {
 	display: none;
 }
 

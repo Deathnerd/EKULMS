@@ -39,5 +39,6 @@
 <p id="userGreeting">
 	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
 </p>
-</body>
-</html>
+<?
+	require('requires/footer.php');
+?>

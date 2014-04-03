@@ -10,20 +10,8 @@
 	if ($_SESSION['admin'] != '1') { //if user isn't an admin, send them to the index
 		header('Location: index.php');
 	}
+	require('requires/header.php');
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Quiz Creation Page</title>
-	<meta name="description" content="Quiz Creation ">
-	<meta name="author" content="Wes Gilleland">
-	<meta name="published" content="TODO">
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" src="scripts/create.js"></script>
-	<link type="text/css" rel="stylesheet" href="styles/reset.css">
-	<link type="text/css" rel="stylesheet" href="styles/main.css">
-</head>
-<body>
 <header id="topNav">
 	<div id="logo">
 		LOGO HERE
@@ -77,5 +65,6 @@
 	</table>
 	<!-- End choices table -->
 </div>
-</body>
-</html>
+<?
+	require('requires/footer.php');
+?>

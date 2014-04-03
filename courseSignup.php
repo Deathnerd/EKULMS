@@ -12,7 +12,9 @@
 	}
 	require_once('requires/Users.php'); //import the user database functions
 
-	if ($_SESSION['userName'] != '') { //if a user is already signed in
-		header('Location: index.php');
+	if (!isset($_SESSION["userName"])) { //if a user isn't signed in
+		header('Location: index.php'); //redirect to index
 		exit();
 	}
+	//print the header
+	require('requires/header.php');

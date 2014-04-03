@@ -12,7 +12,6 @@
 		echo $_SESSION['userName'] . " already logged in. Please log out first";
 		exit();
 	}
-	session_start(); //start the session
 
 	if (isset($_GET['userName']) && strlen($_GET['userName']) > 0) {
 		$_SESSION['userName'] = $_GET['userName'];

@@ -5,32 +5,11 @@
 	 */
 	session_start();
 	if (!isset($_SESSION['userName']) || $_SESSION['admin'] != '1') { //if not logged in, go to the login page
-		header('Location: ..\signin.php');
+		header('Location: ../signin.php');
 	}
-	$_SERVER;
+
+	require('../requires/header.php');
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Admin page</title>
-	<meta name="description" content="Practice Exams for CSC 185">
-	<meta name="author" content="Wes Gilleland">
-	<meta name="published" content="TODO">
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" src="../scripts/main.js"></script>
-	<script type="text/javascript" src="../scripts/admin.js"></script>
-	<link type="text/css" rel="stylesheet" href="../styles/reset.css">
-	<link type="text/css" rel="stylesheet" href="../styles/main.css">
-	<link type="text/css" rel="stylesheet" href="../styles/admin.css">
-</head>
-<body>
-<header id="topNav" role="banner">
-	<div id="logo">
-	</div>
-	<div id="dropdown">
-	</div>
-	<p id="pageTitle"></p>
-</header>
 <p id="userGreeting">
 	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
 </p>
@@ -87,5 +66,6 @@
 		</div>
 	</div>
 </div>
-</body>
-</html>
+<?
+	require('requires/footer.php');
+?>
