@@ -10,24 +10,24 @@
 	}
 	require('requires/header.php');
 ?>
-<p id="userGreeting">
-	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
-</p>
+	<p id="userGreeting">
+		<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
+	</p>
 
-<div class="bodyContainer">
-	<div id="signupCourse">
-		<p>Username:</p>
-		<input type="text" id="userName">
-		<br>
+	<div class="bodyContainer">
+		<div id="signupCourse">
+			<p>Username:</p>
+			<input type="text" id="userName">
+			<br>
 
-		<p>Course Id:</p>
-		<input type="text" id="courseId">
-		<br>
-		<input type="button" id="addUser" value="Add User to Course">
+			<p>Course Id:</p>
+			<input type="text" id="courseId">
+			<br>
+			<input type="button" id="addUser" value="Sign up for course">
 
-		<div id="message"></div>
+			<div id="message"></div>
+		</div>
 	</div>
-</div>
 <?
 	require('requires/footer.php');
 ?>

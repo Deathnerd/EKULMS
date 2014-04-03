@@ -12,7 +12,7 @@
 		exit();
 	}
 
-	if(!isset($_GET['courseId'])){
+	if (!isset($_GET['courseId'])) {
 		echo "courseId not set!";
 		exit();
 	}
@@ -32,13 +32,13 @@
 
 	$Courses = new Courses;
 
-	if(!$Courses->courseExists($_GET['courseId'])){
+	if (!$Courses->courseExists($_GET['courseId'])) {
 		echo("Course does not exist");
 		die("Course does not exist");
 	}
 	//insert user into course enrollment table
-	if(!$Courses->addStudent($_SESSION['courseId'], $_SESSION['userName'])){
-	    echo("Failed to add course");
+	if (!$Courses->addStudent($_SESSION['courseId'], $_SESSION['userName'])) {
+		echo("Failed to add course");
 		exit();
 	}
 	echo("Success");

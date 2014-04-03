@@ -8,17 +8,17 @@
 	}
 	require('requires/header.php');
 ?>
-<div id="bodyContainer">
-	<p>User Name:</p>
-	<input type="text" id="userName"><br/>
+	<div id="bodyContainer">
+		<p>User Name:</p>
+		<input type="text" id="userName"><br/>
 
-	<p>Password:</p>
-	<input type="password"><br/>
-	<input type="button" value="login" id="loginButton"><br/>
-	<a href="signup.php">Not registered? Sign up</a>
+		<p>Password:</p>
+		<input type="password"><br/>
+		<input type="button" value="login" id="loginButton"><br/>
+		<a href="signup.php">Not registered? Sign up</a>
 
-	<p id="message" style="display: none">Stuff</p>
-</div>
+		<p id="message" style="display: none">Stuff</p>
+	</div>
 <?
 	require('requires/footer.php');
 ?>

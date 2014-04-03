@@ -267,16 +267,19 @@
 		 * Checks whether a course exists in the database
 		 *
 		 * @param $courseId the id of the course to check
+		 *
 		 * @returns boolean returns true if course exists, false otherwise
 		 */
-		public function courseExists($courseId){
+		public function courseExists($courseId) {
 			if (func_num_args() < 1) {
 				trigger_error("Courses::courseExists requires one argument. " . func_num_args() . " argument supplied", E_USER_ERROR);
+
 				return;
 			}
 
-			if(!$this->checkString($courseId)){
+			if (!$this->checkString($courseId)) {
 				trigger_error("Arguments for Courses::checkUserExists must be a string", E_USER_ERROR);
+
 				return;
 			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
@@ -287,6 +290,7 @@
 			if ($sql == false || $sql === null) {
 				return false;
 			}
+
 			return true;
 		}
 	}
