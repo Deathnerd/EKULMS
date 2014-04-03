@@ -33,7 +33,7 @@
 	$Db = new Db; //base class containing generic database functions
 
 	//check if user exists in database
-	if (!$Users->checkUserExists($_SESSION['userName'])) { //if user does not already exist, then attempt to create it
+	if (!$Users->userExists($_SESSION['userName'])) { //if user does not already exist, then attempt to create it
 		if ($Users->create($_SESSION['userName'], $_SESSION['password'])) { //if user created successfully
 			$userInfo = $Users->fetchUser($_SESSION['userName']);
 			unset($_SESSION['password']); //trash the password

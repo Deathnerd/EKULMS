@@ -1,9 +1,4 @@
 <?
-	if (!is_file(realpath(dirname(__FILE__)) . '/Users.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Users.php! Check your installation");
-	}
-	require(realpath(dirname(__FILE__)) . "/Users.php");
-
 	/**
 	 * This file manages all things related to courses
 	 * @uses Db::__construct()
@@ -16,7 +11,6 @@
 		 * Constructor!
 		 * @uses Users::__construct()
 		 */
-		protected $connection = null;
 
 		function __construct() {
 			parent::__construct(); //call the parent constructor
@@ -227,6 +221,14 @@
 			return true;
 		}
 
+		/**
+		 * Add a student to a course
+		 *
+		 * @param $courseId the course to add a student to
+		 * @param $userName the username of the student to add
+		 *
+		 * @return boolean returns true if successful, false if otherwise
+		 */
 		public function addStudent($courseId, $userName) {
 			if (func_num_args() < 2) {
 				trigger_error("Courses::addStudent requires two arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
@@ -252,6 +254,33 @@
 				return false;
 			}
 
+			return true;
+		}
+
+		/**
+		 * Checks whether a course exists in the database
+		 *
+		 * @param $courseId the id of the course to check
+		 * @returns boolean returns true if course exists, false otherwise
+		 */
+		public function courseExists($courseId){
+			if (func_num_args() < 1) {
+				trigger_error("Courses::courseExists requires one argument. " . func_num_args() . " argument supplied", E_USER_ERROR);
+				return;
+			}
+
+			if(!$this->checkString($courseId)){
+				trigger_error("Arguments for Courses::checkUserExists must be a string", E_USER_ERROR);
+				return;
+			}
+			$courseId = mysqli_real_escape_string($this->connection, $courseId);
+			$table = $this->tables['Courses'];
+
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+
+			if ($sql == false || $sql === null) {
+				return false;
+			}
 			return true;
 		}
 	}

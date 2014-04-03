@@ -29,13 +29,12 @@
 	}
 
 	$Users = new Users; //Users class contains functions related to user interaction/manipulation
-	$Db = new Db;
 
 	//check if user exists in database
-	if ($Users->checkUserExists($_SESSION['userName'])) { //if user exists
+	if ($Users->userExists($_SESSION['userName'])) { //if user exists
 		if (!$Users->checkPassword($_SESSION['userName'], $_SESSION['password'])) { //if the password is incorrect
 			echo "Incorrect password";
-			$Db->close();
+			$Users->close();
 			session_destroy();
 			exit();
 		}
@@ -46,11 +45,11 @@
 		$_SESSION['userName'] = $userInfo['userName']; //remember the actual userName
 		$_SESSION['admin'] = $userInfo['admin'];
 		unset($_SESSION['password']); //trash the password
-		$Db->close(); //close the database connection
+		$Users->close(); //close the database connection
 		exit();
 	} else {
 		echo "User not found. Have you created an account?";
 		session_destroy();
-		$Db->close();
+		$Users->close();
 		exit();
 	}

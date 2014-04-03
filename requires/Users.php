@@ -1,14 +1,5 @@
 <?
 	/**
-	 * This script contains the Users class
-	 */
-
-	if (!is_file(realpath(dirname(__FILE__)) . '/Db.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Db.php! Check your installation");
-	}
-	require_once(realpath(dirname(__FILE__)) . "/Db.php");
-
-	/**
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 * @uses Db::__construct()
 	 */
@@ -44,7 +35,6 @@
 			if (!is_string($string) && strlen($string) == 0) {
 				return false;
 			}
-
 			return true;
 		}
 
@@ -55,7 +45,7 @@
 		 *
 		 * @return boolean returns true if the operation completed successfully, false if it failed but did not produce an error
 		 */
-		public function checkUserExists($userName) {
+		public function userExists($userName) {
 			if (!$this->checkString($userName)) {
 				trigger_error("Argument for Users::checkUserExists must be a string", E_USER_ERROR);
 
@@ -75,7 +65,7 @@
 		}
 
 		/**
-		 * This function checks the user password against theh one stored in the database
+		 * This function checks the user password against the one stored in the database
 		 *
 		 * @param string $userName The username associated with the password being checked
 		 * @param string $password The password string being checked
