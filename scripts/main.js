@@ -101,6 +101,11 @@ $(document).ready(function () {
 				success:     function (message) {
 					$('#message').text(message);
 					$('#message').css('display', 'block');
+					if (message === 'Success!') {
+						setTimeout(function () {
+							window.location = site('index.php');
+						}, 2000);
+					}
 				},
 				data:        "userName=" + userName + "&password=" + password,
 				crossDomain: true
