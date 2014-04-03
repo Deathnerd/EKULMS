@@ -1,5 +1,14 @@
 <?
 	/**
+	 * This script contains the Users class
+	 */
+
+	if (!is_file(realpath(dirname(__FILE__)) . '/Db.php')) {
+		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Db.php! Check your installation");
+	}
+	require_once(realpath(dirname(__FILE__)) . "/Db.php");
+
+	/**
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 * @uses Db::__construct()
 	 */
@@ -35,6 +44,7 @@
 			if (!is_string($string) && strlen($string) == 0) {
 				return false;
 			}
+
 			return true;
 		}
 

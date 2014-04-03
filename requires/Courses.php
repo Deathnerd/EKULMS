@@ -1,4 +1,9 @@
 <?
+	if (!is_file(realpath(dirname(__FILE__)) . '/Users.php')) {
+		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Users.php! Check your installation");
+	}
+	require(realpath(dirname(__FILE__)) . "/Users.php");
+
 	/**
 	 * This file manages all things related to courses
 	 * @uses Db::__construct()
@@ -11,6 +16,7 @@
 		 * Constructor!
 		 * @uses Users::__construct()
 		 */
+		protected $connection = null;
 
 		function __construct() {
 			parent::__construct(); //call the parent constructor
