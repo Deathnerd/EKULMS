@@ -9,3 +9,5 @@ project.sublime-workspace
 phpinfo.php
 info.php
 .idea/
+debug.php
+**/debug.php
