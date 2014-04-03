@@ -8,26 +8,31 @@
 	if (!isset($_SESSION['userName'])) { //if not logged in, go to the login page
 		header('Location: login.php');
 	}
-	require('requires/header.php');
+	require_once('requires/header.php');
 ?>
 	<p id="userGreeting">
 		<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
 	</p>
-
 	<div class="bodyContainer">
 		<div id="signupCourse">
-			<p>Username:</p>
-			<input type="text" id="userName">
-			<br>
-
 			<p>Course Id:</p>
 			<input type="text" id="courseId">
 			<br>
 			<input type="button" id="addUser" value="Sign up for course">
-
 			<div id="message"></div>
 		</div>
 	</div>
+	<a href="index.php">Take a quiz</a>
+	<div id="listStudentCourses">
+		<input type="button" id="listCourses" value="List courses">
+		<table>
+			<tr>
+				<th>Course Id</th>
+				<th>Course Name</th>
+				<th>Course Description</th>
+			</tr>
+		</table>
+	</div>
 <?
-	require('requires/footer.php');
+	require_once('requires/footer.php');
 ?>
