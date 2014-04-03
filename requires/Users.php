@@ -67,7 +67,7 @@
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die('Error in ' . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			$results = $sql->fetch_array(MYSQLI_BOTH);
 
-			if ($results === null || $results === false) { //user doesn't exist, null returned from query
+			if ($results === null || $results === false || mysqli_num_rows($sql) === 0) { //user doesn't exist, null returned from query
 				return false;
 			}
 
@@ -99,7 +99,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT password FROM `$table` WHERE userName='$userName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false) {
+			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 			$results = $sql->fetch_array(MYSQLI_BOTH);
@@ -129,7 +129,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false) {
+			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -164,7 +164,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//check if the row is recorded
-			if ($this->fetchUser($userName) === false || $sql === false || $sql === null) {
+			if ($this->fetchUser($userName) === false || $sql === false || $sql === null  || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 

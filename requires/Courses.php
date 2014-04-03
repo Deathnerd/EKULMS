@@ -30,8 +30,8 @@
 		public function fetchAll() {
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			echo mysqli_info($this->connection);
-			if ($sql === null || $sql === false) {
+
+			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 			$rows = array();
@@ -51,7 +51,6 @@
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchById($id) {
-			$table = $this->tables['Courses'];
 			if (!$this->checkString($id)) {
 				trigger_error("Argument for Courses::fetchCourseById must be a string", E_USER_ERROR);
 
@@ -63,11 +62,11 @@
 				return;
 			}
 			//lowercase and sanitize input
-			$courseName = mysqli_real_escape_string($this->connection, strtolower($id));
+			$id = mysqli_real_escape_string($this->connection, strtolower($id));
 			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `Courses` WHERE courseId='$id'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$id'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false) {
+			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -98,7 +97,7 @@
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseName='$courseName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false) {
+			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -123,7 +122,6 @@
 			}
 			if (!$this->checkString(func_get_args())) {
 				trigger_error("Arguments for Courses::create must be a string", E_USER_ERROR);
-
 				return;
 			}
 			//lowercase and sanitize input
@@ -134,7 +132,7 @@
 
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//check if successfully entered
-			if ($this->fetchById($id) === false || $sql == false || $sql === null) {
+			if ($this->fetchById($id) === false || $sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -202,12 +200,12 @@
 			if (func_num_args() < 2) {
 				trigger_error("Courses::addInstructor requires two arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
 
-				return;
+				return false;
 			}
 			if (!$this->checkString($courseId) || !$this->checkString($userName)) {
 				trigger_error("Arguments for Courses::addInstructor must be a string", E_USER_ERROR);
 
-				return;
+				return false;
 			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
@@ -220,7 +218,7 @@
 			$table = $this->tables['Teach'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql == false || $sql === null) {
+			if ($sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -239,12 +237,12 @@
 			if (func_num_args() < 2) {
 				trigger_error("Courses::addStudent requires two arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
 
-				return;
+				return false;
 			}
 			if (!$this->checkString($courseId) || !$this->checkString($userName)) {
 				trigger_error("Arguments for Courses::addStudent must be a string", E_USER_ERROR);
 
-				return;
+				return false;
 			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
@@ -252,11 +250,11 @@
 			//get the userId from the Users table
 			$userId = $this->fetchUser($userName);
 			$userId = intval($userId['id']);
-			//add instructor to the Teach table
+			//add instructor to the Enrollment table
 			$table = $this->tables['Enrollment'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql == false || $sql === null) {
+			if ($sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
@@ -282,12 +280,11 @@
 
 				return;
 			}
-			$courseId = mysqli_real_escape_string($this->connection, $courseId);
+			$courseId = mysqli_real_escape_string($this->connection, strtolower($courseId));
 			$table = $this->tables['Courses'];
 
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-
-			if ($sql == false || $sql === null) {
+			if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 
