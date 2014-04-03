@@ -124,7 +124,7 @@ $(document).ready(function () {
 				return;
 			}
 			$.ajax({
-				url:     site("course.php"),
+				url:     site("courseSignup.php"),
 				success: function (message) {
 					$('#addUserToCourse > div').text(message);
 					$('#addUserToCourse > div').css('display', 'block');
