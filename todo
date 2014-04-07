@@ -4,3 +4,4 @@ Lock down any critical files (json, etc)
 Secure the fetch.php script
 Re-organize js code
 Restructure classes
+Integrate with EKU's CAS
