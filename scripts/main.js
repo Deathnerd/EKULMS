@@ -82,7 +82,7 @@ $(document).ready(function () {
 					$('#message').css('display', 'block');
 					if (message === 'Success!') {
 						setTimeout(function () {
-							window.location = site('index.php');
+							window.location = site('account.php');
 						}, 2000);
 					}
 				},
@@ -129,10 +129,60 @@ $(document).ready(function () {
 					$('#addUserToCourse > div').text(message);
 					$('#addUserToCourse > div').css('display', 'block');
 				},
-				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName,
+				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName
 			});
 		}
 	}, '#signupUser input[type="button"]');
+
+	//user signup for course
+	$(document).on({
+		click: function(){
+			courseId = $("#signupCourse > #courseId").val();
+			if(courseId === ''){
+				$('#message').css("display", "block").text("Please enter a course id");
+				return;
+			} else if (/\s/.test(courseId)) {
+				$("#message").css("display", "block").text("Course Id may not contain whitespaces");
+				return;
+			}
+			$.ajax({
+				url: site("courseSignup.php"),
+				success: function(message){
+					$('#message').css('display', 'block').text(message);
+				},
+				data: "action=addStudent&courseId="+courseId
+			});
+		}
+	}, '#signupCourse > input[type="button"]');
+
+	//list user's courses
+	$(document).on({
+		click: function(){
+			table = $('#listStudentCourses > table');
+			$.ajax({
+				url: site('listStudentCourses.php'),
+				success: function(results){
+					console.log(results);
+					if(results == "UH OH!"){
+						alert("UH OH!");
+						return;
+					}
+					$(table).css('display', 'block');
+					for(i = 0; i < results.length; i++){
+						courseName = results[i].courseName;
+						courseId = results[i].courseId;
+						description = results[i].description;
+						//append to table
+						table.append("<tr>"+
+										"<td>"+courseId+"</td>"+
+										"<td>"+courseName+"</td>"+
+										"<td>"+description+"</td>"+
+									"</tr>");
+					}
+				}
+			})
+		}
+	},'#listStudentCourses > input[type="button"]');
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
