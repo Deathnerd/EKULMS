@@ -7,30 +7,10 @@
 	if (!isset($_SESSION['userName']) || $_SESSION['admin'] != '1') { //if not logged in, go to the login page
 		header('Location: ../signin.php');
 	}
+	require('../requires/header.php');
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Quiz Creation Page</title>
-	<meta name="description" content="Quiz Creation ">
-	<meta name="author" content="Wes Gilleland">
-	<meta name="published" content="TODO">
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" src="../scripts/create.js"></script>
-	<script type="text/javascript" src="../scripts/main.js"></script>
-	<link type="text/css" rel="stylesheet" href="../styles/reset.css">
-	<link type="text/css" rel="stylesheet" href="../styles/main.css">
-</head>
-<body>
-<header id="topNav">
-	<div id="logo">
-		LOGO HERE
-	</div>
-	<div id="dropdown">
-		<p>DROPDOWN HERE</p>
-	</div>
-	<p id="pageTitle">Quiz Creation</p>
-</header>
+<link rel="stylesheet" href="../styles/admin.css"/>
+<script src="../scripts/admin.js"></script>
 <p id="userGreeting">
 	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
 </p>
