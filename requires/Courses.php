@@ -280,7 +280,7 @@
 
 				return;
 			}
-			$courseId = mysqli_real_escape_string($this->connection, strtolower($courseId));
+			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$table = $this->tables['Courses'];
 
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
@@ -289,5 +289,60 @@
 			}
 
 			return true;
+		}
+
+		/**
+		 * @param $userName string the user name to search for
+		 *
+		 * @return array|bool Return an array of courses if enrolled in any, false if otherwise
+		 */
+		public function fetchEnrolledCourses($userName){
+			if (func_num_args() < 1) {
+				trigger_error("Courses::fetchEnrolledCourses requires one argument. " . func_num_args() . " argument supplied", E_USER_ERROR);
+
+				return;
+			}
+			if (!$this->checkString($userName)) {
+				trigger_error("Arguments for Courses::fetchEnrolledCourses must be a string", E_USER_ERROR);
+
+				return;
+			}
+
+			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
+			$userId = $this->fetchUser($userName);
+			$userId = $userId['id'];
+			$table = $this->tables['Enrollment'];
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE id=$userId")  or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+
+			//if the student is not enrolled in any courses
+			if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+				return false;
+			}
+
+			//get the course ids so we can search and return all courses information the user is enrolled in
+			$courseIds = array();
+			while ($row = $sql->fetch_assoc()) {
+				$courseIds[] = $row['courseId'];
+			}
+
+			$table = $this->tables['Courses'];
+			$rows = array();
+			//build the return array
+			$count = 0;
+			foreach($courseIds as $courseId){
+				$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+
+				if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+					return false;
+				}
+				$result = $sql->fetch_row();
+				$rows[$count]['courseId'] = $result[0];
+				$rows[$count]['courseName'] = $result[1];
+				$rows[$count]['description'] = $result[2];
+				$count++;
+			}
+
+			//return all results as an array
+			return $rows;
 		}
 	}

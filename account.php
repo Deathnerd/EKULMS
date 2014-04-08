@@ -6,7 +6,7 @@
 
 	session_start();
 	if (!isset($_SESSION['userName'])) { //if not logged in, go to the login page
-		header('Location: login.php');
+		header('Location: signin.php');
 	}
 	require_once('requires/header.php');
 ?>
