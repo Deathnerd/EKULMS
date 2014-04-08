@@ -57,13 +57,13 @@
 		<div id="listResults" style="display: hidden">
 			<table>
 				<tbody>
-				<tr>
-					<th>Course Name</th>
-					<th>Course Id</th>
-					<th>Course Description</th>
-				</tr>
+					<tr>
+						<th>Course Name</th>
+						<th>Course Id</th>
+						<th>Course Description</th>
+					</tr>
+				</tbody>
 			</table>
-			</tbody>
 		</div>
 	</div>
 </div>
