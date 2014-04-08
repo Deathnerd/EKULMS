@@ -11,3 +11,5 @@ info.php
 .idea/
 debug.php
 **/debug.php
+vendor/
+composer.lock
