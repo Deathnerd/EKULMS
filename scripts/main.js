@@ -3,27 +3,30 @@ $(document).ready(function () {
 	//set globals
 	//construct the url to pass to the ajax function
 	var site = function (file) {
-		url = "http://";
-		pathArray = window.location['href'].split('/');
+		var url = "http://";
+		var pathArray = window.location['href'].split('/');
 		for (var i = 2; i < pathArray.length - 1; i++) {
 			url = url + pathArray[i] + '/';
 		}
 		return url + file;
 	};
+
+	var holdingDiv = $('#holding_div');
 	//fix up the selection box
-	options = $('option').splice(0, $('option').length);
+	var option = $('option');
+	var options = option.splice(0, option.length);
 	//loop through each of the options and trim off the preceeding directory name and following file extension
 	$.each(options, function (index) {
-		word = options[index].value;
-		slashSplit = word.split('/');
-		dotSplit = slashSplit[1].split('.');
+		var word = options[index].value;
+		var slashSplit = word.split('/');
+		var dotSplit = slashSplit[1].split('.');
 		options[index].text = dotSplit[0];
 	});
 	//function to render the questions
 	var render = function (json) {
 		console.log(json);
-		if ($('#holding_div').length !== 0) {
-			$('#holding_div').remove();
+		if (holdingDiv.length !== 0) {
+			holdingDiv.remove();
 		}
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>');
@@ -52,12 +55,12 @@ $(document).ready(function () {
 			}
 			//append a correct/incorrect box to the end of the question. It's set to invisible
 			//at first through the stylesheet
-			$("#question_" + question).append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
+			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
 	};
 	//The request
 	$('#load').click(function () {
-		value = $('select').val();
+		var value = $('select').val();
 		$.ajax({
 			url:         site('fetch.php'),
 			success:     function (result) {
@@ -70,16 +73,17 @@ $(document).ready(function () {
 	//handle login request
 	$(document).on({
 		click: function () {
-			userName = $('#userName').val();
-			password = $('[type=password]').val();
+			var userName = $('#userName').val();
+			var password = $('[type=password]').val();
+			var message = $('#message');
 			$.ajax({
 				url:         site('login.php'),
 				success:     function (message) {
 					console.log(typeof message);
 					console.log(message);
 					console.log(message === 'Success!');
-					$('#message').text(message);
-					$('#message').css('display', 'block');
+					message.text(message);
+					message.css('display', 'block');
 					if (message === 'Success!') {
 						setTimeout(function () {
 							window.location = site('account.php');
@@ -94,14 +98,15 @@ $(document).ready(function () {
 	//handle signUp request
 	$(document).on({
 		click: function () {
-			userName = $('#userName').val();
-			password = $('[type=password]').val();
+			var userName = $('#userName').val();
+			var password = $('[type=password]').val();
+			var message = $('#message');
 			$.ajax({
 				url:         site('signupUser.php'),
-				success:     function (message) {
-					$('#message').text(message);
-					$('#message').css('display', 'block');
-					if (message === 'Success!') {
+				success:     function (data) {
+					message.text(data);
+					message.css('display', 'block');
+					if (data === 'Success!') {
 						setTimeout(function () {
 							window.location = site('index.php');
 						}, 2000);
@@ -115,18 +120,19 @@ $(document).ready(function () {
 	//sign up for a course
 	$(document).on({
 		click: function () {
-			userName = $("#addUserToCourse > #userName").val();
-			courseId = $("#addUserToCourse > #courseId").val();
+			var	userName = $("#addUserToCourse > #userName").val();
+			var	courseId = $("#addUserToCourse > #courseId").val();
+			var	message = $("message");
 			//check for whitespace in the course id and username
 			if (/\s/.test(courseId) || /\s/.test(userName)) {
-				$("#message").css("display", "block");
-				$("#message").text("Course id and Username may not contain spaces");
+				message.css("display", "block");
+				message.text("Course id and Username may not contain spaces");
 				return;
 			}
 			$.ajax({
 				url:     site("courseSignup.php"),
-				success: function (message) {
-					$('#addUserToCourse > div').text(message);
+				success: function (data) {
+					$('#addUserToCourse > div').text(data);
 					$('#addUserToCourse > div').css('display', 'block');
 				},
 				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName
@@ -137,7 +143,7 @@ $(document).ready(function () {
 	//user signup for course
 	$(document).on({
 		click: function(){
-			courseId = $("#signupCourse > #courseId").val();
+			var courseId = $("#signupCourse > #courseId").val();
 			if(courseId === ''){
 				$('#message').css("display", "block").text("Please enter a course id");
 				return;
@@ -158,7 +164,7 @@ $(document).ready(function () {
 	//list user's courses
 	$(document).on({
 		click: function(){
-			table = $('#listStudentCourses > table');
+			var table = $('#listStudentCourses > table');
 			$.ajax({
 				url: site('listStudentCourses.php'),
 				success: function(results){
@@ -170,9 +176,9 @@ $(document).ready(function () {
 					}
 					$(table).css('display', 'block');
 					for(i = 0; i < results.length; i++){
-						courseName = results[i].courseName;
-						courseId = results[i].courseId;
-						description = results[i].description;
+						var courseName = results[i].courseName;
+						var courseId = results[i].courseId;
+						var description = results[i].description;
 						//append to table
 						table.append("<tr>"+
 										"<td>"+courseId+"</td>"+
