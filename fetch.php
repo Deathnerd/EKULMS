@@ -19,9 +19,17 @@
 		exit();
 	}
 
+	$contents = file_get_contents($file, true);
+	$stuff = json_decode($contents, true);
+	var_dump($stuff);
 	//read and return text from the JSON file
-	if (file_get_contents($file, true) == true) {
-		echo file_get_contents($file, true);
+	if ($contents == true) {
+		//comment for debugging
+		echo $contents;
+		//uncomment for debugging
+//		for ($i = 1; $i < count($stuff['quiz']['questions'][0]['choices']); $i++){
+//			echo $stuff['quiz']['questions'][0]['choices'][$i]['value']."\n";
+//		}
 	} else {
 		echo "Cannot open file";
 	}
