@@ -81,3 +81,11 @@ header p, header a, header a:hover {
 header a:visited {
 	color: gray;
 }
+
+#listStudentCourses td {
+	padding: 5px;
+}
+
+div {
+	margin: 5px;
+}
