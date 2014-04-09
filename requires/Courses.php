@@ -12,12 +12,12 @@
 	 */
 	class Courses extends Users {
 
+		protected $connection = null;
+
 		/**
 		 * Constructor!
 		 * @uses Users::__construct()
 		 */
-		protected $connection = null;
-
 		function __construct() {
 			parent::__construct(); //call the parent constructor
 			$this->connection = Db::connection(); //MySQL connection handler
