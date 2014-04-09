@@ -163,7 +163,8 @@ $(document).ready(function () {
 				url: site('listStudentCourses.php'),
 				success: function(results){
 					console.log(results);
-					if(results == "UH OH!"){
+					console.log(typeof results);
+					if(typeof results != 'object'){
 						alert("UH OH!");
 						return;
 					}
@@ -187,15 +188,9 @@ $(document).ready(function () {
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
 	if (correct) {
-		$("#box_" + number).text("Correct!");
-		$("#box_" + number).css("background-color", "rgba(0, 255, 0, .5)");
-		$("#box_" + number).css("border", "solid 1px rgba(0, 255, 0, .75)");
-		$("#box_" + number).css("display", "block");
+		$("#box_" + number).text("Correct!").css("background-color", "rgba(0, 255, 0, .5)").css("border", "solid 1px rgba(0, 255, 0, .75)").css('display', 'block');
 	}
 	else {
-		$("#box_" + number).text("Incorrect");
-		$("#box_" + number).css("background-color", "rgba(255, 0, 0, .5)");
-		$("#box_" + number).css("border", "solid 1px rgba(255, 0, 0, .75)");
-		$("#box_" + number).css("display", "block");
+		$("#box_" + number).text("Incorrect").css("background-color", "rgba(255, 0, 0, .5)").css("border", "solid 1px rgba(255, 0, 0, .75)").css("display", "block");
 	}
 };
