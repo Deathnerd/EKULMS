@@ -53,13 +53,9 @@
 		public function fetchById($id) {
 			if (!$this->checkString($id)) {
 				trigger_error("Argument for Courses::fetchCourseById must be a string", E_USER_ERROR);
-
-				return;
 			}
 			if (func_num_args() < 1) {
 				trigger_error("Courses::fetchCourseById requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize input
 			$id = mysqli_real_escape_string($this->connection, strtolower($id));
@@ -84,13 +80,9 @@
 		public function fetchByName($courseName) {
 			if (func_num_args() < 1) {
 				trigger_error("Courses::fetchByName requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return;
 			}
 			if (!$this->checkString($courseName)) {
 				trigger_error("Argument for Courses::fetchByName must be a string", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize input
 			$courseName = mysqli_real_escape_string($this->connection, strtolower($courseName));
@@ -117,12 +109,9 @@
 		public function create($courseName, $id, $description) {
 			if (func_num_args() < 3) {
 				trigger_error("Courses::create requires three arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return;
 			}
 			if (!$this->checkString(func_get_args())) {
 				trigger_error("Arguments for Courses::create must be a string", E_USER_ERROR);
-				return;
 			}
 			//lowercase and sanitize input
 			$table = $this->tables['Courses'];
@@ -153,13 +142,9 @@
 		public function modify($id, $column, $value) {
 			if (func_num_args() < 3) {
 				trigger_error("Courses::modify requires three arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return;
 			}
 			if (!$this->checkString(func_get_args())) {
 				trigger_error("Arguments for Courses::modify must be a string", E_USER_ERROR);
-
-				return;
 			}
 
 			$id = mysqli_real_escape_string($this->connection, $id);
@@ -167,11 +152,11 @@
 			if ($value == "description") { //don't lowercase the value if it's a description
 				$value = mysqli_real_escape_string($this->connection, $value);
 			} else {
-				$value == mysqli_real_escape_string($this->connection, $value);
+				$value = mysqli_real_escape_string($this->connection, $value);
 			}
 
 			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "UPDATE `Courses` SET $column='$value' WHERE courseId='$id'") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "UPDATE `$table` SET $column='$value' WHERE courseId='$id'") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//if the course id was changed, then update the $id to the changed id
 			if ($column == "courseId") {
 				$id = $value;
@@ -228,8 +213,8 @@
 		/**
 		 * Add a student to a course
 		 *
-		 * @param $courseId the course to add a student to
-		 * @param $userName the username of the student to add
+		 * @param $courseId string the course to add a student to
+		 * @param $userName string the username of the student to add
 		 *
 		 * @return boolean returns true if successful, false if otherwise
 		 */
@@ -264,21 +249,17 @@
 		/**
 		 * Checks whether a course exists in the database
 		 *
-		 * @param $courseId the id of the course to check
+		 * @param $courseId string the id of the course to check
 		 *
 		 * @returns boolean returns true if course exists, false otherwise
 		 */
 		public function courseExists($courseId) {
 			if (func_num_args() < 1) {
 				trigger_error("Courses::courseExists requires one argument. " . func_num_args() . " argument supplied", E_USER_ERROR);
-
-				return;
 			}
 
 			if (!$this->checkString($courseId)) {
 				trigger_error("Arguments for Courses::checkUserExists must be a string", E_USER_ERROR);
-
-				return;
 			}
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
 			$table = $this->tables['Courses'];
@@ -299,13 +280,9 @@
 		public function fetchEnrolledCourses($userName){
 			if (func_num_args() < 1) {
 				trigger_error("Courses::fetchEnrolledCourses requires one argument. " . func_num_args() . " argument supplied", E_USER_ERROR);
-
-				return;
 			}
 			if (!$this->checkString($userName)) {
 				trigger_error("Arguments for Courses::fetchEnrolledCourses must be a string", E_USER_ERROR);
-
-				return;
 			}
 
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));

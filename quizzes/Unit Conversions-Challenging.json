@@ -1,1 +1,168 @@
-{"_quizName": "Unit Conversions-Challenging", "quiz": {"questions": [{"prompt": "If a can of soup contains 22.0 oz (ounces) of soup, how many grams of soup is that? (1 lb = 16 oz, 1 lb = 454 g)", "choices": [{"correct": false, "value": "0.0485"}, {"correct": false, "value": "20.6"}, {"correct": false, "value": "330"}, {"correct": true, "value": "624"}]}, {"prompt": "Convert 25 g to mg.", "choices": [{"correct": false, "value": "250 000 mg"}, {"correct": true, "value": "25 000 mg"}, {"correct": false, "value": "2500 mg"}, {"correct": false, "value": "250mg"}]}, {"prompt": "The conversion factors from meter to centimeters are:", "choices": [{"correct": false, "value": " 1 m / 1000 cm and 1000 cm / 1 m"}, {"correct": false, "value": " 1 m / 100 cm and 100 cm / 1 m"}, {"correct": false, "value": " 100 m / 1 cm and 1 cm / 100 m"}, {"correct": true, "value": " 1 m / 100 cm and 1 cm / 100 m"}]}, {"prompt": "A length of glass tubing is 0.525 m. How many inches long is the tubing? (2.54 cm = 1 inch)", "choices": [{"correct": false, "value": "0.0133"}, {"correct": false, "value": "0.207"}, {"correct": true, "value": "20.7"}, {"correct": false, "value": "52.5"}]}, {"prompt": "What is the density (g/mL) of a sample of mineral oil if 250 mL has a mass of 0.23 kg?", "choices": [{"correct": false, "value": "0.0092"}, {"correct": true, "value": "0.92"}, {"correct": false, "value": "5.8"}, {"correct": false, "value": "10.9"}]}, {"prompt": "The average commercial jet flies around an altitude of 32,500 feet. How high is this in kilometers?", "choices": [{"correct": true, "value": "9.906km"}, {"correct": false, "value": "10km"}, {"correct": false, "value": "9km"}, {"correct": false, "value": "8km"}]}, {"prompt": "Robert is 5 feet 3 inches tall.  Mark is 65 inches tall.  Robert says he is taller.  Is he right?", "choices": [{"correct": false, "value": "true"}, {"correct": true, "value": "false"}]}, {"prompt": "300cm equals how many metres?", "choices": [{"correct": true, "value": "3"}, {"correct": false, "value": "0.3"}, {"correct": false, "value": "30"}, {"correct": false, "value": "300"}]}]}}
+{
+    "_quizName":"Unit Conversions-Challenging",
+	"courseId": "CSC185",
+    "quiz":{
+        "questions":[
+            {
+                "prompt":"If a can of soup contains 22.0 oz (ounces) of soup, how many grams of soup is that? (1 lb = 16 oz, 1 lb = 454 g)",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":"0.0485"
+                    },
+                    {
+                        "correct":false,
+                        "value":"20.6"
+                    },
+                    {
+                        "correct":false,
+                        "value":"330"
+                    },
+                    {
+                        "correct":true,
+                        "value":"624"
+                    }
+                ]
+            },
+            {
+                "prompt":"Convert 25 g to mg.",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":"250 000 mg"
+                    },
+                    {
+                        "correct":true,
+                        "value":"25 000 mg"
+                    },
+                    {
+                        "correct":false,
+                        "value":"2500 mg"
+                    },
+                    {
+                        "correct":false,
+                        "value":"250mg"
+                    }
+                ]
+            },
+            {
+                "prompt":"The conversion factors from meter to centimeters are:",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":" 1 m / 1000 cm and 1000 cm / 1 m"
+                    },
+                    {
+                        "correct":false,
+                        "value":" 1 m / 100 cm and 100 cm / 1 m"
+                    },
+                    {
+                        "correct":false,
+                        "value":" 100 m / 1 cm and 1 cm / 100 m"
+                    },
+                    {
+                        "correct":true,
+                        "value":" 1 m / 100 cm and 1 cm / 100 m"
+                    }
+                ]
+            },
+            {
+                "prompt":"A length of glass tubing is 0.525 m. How many inches long is the tubing? (2.54 cm = 1 inch)",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":"0.0133"
+                    },
+                    {
+                        "correct":false,
+                        "value":"0.207"
+                    },
+                    {
+                        "correct":true,
+                        "value":"20.7"
+                    },
+                    {
+                        "correct":false,
+                        "value":"52.5"
+                    }
+                ]
+            },
+            {
+                "prompt":"What is the density (g/mL) of a sample of mineral oil if 250 mL has a mass of 0.23 kg?",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":"0.0092"
+                    },
+                    {
+                        "correct":true,
+                        "value":"0.92"
+                    },
+                    {
+                        "correct":false,
+                        "value":"5.8"
+                    },
+                    {
+                        "correct":false,
+                        "value":"10.9"
+                    }
+                ]
+            },
+            {
+                "prompt":"The average commercial jet flies around an altitude of 32,500 feet. How high is this in kilometers?",
+                "choices":[
+                    {
+                        "correct":true,
+                        "value":"9.906km"
+                    },
+                    {
+                        "correct":false,
+                        "value":"10km"
+                    },
+                    {
+                        "correct":false,
+                        "value":"9km"
+                    },
+                    {
+                        "correct":false,
+                        "value":"8km"
+                    }
+                ]
+            },
+            {
+                "prompt":"Robert is 5 feet 3 inches tall.  Mark is 65 inches tall.  Robert says he is taller.  Is he right?",
+                "choices":[
+                    {
+                        "correct":false,
+                        "value":"true"
+                    },
+                    {
+                        "correct":true,
+                        "value":"false"
+                    }
+                ]
+            },
+            {
+                "prompt":"300cm equals how many metres?",
+                "choices":[
+                    {
+                        "correct":true,
+                        "value":"3"
+                    },
+                    {
+                        "correct":false,
+                        "value":"0.3"
+                    },
+                    {
+                        "correct":false,
+                        "value":"30"
+                    },
+                    {
+                        "correct":false,
+                        "value":"300"
+                    }
+                ]
+            }
+        ]
+    }
+}
