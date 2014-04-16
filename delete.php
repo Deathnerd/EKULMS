@@ -13,7 +13,7 @@
 
 	//check to see if $_REQUEST
 	if (isset($_GET['data'])) {
-		$file = 'quizzes/' . $_GET['data'] . '.json'//$file contains the name of our file
+		$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
 	} else {
 		echo "Request empty";
 		exit();
