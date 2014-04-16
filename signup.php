@@ -17,7 +17,7 @@
 		<br>
 		<input type="button" value="Sign up" id="signUpButton"><br/>
 
-		<p id="message" style="display: none">Default text</p>
+		<p id="message" style="display: none;">Default text</p>
 	</div>
 <?
 	require('requires/footer.php');
