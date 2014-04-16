@@ -58,8 +58,6 @@
 		public function userExists($userName) {
 			if (!$this->checkString($userName)) {
 				trigger_error("Argument for Users::checkUserExists must be a string", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
@@ -85,13 +83,9 @@
 		public function checkPassword($userName, $password) {
 			if (func_num_args() != 2) {
 				trigger_error("Users::checkPassword requires exactly two arguments" . func_num_args() . " supplied", E_USER_ERROR);
-
-				return;
 			}
 			if (!$this->checkString($userName) || !$this->checkString($password)) {
 				trigger_error("Arguments for Users::checkPassword must be a string", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
@@ -121,8 +115,6 @@
 		public function fetchUser($userName) {
 			if (!$this->checkString($userName)) {
 				trigger_error("Argument for Users::fetchUser must be a string", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
@@ -149,14 +141,10 @@
 			//need at least two arguments
 			if (func_num_args() < 2) {
 				trigger_error("Users::create requires at least two arguments" . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return;
 			}
 			//check argument types
 			if (!$this->checkString($userName) || !$this->checkString($password)) { //check for string type on first two arguments
 				trigger_error("First two arguments for Users::create must be a string", E_USER_ERROR);
-
-				return;
 			}
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
