@@ -51,7 +51,6 @@
 			if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . "/user-config.ini")) { //if the user config file isn't there
 				if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini')) { //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR); //sound the alarm!
-					return;
 				}
 				//using the default config file
 				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini', true);
@@ -94,6 +93,19 @@
 		 */
 		public function connection() {
 			return $this->connection;
+		}
+
+		/**
+		 * @param $sqlResult The result of an SQL query to get rows from
+		 *
+		 * @return array The resultant rows from the SQL query
+		 */
+		public function fetchAllRows($sqlResult){
+			$rows = array();
+			while ($row = $sqlResult->fetch_assoc()) {
+				$rows[] = $row;
+			}
+			return $rows;
 		}
 	}
  
