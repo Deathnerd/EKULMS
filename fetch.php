@@ -7,29 +7,32 @@
 	 */
 
 	header('Access-Control-Allow-Origin: *');
-
 	//set the data type to JSON
-	header('Content-type: application/json');
-
-	//check to see if $_REQUEST
+//	header('Content-type: application/text');
+	//check to see if $_GET
 	if (isset($_GET['data'])) {
-		$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
+//		$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
 	} else {
 		echo "Request empty";
 		exit();
 	}
 
-	$contents = file_get_contents($file, true);
-	var_dump($stuff);
-	//read and return text from the JSON file
-	if ($contents == true) {
-		//comment for debugging
-		echo $contents;
-		//uncomment for debugging
-//		$stuff = json_decode($contents, true);
-//		for ($i = 1; $i < count($stuff['quiz']['questions'][0]['choices']); $i++){
-//			echo $stuff['quiz']['questions'][0]['choices'][$i]['value']."\n";
-//		}
-	} else {
-		echo "Cannot open file";
+//	$contents = file_get_contents($file, true);
+//	//read and return text from the JSON file
+//	if ($contents == true) {
+//		//comment for debugging
+//		echo $contents;
+//	} else {
+//		echo "Cannot open file";
+//	}
+
+	require_once('requires/Tests.php');
+	$Test = new Tests();
+	$results = $Test->fetchByName($_GET['data']);
+	if(!$results){
+		echo "Failed!";
+		exit("Failed!");
 	}
+
+	header("Content-type: application/json");
+	echo json_encode($results);
