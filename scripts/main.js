@@ -58,7 +58,7 @@ $(document).ready(function () {
 			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
 	};
-	//The request
+	//The function to render a test
 	$('#load').click(function () {
 		var value = $('select').val();
 		$.ajax({
@@ -78,13 +78,13 @@ $(document).ready(function () {
 			var message = $('#message');
 			$.ajax({
 				url:         site('login.php'),
-				success:     function (message) {
-					console.log(typeof message);
-					console.log(message);
-					console.log(message === 'Success!');
-					message.text(message);
+				success:     function (response) {
+					console.log(typeof response);
+					console.log(response);
+					console.log(response === 'Success!');
+					message.text(response);
 					message.css('display', 'block');
-					if (message === 'Success!') {
+					if (response === 'Success!') {
 						setTimeout(function () {
 							window.location = site('account.php');
 						}, 2000);
@@ -103,10 +103,10 @@ $(document).ready(function () {
 			var message = $('#message');
 			$.ajax({
 				url:         site('signupUser.php'),
-				success:     function (data) {
-					message.text(data);
+				success:     function (response) {
+					message.text(response);
 					message.css('display', 'block');
-					if (data === 'Success!') {
+					if (response === 'Success!') {
 						setTimeout(function () {
 							window.location = site('index.php');
 						}, 2000);
@@ -131,11 +131,17 @@ $(document).ready(function () {
 			}
 			$.ajax({
 				url:     site("courseSignup.php"),
-				success: function (data) {
-					$('#addUserToCourse > div').text(data);
-					$('#addUserToCourse > div').css('display', 'block');
+				success: function (response) {
+					var addUser = $('#addUserToCourse > div');
+					addUser.text(response);
+					addUser.css('display', 'block');
 				},
-				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName
+//				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName
+				data: {
+				      action: 'addStudent',
+				      courseId: courseId,
+				      userName: userName
+				}
 			});
 		}
 	}, '#signupUser input[type="button"]');
@@ -144,17 +150,18 @@ $(document).ready(function () {
 	$(document).on({
 		click: function(){
 			var courseId = $("#signupCourse > #courseId").val();
+			var message = $('#message');
 			if(courseId === ''){
-				$('#message').css("display", "block").text("Please enter a course id");
+				message.css("display", "block").text("Please enter a course id");
 				return;
 			} else if (/\s/.test(courseId)) {
-				$("#message").css("display", "block").text("Course Id may not contain whitespaces");
+				message.css("display", "block").text("Course Id may not contain whitespaces");
 				return;
 			}
 			$.ajax({
 				url: site("courseSignup.php"),
-				success: function(message){
-					$('#message').css('display', 'block').text(message);
+				success: function(response){
+					message.css('display', 'block').text(response);
 				},
 				data: "action=addStudent&courseId="+courseId
 			});

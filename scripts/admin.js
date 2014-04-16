@@ -29,11 +29,11 @@ $(document).ready(function () {
 					message.text(message);
 					message.css('display', 'block');
 				},
-				data:    "courseId=" + courseId + "&courseName=" + courseName + "&description=" + description + "&action=createCourse",
+				data:    "courseId=" + courseId + "&courseName=" + courseName + "&description=" + description + "&action=createCourse"
 			});
 		}
 	}, "#addCourse");
-	//handles sending a request to list coures
+	//handles sending a request to list course
 	$(document).on({
 		click: function () {
 			$.ajax({
@@ -52,10 +52,11 @@ $(document).ready(function () {
 							"<td>" + description + "</td>" + "<tr>");
 					}
 				},
-				data:    "action=list",
+				data:    "action=list"
 			});
 		}
 	}, '#listCourses');
+
 	//handles adding a user to either the instructors course table or the student course table
 	$(document).on({
 		click: function () {
@@ -78,11 +79,11 @@ $(document).ready(function () {
 			}
 			$.ajax({
 				url:     site("course.php"),
-				success: function (data) {
-					message.text(data);
+				success: function (response) {
+					message.text(response);
 					message.css('display', 'block');
 				},
-				data:    "action=" + action + "&courseId=" + courseId + "&userName=" + userName,
+				data:    "action=" + action + "&courseId=" + courseId + "&userName=" + userName
 			});
 		}
 	}, '#addUser');

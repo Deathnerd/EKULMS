@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 	//fix up the selection box
 	options = $('option').splice(0, $('option').length);
-	//loop through each of the options and trim off the preceeding directory name and following file extension
+	//loop through each of the options and trim off the preceding directory name and following file extension
 	$.each(options, function (index) {
 		word = options[index].value;
 		slashSplit = word.split('/');
@@ -107,10 +107,10 @@ $(document).ready(function () {
 			//html for a new question. Broken up for readability
 			html = '<div class="question" id="question_' + current_question_count + '">' +
 				'<p class="question_label">Question ' + current_question_count + '</p><br>' +
-				'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>' +
+				'<input type="button" class="remove_inline_question" value="Remove this question" /><br>' +
 				'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>' +
-				'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>' +
-				'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>' +
+				'<input type="button" value="Add Choice" id="add_choice" class="choice_add" />' +
+				'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove" /><br>' +
 				'<table width="430" border="0" cellspacing="0" cellpadding="0">' +
 				'<tr>' +
 				'<th width="30" scope="col">#</th>' +
@@ -164,6 +164,7 @@ $(document).ready(function () {
 					}
 				}
 			}
+			removeNull(json);
 			console.log(json);
 			//send the ajax request with the JSON payload
 			$.ajax({
@@ -194,8 +195,8 @@ $(document).ready(function () {
 		html = '<div class="question" id="question_1">' +
 			'<p class="question_label">Question 1</p>' +
 			'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>' +
-			'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>' +
-			'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>' +
+			'<input type="button" value="Add Choice" id="add_choice" class="choice_add" />' +
+			'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove" /><br>' +
 			'<table width="430" border="0" cellspacing="0" cellpadding="0">' +
 			'<tr>' +
 			'<th width="30" scope="col">#</th>' +
@@ -209,10 +210,10 @@ $(document).ready(function () {
 		while (i <= json.quiz.questions.length) {
 			html = '<div class="question" id="question_' + i + '">' +
 				'<p class="question_label">Question ' + i + '</p>' +
-				'<input type="button" class="remove_inline_question" value="Remove this question"></input><br>' +
+				'<input type="button" class="remove_inline_question" value="Remove this question" /><br>' +
 				'<textarea name="prompt" cols="40" rows="5">Input some text here</textarea><br>' +
-				'<input type="button" value="Add Choice" id="add_choice" class="choice_add"></input>' +
-				'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"></input><br>' +
+				'<input type="button" value="Add Choice" id="add_choice" class="choice_add" />' +
+				'<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove" /><br>' +
 				'<table width="430" border="0" cellspacing="0" cellpadding="0">' +
 				'<tr>' +
 				'<th width="30" scope="col">#</th>' +
