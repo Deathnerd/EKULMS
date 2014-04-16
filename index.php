@@ -28,11 +28,14 @@
 	</div>
 	<p id="pageTitle"></p>
 	<select><?
-			$files = glob('quizzes/*.json'); //find all the quiz files
 			//populate the dropdown
-			foreach ($files as $file) {
-				echo '<option>' . $file . '</option>';
-			} ?>
+			require_once('requires/Tests.php');
+			$Tests = new Tests();
+			$listOfTests = $Tests->listAll();
+			foreach ($listOfTests as $name){
+				echo '<option>'. $name['testName'] .'</option>';
+			}
+		?>
 	</select>
 	<button type="button" id="load">Load</button>
 </header>
