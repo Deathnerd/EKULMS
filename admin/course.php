@@ -24,16 +24,17 @@
 			if (!isset($_GET['courseName'])) {
 				echo "Course name required!";
 				break;
+			} else if (!isset($_GET['courseId'])) {
+				echo "Course id required!";
+				break;
+			} else if (!isset($_GET['userName'])) {
+				echo "Username required!";
+				break;
+			}
+			if (isset($_GET['description'])){
+				$description = $_GET['description'];
 			} else {
-				if (!isset($_GET['courseId'])) {
-					echo "Course id required!";
-					break;
-				} else {
-					if (!isset($_GET['userName'])) {
-						echo "Username required!";
-						break;
-					}
-				}
+				$description = " ";
 			}
 			$courseId = $_GET['courseId'];
 			$courseName = $_GET['courseName'];
@@ -82,7 +83,7 @@
 			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if ($Courses->addStudent($courseId, $userName)) {
-				echo $userName . " succefully added to " . $courseId;
+				echo $userName . " successfully added to " . $courseId;
 			} else {
 				echo "Error adding student";
 			}
@@ -105,16 +106,16 @@
 			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if ($Courses->addInstructor($courseId, $userName)) {
-				echo $userName . " succefully added to " . $courseId;
+				echo $userName . " successfully added to " . $courseId;
 			} else {
 				echo "Error adding instructor";
 			}
 			break;
 		}
 		default:
-			{
+		{
 			echo "No action sent";
 			die("Error in " . __FILE__ . " on line " . __LINE__ . ". " . $action . " is not a valid action");
-			}
+		}
 	}
 	exit();
