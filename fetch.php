@@ -28,11 +28,12 @@
 
 	require_once('requires/Tests.php');
 	$Test = new Tests();
-	$results = $Test->fetchByName($_GET['data']);
+	$results = $Test->fetchByName("Quiz 1");
 	if(!$results){
 		echo "Failed!";
-		exit("Failed!");
+		exit();
 	}
 
-	header("Content-type: application/json");
-	echo json_encode($results);
+	$json = json_encode($results);
+//	header("Content-type: application/text");
+	echo $json;

@@ -21,6 +21,24 @@
 			parent::__construct(); //call the parent constructor
 		}
 
+		private function addToTestTable($table, $courseId, $testName, $data){
+			$sql = "SELECT testNumber FROM `$table` WHERE courseId='$courseId';"; //check if the course already has tests in the database
+			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+
+			if (mysqli_num_rows($query) === 0) { //if the course is not listed in the Tests table, add the first record
+				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', 1, '$testName');";
+			} else { //if the course is listed in the Tests table, increment the test number and insert
+				$currentTestNumber = max($this->fetchAllRows($query)); //get the maximum test number
+				$currentTestNumber = intval($currentTestNumber['testNumber']);
+				$currentTestNumber++; //increment the testId
+
+				//insert the test name, courseId, and new test number into the Tests table
+				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestNumber, '$testName');";
+			}
+			$returnValues = array($currentTestNumber, $sql);
+			return $returnValues;
+		}
+
 		/**
 		 * This function will make a test if it does not exist, or update a current test if it exists
 		 *
@@ -40,6 +58,84 @@
 				trigger_error("Tests::makeTest requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
 
 				return false;
+			}
+
+			$table = $this->tables['Tests'];
+			$courseId = mysqli_real_escape_string($this->connection, $data['courseId']);
+			$testName = mysqli_real_escape_string($this->connection, $data['_quizName']); //get the new test name
+
+			//add quiz name and relevant course to the tests table
+			$vals = $this->addToTestTable($table, $courseId, $testName, $data);
+			$sql = $vals[1];
+			$currentTestNumber = $vals[0];
+			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			if ($query === null || $query === false) {
+				return false;
+			}
+			//insert the test into the Questions table. Oh boy...
+			$questions = $data["quiz"]["questions"];
+			$numberOfQuestions = 1;
+			$table = $this->tables['Questions'];
+			foreach ($questions as $question) {
+				$prompt = $question['prompt'];
+				$choices = $question['choices'];
+				if ($choices[0] === null) {
+					unset($choices[0]);
+					$choices = array_values($choices);
+				}
+				$choiceValues = array(0 => null, 1 => null, 2 => null, 3 => null);
+				//cycle through the choices
+				$correct = ' ';
+				for ($i = 0; $i < count($choices); $i++) {
+					$choiceValues[$i] = $choices[$i]['value'];
+					//get a
+					if ($choices[$i]['correct']) {
+						switch ($i) {
+							case 0:
+							{
+								$correct = 'a';
+								break;
+							}
+							case 1:
+							{
+								$correct = 'b';
+								break;
+							}
+							case 2:
+							{
+								$correct = 'c';
+								break;
+							}
+							case 3:
+							{
+								$correct = 'd';
+								break;
+							}
+						}
+					}
+				}
+
+				//insert everything into the current test
+				$sql = "INSERT INTO `$table` (testId, questionNumber, a, b, c, d, correct, prompt) VALUES ($currentTestNumber, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', '$correct', '$prompt');";
+				mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+				$numberOfQuestions++;
+			}
+
+			return true;
+		}
+
+		/**
+		 * @param $data array Takes in an array of the test
+		 *
+		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
+		 */
+		public function updateTest($data) {
+			//check if data passed is an array
+			if (!is_array($data) || count($data) == 0) {
+				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
+			}
+			if (func_num_args() < 1) {
+				trigger_error("Tests::makeTest requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
 			}
 
 			$table = $this->tables['Tests'];
@@ -80,55 +176,50 @@
 			}
 
 			//insert the test into the Questions table. Oh boy...
-			$numberOfQuestions = 1;
-			foreach ($questions as $question) {
-				$prompt = $question['prompt'];
-				$choices = $question['choices'];
-				$choiceValues = array(0 => null, 1 => null, 2 => null, 3 => null);
-				//cycle through the choices
-				$correct = ' ';
-				for ($i = 0; $i < count($choices); $i++) {
-					$choiceValues[$i] = $choices[$i]['value'];
-					//get a
-					if ($choices[$i]['correct']) {
-						switch ($i) {
-							case 0:
-							{
-								$correct = 'a';
-								break;
-							}
-							case 1:
-							{
-								$correct = 'b';
-								break;
-							}
-							case 2:
-							{
-								$correct = 'c';
-								break;
-							}
-							case 3:
-							{
-								$correct = 'd';
-								break;
-							}
-						}
-					}
-				}
-
-				//insert everything into the current test
-				$sql = "INSERT INTO `$table` (testId, number, a, b, c, d, correct, prompt) VALUES ($currentTestId, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', $correct, '$prompt');";
-				mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-				$numberOfQuestions++;
-			}
+//			$numberOfQuestions = 1;
+//			foreach ($questions as $question) {
+//				$prompt = $question['prompt'];
+//				$choices = $question['choices'];
+//				$choiceValues = array(0 => null, 1 => null, 2 => null, 3 => null);
+//				//cycle through the choices
+//				$correct = ' ';
+//				for ($i = 0; $i < count($choices); $i++) {
+//					$choiceValues[$i] = $choices[$i]['value'];
+//					//get a
+//					if ($choices[$i]['correct']) {
+//						switch ($i) {
+//							case 0:
+//							{
+//								$correct = 'a';
+//								break;
+//							}
+//							case 1:
+//							{
+//								$correct = 'b';
+//								break;
+//							}
+//							case 2:
+//							{
+//								$correct = 'c';
+//								break;
+//							}
+//							case 3:
+//							{
+//								$correct = 'd';
+//								break;
+//							}
+//						}
+//					}
+//				}
+//
+//				//insert everything into the current test
+//				$sql = "INSERT INTO `$table` (testId, number, a, b, c, d, correct, prompt) VALUES ($currentTestId, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', $correct, '$prompt');";
+//				mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+//				$numberOfQuestions++;
+//			}
 
 			return true;
 		}
-
-//		public function updateTest($data) {
-//
-//			return true;
-//		}
 
 		public function fetchByName($name) {
 			if (!$this->checkString($name)) {
@@ -174,11 +265,11 @@
 				$questions[] = $row;
 			}
 			//build the array
-			$q = array();
+			$q['questions'] = array();
 			for ($i = 0; $i < count($questions); $i++) {
 				array_push($q, $questionSkeleton);
-				$q[$i]["prompt"] = $questions[$i]['prompt']; //add the prompt
-				$q[$i]["choices"] = array(); //create the choices array
+				$q['questions'][$i]["prompt"] = $questions[$i]['prompt']; //add the prompt
+				$q['questions'][$i]["choices"] = array(); //create the choices array
 				$correct = $questions[$i]['correct'];
 				//push choices onto question
 				$choices = array(
@@ -190,51 +281,48 @@
 					if ($choices[$j] === null) { //no more new questions
 						break;
 					}
-					$q[$i]["choices"][$j]['value'] = $choices[$j];
-					$q[$i]["choices"][$j]['correct'] = (bool)false;
+					$q['questions'][$i]["choices"][$j]['value'] = $choices[$j];
+					$q['questions'][$i]["choices"][$j]['correct'] = (bool)false;
 				}
 				//apply the correct value
 				switch ($correct) {
 					case 'a':
 					{
-						$q[$i]["choices"][0]['correct'] = (bool)true;
+						$q['questions'][$i]["choices"][0]['correct'] = (bool)true;
 						break;
 					}
 					case 'b':
 					{
-						$q[$i]["choices"][1]['correct'] = (bool)true;
+						$q['questions'][$i]["choices"][1]['correct'] = (bool)true;
 						break;
 					}
 					case 'c':
 					{
-						$q[$i]["choices"][2]['correct'] = (bool)true;
+						$q['questions'][$i]["choices"][2]['correct'] = (bool)true;
 						break;
 					}
 					case 'd':
 					{
-						$q[$i]["choices"][3]['correct'] = (bool)true;
+						$q['questions'][$i]["choices"][3]['correct'] = (bool)true;
 						break;
 					}
 				}
 			}
 			//append to the entire test
 			$test['quiz'] = $q;
+
 			return $test;
 		}
 
-		public function listAll(){
+		public function listAll() {
 			$table = $this->tables['Tests'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkSqlResult($sql)) {
 				return false;
 			}
-			$rows = array();
-			while ($row = $sql->fetch_assoc()) {
-				$rows[] = $row;
-			}
-			//return all results as an array
-			return $rows;
 
+			//return all results as an array
+			return $this->fetchAllRows($sql);
 		}
 	}

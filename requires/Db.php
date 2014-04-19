@@ -107,5 +107,11 @@
 			}
 			return $rows;
 		}
+
+		public function checkSqlResult($sqlResult){
+			if ($sqlResult === null || $sqlResult === false || mysqli_num_rows($sqlResult) === 0) {
+				return false;
+			}
+		}
 	}
  

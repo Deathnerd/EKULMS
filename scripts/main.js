@@ -15,11 +15,11 @@ $(document).ready(function () {
 	//fix up the selection box
 	var option = $('option');
 	var options = option.splice(0, option.length);
-	//loop through each of the options and trim off the preceeding directory name and following file extension
+	//loop through each of the options and trim off the preceding directory name and following file extension
 	$.each(options, function (index) {
-		var word = options[index].value;
-		var slashSplit = word.split('/');
-		var dotSplit = slashSplit[1].split('.');
+		word = options[index].value;
+		slashSplit = word.split('/');
+		dotSplit = slashSplit[1].split('.');
 		options[index].text = dotSplit[0];
 	});
 	//function to render the questions

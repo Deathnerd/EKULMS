@@ -8,7 +8,7 @@
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
 	//set the data type to text
-	header('Content-type: application/text');
+//	header('Content-type: application/text');
 
 	//check to see if $_REQUEST
 	if (isset($_GET['data'])) {
@@ -17,15 +17,27 @@
 		echo "Request empty";
 		exit();
 	}
-	//turn the data into an object
+//	//turn the data into an object
+//	$json = json_decode(stripslashes($data), true);
+//	echo $json;
+//	//get the name of the quiz
+//	$name = $json["_quizName"];
+//	// create a file with the name of the quiz
+//	$file = fopen('quizzes/' . $name . '.json', 'w') or die ('Cannot open file!');
+//	$content = json_encode($json);
+//	//write to the file the json data
+//	fwrite($file, $content) or die('Cannot write to file!');
+//	fclose($file);
+//	echo "Success!";
+
 	$json = json_decode(stripslashes($data), true);
-	echo $json;
-	//get the name of the quiz
-	$name = $json["_quizName"];
-	// create a file with the name of the quiz
-	$file = fopen('quizzes/' . $name . '.json', 'w') or die ('Cannot open file!');
-	$content = json_encode($json);
-	//write to the file the json data
-	fwrite($file, $content) or die('Cannot write to file!');
-	fclose($file);
-	echo "Success!";
+
+	require_once('requires/Tests.php');
+	$Tests = new Tests();
+	if($Tests->makeTest($json)){
+		echo "Success!";
+	} else {
+		echo "failed";
+	}
+
+	exit();

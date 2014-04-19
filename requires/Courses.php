@@ -34,13 +34,9 @@
 			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
-			$rows = array();
-			while ($row = $sql->fetch_assoc()) {
-				$rows[] = $row;
-			}
 
 			//return all results as an array
-			return $rows;
+			return $this->fetchAllRows($sql);
 		}
 
 		/**
