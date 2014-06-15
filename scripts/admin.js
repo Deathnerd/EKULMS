@@ -40,11 +40,11 @@ $(document).ready(function () {
 				url:     site("course.php"),
 				success: function (results) {
 					$('#listResults').css('display', 'block');
-					table = $('#listResults > table > tbody');
-					for (i = 0; i < results.length; i++) {
-						courseName = results[i].courseName;
-						courseId = results[i].courseId;
-						description = results[i].description;
+					var table = $('#listResults > table > tbody');
+					for (var i = 0; i < results.length; i++) {
+						var courseName = results[i].courseName;
+						var courseId = results[i].courseId;
+						var description = results[i].description;
 						//append to the table
 						table.append("<tr>" +
 							"<td>" + courseName + "</td>" +

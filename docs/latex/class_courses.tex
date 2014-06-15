@@ -1,0 +1,224 @@
+\hypertarget{class_courses}{\section{Courses Class Reference}
+\label{class_courses}\index{Courses@{Courses}}
+}
+Inheritance diagram for Courses\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_courses}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_courses_a095c5d389db211932136b53f25f39685}{\-\_\-\-\_\-construct} ()
+\item 
+\hyperlink{class_courses_af008f367d5ca054454dacc1e8830d7fd}{fetch\-All} ()
+\item 
+\hyperlink{class_courses_a3e28346ce841ca962f8cd02bcf779f7e}{fetch\-By\-Id} (\$id)
+\item 
+\hyperlink{class_courses_a18c66bbad45c916eedc9dd9eaafdf2fe}{fetch\-By\-Name} (\$course\-Name)
+\item 
+\hyperlink{class_courses_a70e4ca7ed00c214b53247f1c58db0518}{create} (\$course\-Name, \$id, \$description)
+\item 
+\hyperlink{class_courses_a39bdae60b28491388b7526c4b2eefc7d}{modify} (\$id, \$column, \$value)
+\item 
+\hyperlink{class_courses_a523911d67549a199d2f019eec9cadf09}{add\-Instructor} (\$course\-Id, \$user\-Name)
+\item 
+\hyperlink{class_courses_a6704e97dc8543f819f8b1c14f4096ec0}{add\-Student} (\$course\-Id, \$user\-Name)
+\item 
+\hyperlink{class_courses_a180ac61277d5b0b6bb5d0d9c04b9ea1a}{course\-Exists} (\$course\-Id)
+\item 
+\hyperlink{class_courses_ade84f64416077da444e6fdda6d6f6265}{fetch\-Enrolled\-Courses} (\$user\-Name)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_courses_a0d9c79b9b86b3f5891c6d3892f12c6a0}{{\bfseries \$connection} = null}\label{class_courses_a0d9c79b9b86b3f5891c6d3892f12c6a0}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+This file manages all things related to courses  \hyperlink{class_db_a095c5d389db211932136b53f25f39685}{Db\-::\-\_\-\-\_\-construct()}  Users\-::\-\_\-\-\_\-construct() \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000008}{Todo}]make a function to check if a course already exists \end{DoxyRefDesc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_courses_a095c5d389db211932136b53f25f39685}{\index{Courses@{Courses}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Courses@{Courses}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a095c5d389db211932136b53f25f39685}
+Constructor!  Users\-::\-\_\-\-\_\-construct() 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_courses_a523911d67549a199d2f019eec9cadf09}{\index{Courses@{Courses}!add\-Instructor@{add\-Instructor}}
+\index{add\-Instructor@{add\-Instructor}!Courses@{Courses}}
+\subsubsection[{add\-Instructor}]{\setlength{\rightskip}{0pt plus 5cm}add\-Instructor (
+\begin{DoxyParamCaption}
+\item[{}]{\$course\-Id, }
+\item[{}]{\$user\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a523911d67549a199d2f019eec9cadf09}
+This function adds an instructor and assigns them to a course
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$course\-Id} & The course id to add the user to \\
+\hline
+string & {\em \$user\-Name} & The user\-Name to be associated with the course\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean Returns true if successful, false if otherwise 
+\end{DoxyReturn}
+\hypertarget{class_courses_a6704e97dc8543f819f8b1c14f4096ec0}{\index{Courses@{Courses}!add\-Student@{add\-Student}}
+\index{add\-Student@{add\-Student}!Courses@{Courses}}
+\subsubsection[{add\-Student}]{\setlength{\rightskip}{0pt plus 5cm}add\-Student (
+\begin{DoxyParamCaption}
+\item[{}]{\$course\-Id, }
+\item[{}]{\$user\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a6704e97dc8543f819f8b1c14f4096ec0}
+Add a student to a course
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$course\-Id} & string the course to add a student to \\
+\hline
+{\em \$user\-Name} & string the username of the student to add\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean returns true if successful, false if otherwise 
+\end{DoxyReturn}
+\hypertarget{class_courses_a180ac61277d5b0b6bb5d0d9c04b9ea1a}{\index{Courses@{Courses}!course\-Exists@{course\-Exists}}
+\index{course\-Exists@{course\-Exists}!Courses@{Courses}}
+\subsubsection[{course\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}course\-Exists (
+\begin{DoxyParamCaption}
+\item[{}]{\$course\-Id}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a180ac61277d5b0b6bb5d0d9c04b9ea1a}
+Checks whether a course exists in the database
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$course\-Id} & string the id of the course to check\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean returns true if course exists, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_courses_a70e4ca7ed00c214b53247f1c58db0518}{\index{Courses@{Courses}!create@{create}}
+\index{create@{create}!Courses@{Courses}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}create (
+\begin{DoxyParamCaption}
+\item[{}]{\$course\-Name, }
+\item[{}]{\$id, }
+\item[{}]{\$description}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a70e4ca7ed00c214b53247f1c58db0518}
+This function will create a course. Dies on an sql error
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$course\-Name} & \\
+\hline
+string & {\em \$id} & \\
+\hline
+string & {\em \$description} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean Return true if successful, or false if not 
+\end{DoxyReturn}
+\hypertarget{class_courses_af008f367d5ca054454dacc1e8830d7fd}{\index{Courses@{Courses}!fetch\-All@{fetch\-All}}
+\index{fetch\-All@{fetch\-All}!Courses@{Courses}}
+\subsubsection[{fetch\-All}]{\setlength{\rightskip}{0pt plus 5cm}fetch\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_courses_af008f367d5ca054454dacc1e8830d7fd}
+This returns all courses in the database \begin{DoxyReturn}{Returns}
+array$\vert$boolean Return an array that has both keyed and non-\/keyed values or false if the row was not found 
+\end{DoxyReturn}
+\hypertarget{class_courses_a3e28346ce841ca962f8cd02bcf779f7e}{\index{Courses@{Courses}!fetch\-By\-Id@{fetch\-By\-Id}}
+\index{fetch\-By\-Id@{fetch\-By\-Id}!Courses@{Courses}}
+\subsubsection[{fetch\-By\-Id}]{\setlength{\rightskip}{0pt plus 5cm}fetch\-By\-Id (
+\begin{DoxyParamCaption}
+\item[{}]{\$id}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a3e28346ce841ca962f8cd02bcf779f7e}
+This function returns a course according to its I\-D. Dies if no arguments are supplied or if an S\-Q\-L error is encountered
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$id} & The course id being searched for\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array$\vert$boolean Return an array that has both keyed and non-\/keyed values or false if the row was not found 
+\end{DoxyReturn}
+\hypertarget{class_courses_a18c66bbad45c916eedc9dd9eaafdf2fe}{\index{Courses@{Courses}!fetch\-By\-Name@{fetch\-By\-Name}}
+\index{fetch\-By\-Name@{fetch\-By\-Name}!Courses@{Courses}}
+\subsubsection[{fetch\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}fetch\-By\-Name (
+\begin{DoxyParamCaption}
+\item[{}]{\$course\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a18c66bbad45c916eedc9dd9eaafdf2fe}
+This function returns a course according to its course name
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$course\-Name} & The course name being searched\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array$\vert$boolean Return an array that has both keyed and non-\/keyed values or false if the row was not found 
+\end{DoxyReturn}
+\hypertarget{class_courses_ade84f64416077da444e6fdda6d6f6265}{\index{Courses@{Courses}!fetch\-Enrolled\-Courses@{fetch\-Enrolled\-Courses}}
+\index{fetch\-Enrolled\-Courses@{fetch\-Enrolled\-Courses}!Courses@{Courses}}
+\subsubsection[{fetch\-Enrolled\-Courses}]{\setlength{\rightskip}{0pt plus 5cm}fetch\-Enrolled\-Courses (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_courses_ade84f64416077da444e6fdda6d6f6265}
+
+\begin{DoxyParams}{Parameters}
+{\em \$user\-Name} & string the user name to search for\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array$\vert$bool Return an array of courses if enrolled in any, false if otherwise 
+\end{DoxyReturn}
+\hypertarget{class_courses_a39bdae60b28491388b7526c4b2eefc7d}{\index{Courses@{Courses}!modify@{modify}}
+\index{modify@{modify}!Courses@{Courses}}
+\subsubsection[{modify}]{\setlength{\rightskip}{0pt plus 5cm}modify (
+\begin{DoxyParamCaption}
+\item[{}]{\$id, }
+\item[{}]{\$column, }
+\item[{}]{\$value}
+\end{DoxyParamCaption}
+)}}\label{class_courses_a39bdae60b28491388b7526c4b2eefc7d}
+This function will change a selected column of the \hyperlink{class_courses}{Courses} table for a selected course id
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$id} & The id of the course to change \\
+\hline
+string & {\em \$column} & The column whose value will be changed \\
+\hline
+string & {\em \$value} & The value that will be inserted\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean Returns true if successful, otherwise false 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+requires/Courses.\-php\end{DoxyCompactItemize}

@@ -35,8 +35,8 @@
 		function checkString($string) {
 			if (gettype($string) == "array") {
 				for ($i = 1; $i <= count($string); $i++) {
-					echo is_string($string[i]);
-					if (!is_string($string[i]) && strlen($string[i]) == 0) {
+					echo is_string($string[$i]);
+					if (!is_string($string[$i]) && strlen($string[$i]) == 0) {
 						return false;
 					}
 				}
@@ -152,7 +152,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//check if the row is recorded
-			if ($this->fetchUser($userName) === false || $sql === false || $sql === null  || mysqli_num_rows($sql) === 0) {
+			if ($this->fetchUser($userName) === false || $sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
 				return false;
 			}
 

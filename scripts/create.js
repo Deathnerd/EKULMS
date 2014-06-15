@@ -8,6 +8,7 @@
 var hover_id = ''; //store the current div being hovered over
 var current_choice_count = 1; //how many choices are in the current, working question?
 var current_question_count = 1; //how many questions have we created?
+var body = $('body');
 //construct the url string for the ajax request
 var site = function (file) {
 	var url = "http://";
@@ -36,7 +37,8 @@ var removeNull = function (json) {
 $(document).ready(function () {
 
 	//fix up the selection box
-	var options = $('option').splice(0, $('option').length);
+    var option = $('option');
+	var options = option.splice(0, option.length);
 	//loop through each of the options and trim off the preceding directory name and following file extension
 	$.each(options, function (index) {
 		var word = options[index].value;
@@ -126,7 +128,7 @@ $(document).ready(function () {
 				'</tr>' +
 				'</table>' +
 				'</div>';
-			$('body').append(html);
+			body.append(html);
 		}
 	}, '.question_add');
 	//remove an inline question
@@ -137,8 +139,9 @@ $(document).ready(function () {
 			var divs = $(document).find('.question');
 			$.each(divs, function (index) {
 				var num = index + 1;
-				$(divs[index]).attr('id', 'question_' + num);
-				$(divs[index]).find('.question_label').text("Question " + num);
+                var divIndex = $(divs[index]);
+				divIndex.attr('id', 'question_' + num);
+				divIndex.find('.question_label').text("Question " + num);
 			});
 			current_question_count = $('.question').length;
 		}
@@ -148,12 +151,12 @@ $(document).ready(function () {
 		click: function () {
 			json.courseId = "CSC185";
 			json._quizName = $('#quizName').val(); //grab the quiz name
-			questions = $('.question'); //find all the questions
+			var questions = $('.question'); //find all the questions
 			for (var i = 0; i < questions.length; i++) { //for all the questions in the page
 				json.quiz.questions[i] = {}; //create a new object to contain the choices
 				json.quiz.questions[i].prompt = $(questions[i]).find('textarea').val(); //there's only one textarea
 				json.quiz.questions[i].choices = [];//create a new array for choices
-				choices = $(questions[i]).find('tr'); //find all the choices within the question
+				var choices = $(questions[i]).find('tr'); //find all the choices within the question
 				for (var j = 1; j < choices.length; j++) { //loop through the question's choices; start at 1 to skip the header
 					json.quiz.questions[i].choices[j] = {}; //
 					json.quiz.questions[i].choices[j].value = $(choices[j]).find('[type=text]').val(); //fetch the value of the choice
@@ -207,7 +210,7 @@ $(document).ready(function () {
 			'</tr>' +
 			'</table>' +
 			'</div>';
-		$('body').append(html);
+		body.append(html);
 		var i = 2;
 		while (i <= json.quiz.questions.length) {
 			var html = '<div class="question" id="question_' + i + '">' +
@@ -224,7 +227,7 @@ $(document).ready(function () {
 				'</tr>' +
 				'</table>' +
 				'</div>';
-			$('body').append(html);
+			body.append(html);
 			i++;
 			current_question_count++;
 		}

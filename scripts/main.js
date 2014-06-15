@@ -17,9 +17,9 @@ $(document).ready(function () {
 	var options = option.splice(0, option.length);
 	//loop through each of the options and trim off the preceding directory name and following file extension
 	$.each(options, function (index) {
-		word = options[index].value;
-		slashSplit = word.split('/');
-		dotSplit = slashSplit[1].split('.');
+		var word = options[index].value;
+		var slashSplit = word.split('/');
+		var dotSplit = slashSplit[1].split('.');
 		options[index].text = dotSplit[0];
 	});
 	//function to render the questions
@@ -182,7 +182,7 @@ $(document).ready(function () {
 						return;
 					}
 					$(table).css('display', 'block');
-					for(i = 0; i < results.length; i++){
+					for(var i = 0; i < results.length; i++){
 						var courseName = results[i].courseName;
 						var courseId = results[i].courseId;
 						var description = results[i].description;

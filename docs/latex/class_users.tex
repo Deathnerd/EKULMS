@@ -1,0 +1,131 @@
+\hypertarget{class_users}{\section{Users Class Reference}
+\label{class_users}\index{Users@{Users}}
+}
+Inheritance diagram for Users\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_users}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_users_a8fe0db35ee8e4bf70ab574b3d0d3cfd0}{check\-String} (\$string)
+\item 
+\hyperlink{class_users_a03f071927e9f1a1a1930622153ca76fa}{user\-Exists} (\$user\-Name)
+\item 
+\hyperlink{class_users_a7b27bffdb6648e9f5479b7bcbaf8a5e6}{check\-Password} (\$user\-Name, \$password)
+\item 
+\hyperlink{class_users_aac93d8c8a65d6be245c8243b85175b64}{fetch\-User} (\$user\-Name)
+\item 
+\hyperlink{class_users_a9ef91bc8e5330e06661bd8fc95ea98b3}{create} (\$user\-Name, \$password)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_users_a0d9c79b9b86b3f5891c6d3892f12c6a0}{{\bfseries \$connection} = null}\label{class_users_a0d9c79b9b86b3f5891c6d3892f12c6a0}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+This class contains methods to manipulate user data. Extends the \hyperlink{class_db}{Db} class  \hyperlink{class_db_a095c5d389db211932136b53f25f39685}{Db\-::\-\_\-\-\_\-construct()} 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_users_a7b27bffdb6648e9f5479b7bcbaf8a5e6}{\index{Users@{Users}!check\-Password@{check\-Password}}
+\index{check\-Password@{check\-Password}!Users@{Users}}
+\subsubsection[{check\-Password}]{\setlength{\rightskip}{0pt plus 5cm}check\-Password (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\-Name, }
+\item[{}]{\$password}
+\end{DoxyParamCaption}
+)}}\label{class_users_a7b27bffdb6648e9f5479b7bcbaf8a5e6}
+This function checks the user password against the one stored in the database
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$user\-Name} & The username associated with the password being checked \\
+\hline
+string & {\em \$password} & The password string being checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean Returns true if a match, false if it failed but did not produce an error 
+\end{DoxyReturn}
+\hypertarget{class_users_a8fe0db35ee8e4bf70ab574b3d0d3cfd0}{\index{Users@{Users}!check\-String@{check\-String}}
+\index{check\-String@{check\-String}!Users@{Users}}
+\subsubsection[{check\-String}]{\setlength{\rightskip}{0pt plus 5cm}check\-String (
+\begin{DoxyParamCaption}
+\item[{}]{\$string}
+\end{DoxyParamCaption}
+)}}\label{class_users_a8fe0db35ee8e4bf70ab574b3d0d3cfd0}
+Simple method to check if the supplied argument is a string and has a length greater than zero
+
+
+\begin{DoxyParams}[1]{Parameters}
+string | array & {\em \$string} & the string or array containing strings to check\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean returns true if argument is a string and has a length greater than zero, false if otherwise 
+\end{DoxyReturn}
+\hypertarget{class_users_a9ef91bc8e5330e06661bd8fc95ea98b3}{\index{Users@{Users}!create@{create}}
+\index{create@{create}!Users@{Users}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}create (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\-Name, }
+\item[{}]{\$password}
+\end{DoxyParamCaption}
+)}}\label{class_users_a9ef91bc8e5330e06661bd8fc95ea98b3}
+This function handles user creation. The user will also have an auto-\/incremented numerical id associated with their account. This function M\-U\-S\-T have two arguments.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$user\-Name} & The user\-Name that will be inserted into the table \\
+\hline
+string & {\em \$password} & The password that will be inserted into the table\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean Return true if creation succeeded, false if it failed but did not produce an error 
+\end{DoxyReturn}
+\hypertarget{class_users_aac93d8c8a65d6be245c8243b85175b64}{\index{Users@{Users}!fetch\-User@{fetch\-User}}
+\index{fetch\-User@{fetch\-User}!Users@{Users}}
+\subsubsection[{fetch\-User}]{\setlength{\rightskip}{0pt plus 5cm}fetch\-User (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_users_aac93d8c8a65d6be245c8243b85175b64}
+This function retrieves a users's row as both a keyed and a non-\/keyed array
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$user\-Name} & The username whose row you want to fetch\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array$\vert$boolean Return an array that has both keyed and non-\/keyed values or false if the row was not found 
+\end{DoxyReturn}
+\hypertarget{class_users_a03f071927e9f1a1a1930622153ca76fa}{\index{Users@{Users}!user\-Exists@{user\-Exists}}
+\index{user\-Exists@{user\-Exists}!Users@{Users}}
+\subsubsection[{user\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}user\-Exists (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_users_a03f071927e9f1a1a1930622153ca76fa}
+This function checks if a user exists in the user table
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$user\-Name} & The user's name in the database\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean returns true if the operation completed successfully, false if it failed but did not produce an error 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+requires/Users.\-php\end{DoxyCompactItemize}

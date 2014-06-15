@@ -96,7 +96,7 @@
 		}
 
 		/**
-		 * @param $sqlResult The result of an SQL query to get rows from
+		 * @param $sqlResult object The result of an SQL query to get rows from
 		 *
 		 * @return array The resultant rows from the SQL query
 		 */
@@ -112,6 +112,7 @@
 			if ($sqlResult === null || $sqlResult === false || mysqli_num_rows($sqlResult) === 0) {
 				return false;
 			}
+            return true;
 		}
 	}
  
