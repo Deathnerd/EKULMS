@@ -21,6 +21,13 @@
 			parent::__construct(); //call the parent constructor
 		}
 
+		/**
+		 * @param string $table The table to add to
+		 * @param string $courseId The id of the course to add
+		 * @param $testName
+		 *
+		 * @return array
+		 */
 		private function addToTestTable($table, $courseId, $testName){
 			$sql = "SELECT testNumber FROM `$table` WHERE courseId='$courseId';"; //check if the course already has tests in the database
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
