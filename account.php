@@ -11,7 +11,7 @@
 	require_once('requires/header.php');
 ?>
 	<p id="userGreeting">
-		<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
+		<?="Hello, " . $_SESSION['userName'] . "!"; ?>
 	</p>
 	<div class="bodyContainer">
 		<div id="signupCourse">
