@@ -13,7 +13,7 @@
 		exit();
 	}
 
-	if (isset($_GET['userName']) && strlen($_GET['userName']) > 0) {
+	/*if (isset($_GET['userName']) && strlen($_GET['userName']) > 0) {
 		$_SESSION['userName'] = $_GET['userName'];
 	} else {
 		echo "No user name received";
@@ -26,13 +26,33 @@
 		echo "No password received";
 		session_destroy();
 		exit();
+	}*/
+
+	if(!isset($_GET['userName'])) {
+		echo "No user name received";
+		session_destroy();
+		exit();
+	} elseif (!strlen($_GET['userName']) > 0){
+		echo "User Name cannot be 0 characters";
+		session_destroy();
+		exit();
+	}
+
+	if(!isset($_GET['password'])) {
+		echo "No user name received";
+		session_destroy();
+		exit();
+	} elseif (!strlen($_GET['password']) > 0){
+		echo "Password cannot be 0 characters";
+		session_destroy();
+		exit();
 	}
 
 	$Users = new Users; //Users class contains functions related to user interaction/manipulation
 
 	//check if user exists in database
-	if ($Users->userExists($_SESSION['userName'])) { //if user exists
-		if (!$Users->checkPassword($_SESSION['userName'], $_SESSION['password'])) { //if the password is incorrect
+	if ($Users->userExists($_GET['userName'])) { //if user exists
+		if (!$Users->checkPassword($_GET['userName'], $_GET['password'])) { //if the password is incorrect
 			echo "Incorrect password";
 			$Users->close();
 			session_destroy();
