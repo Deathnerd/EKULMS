@@ -5,6 +5,7 @@
 	session_start();
 	if (isset($_SESSION['userName'])) { //if there's already a user logged in, redirect them to the index
 		header('Location: index.php');
+		exit();
 	}
 	require('requires/header.php');
 ?>
