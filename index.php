@@ -1,4 +1,4 @@
-<?php
+<?
 
 	/**
 	 * This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
@@ -6,6 +6,7 @@
 	session_start();
 	if (!isset($_SESSION['userName'])) { //if not logged in already, go to login page
 		header('Location: signin.php');
+		exit();
 	}
 ?>
 	<!DOCTYPE html>

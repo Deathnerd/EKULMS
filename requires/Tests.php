@@ -1,4 +1,4 @@
-<?php
+<?
 	/**
 	 * Created by PhpStorm.
 	 * User: Deathnerd
@@ -314,6 +314,10 @@
 			return $test;
 		}
 
+		/**
+		 * Lists all tests in the test table
+		 * @return array|bool Returns false if failed, otherwise returns an array of results
+		 */
 		public function listAll() {
 			$table = $this->tables['Tests'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));

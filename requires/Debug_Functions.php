@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * Created by PhpStorm.
  * User: Deathnerd
@@ -11,9 +11,9 @@
 	function prettyPrint($var){
 		?>
 		<pre>
-	    <?php
+	    <?
 			print_r($var);
 	    ?>
 	    </pre>
-	<?php
+	<?
 	}
