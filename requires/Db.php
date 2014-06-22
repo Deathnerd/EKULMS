@@ -35,7 +35,7 @@
 		 */
 		public $tables;
 
-		private $debug = true;
+		private $debug = false;
 
 		/**
 		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
@@ -44,13 +44,14 @@
 		 */
 		function __construct() {
 			if ($this->debug) {
-				$site = "/site";
+				$site = "/public_html";
 			} else {
 				$site = "";
 			}
 			if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . "/user-config.ini")) { //if the user config file isn't there
 				if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini')) { //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR); //sound the alarm!
+//					mysqli_connect("localhost", "root", "root", "EKULMS");
 				}
 				//using the default config file
 				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini', true);
@@ -96,20 +97,29 @@
 		}
 
 		/**
-		 * @param $sqlResult object The result of an SQL query to get rows from
+		 * This function fetches all results in an SQL Result
+		 *
+		 * @param $SQLResult object The result of an SQL query to get rows from
 		 *
 		 * @return array The resultant rows from the SQL query
 		 */
-		public function fetchAllRows($sqlResult){
+		public function fetchAllRows($SQLResult){
 			$rows = array();
-			while ($row = $sqlResult->fetch_assoc()) {
+			while ($row = $SQLResult->fetch_assoc()) {
 				$rows[] = $row;
 			}
 			return $rows;
 		}
 
-		public function checkSqlResult($sqlResult){
-			if ($sqlResult === null || $sqlResult === false || mysqli_num_rows($sqlResult) === 0) {
+		/**
+		 * This function checks if an SQL Result returned null, false, or 0 rows
+		 *
+		 * @param object $SQLResult The SQL Result object to check
+		 *
+		 * @return bool True if non-false object return, false if otherwise
+		 */
+		public function checkSqlResult($SQLResult){
+			if ($SQLResult === null || $SQLResult === false || mysqli_num_rows($SQLResult) === 0) {
 				return false;
 			}
             return true;
