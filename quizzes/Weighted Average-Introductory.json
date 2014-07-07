@@ -67,7 +67,7 @@
                 ]
             },
             {
-                "prompt":"In John's opinion, his weight is greater than 65 kg but less than 72 kg. His brother doesnt not agree with john and he thinks that john's weight is greater than 60 kg but less than 70 kg. His mother's view is that his weight \ncannot be greater than 68 kg. If all are them are correct in their estimation, what is the average of different probable weights of john?",
+                "prompt":"In John's opinion, his weight is greater than 65 kg but less than 72 kg. His brother doesnt not agree with John and he thinks that John's weight is greater than 60 kg but less than 70 kg. His mother's view is that his weight \ncannot be greater than 68 kg. If all are them are correct in their estimation, what is the average of different probable weights of John?",
                 "choices":[
                     {
                         "correct":true,

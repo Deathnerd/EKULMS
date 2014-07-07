@@ -1,18 +1,17 @@
 <?
 	/**
 	 * A simple admin interface
-	 * @todo everything
 	 */
 	session_start();
 	if (!isset($_SESSION['userName']) || $_SESSION['admin'] != '1') { //if not logged in, go to the login page
 		header('Location: ../signin.php');
 	}
-	require('../requires/header.php');
+	require($_SERVER["DOCUMENT_ROOT"].'/requires/header.php');
 ?>
 <link rel="stylesheet" href="../styles/admin.css"/>
 <script src="../scripts/admin.js"></script>
 <p id="userGreeting">
-	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
+	<?="Hello, " . $_SESSION['userName'] . "!"; ?>
 </p>
 
 <div class="bodyContainer">

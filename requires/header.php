@@ -19,7 +19,7 @@
 	<meta name="description" content="Quiz Creation ">
 	<meta name="author" content="Wes Gilleland">
 	<meta name="published" content="TODO">
-	<script type="text/javascript" src="<? echo $jquery; ?>"></script>
+	<script type="text/javascript" src="<?=$jquery;?>"></script>
 	<script type="text/javascript" src="scripts/create.js"></script>
 	<script type="text/javascript" src="scripts/main.js"></script>
 	<link type="text/css" rel="stylesheet" href="styles/reset.css">

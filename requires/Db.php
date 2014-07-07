@@ -3,11 +3,11 @@
 	 * Contains the Db class
 	 */
 
+	error_reporting(E_ALL);
 	/**
 	 * Class for facilitating Database connections
 	 * @todo change from ini configuration file to JSON
 	 */
-	error_reporting(E_ALL);
 
 	class Db {
 		/**
@@ -118,7 +118,7 @@
 		 *
 		 * @return bool True if non-false object return, false if otherwise
 		 */
-		public function checkSqlResult($SQLResult){
+		public function checkResult($SQLResult){
 			if ($SQLResult === null || $SQLResult === false || mysqli_num_rows($SQLResult) === 0) {
 				return false;
 			}

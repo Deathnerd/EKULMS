@@ -1,7 +1,6 @@
 <?
 	/**
 	 * Lists a user's account information along with links to course pages and statistitcs. The usser will be redirected to the login page if they are not currently logged in
-	 * @todo everything
 	 */
 
 	session_start();

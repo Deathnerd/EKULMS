@@ -12,6 +12,7 @@
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 * @uses Db::__construct()
 	 */
+
 	class Users extends Db {
 		protected $connection = null;
 
@@ -63,9 +64,8 @@
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die('Error in ' . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			$results = $sql->fetch_array(MYSQLI_BOTH);
 
-			if ($results === null || $results === false || mysqli_num_rows($sql) === 0) { //user doesn't exist, null returned from query
+			if (!$this->checkResult($sql)) { //user doesn't exist, null returned from query
 				return false;
 			}
 
@@ -93,7 +93,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT password FROM `$table` WHERE userName='$userName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 			$results = $sql->fetch_array(MYSQLI_BOTH);
@@ -121,7 +121,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -152,7 +152,7 @@
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//check if the row is recorded
-			if ($this->fetchUser($userName) === false || $sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->fetchUser($userName) || !$this->checkResult($sql)) {
 				return false;
 			}
 

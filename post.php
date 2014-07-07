@@ -17,18 +17,6 @@
 		echo "Request empty";
 		exit();
 	}
-//	//turn the data into an object
-//	$json = json_decode(stripslashes($data), true);
-//	echo $json;
-//	//get the name of the quiz
-//	$name = $json["_quizName"];
-//	// create a file with the name of the quiz
-//	$file = fopen('quizzes/' . $name . '.json', 'w') or die ('Cannot open file!');
-//	$content = json_encode($json);
-//	//write to the file the json data
-//	fwrite($file, $content) or die('Cannot write to file!');
-//	fclose($file);
-//	echo "Success!";
 
 	$json = json_decode(stripslashes($data), true);
 

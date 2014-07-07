@@ -182,12 +182,13 @@ $(document).ready(function () {
 						return;
 					}
 					$(table).css('display', 'block');
+
 					for(var i = 0; i < results.length; i++){
 						var courseName = results[i].courseName;
 						var courseId = results[i].courseId;
 						var description = results[i].description;
 						//append to table
-						table.append("<tr>"+
+						table.append("<tr id='course_row'>"+
 										"<td>"+courseId+"</td>"+
 										"<td>"+courseName+"</td>"+
 										"<td>"+description+"</td>"+
@@ -197,6 +198,8 @@ $(document).ready(function () {
 			})
 		}
 	},'#listStudentCourses > input[type="button"]');
+
+
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {

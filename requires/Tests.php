@@ -10,6 +10,10 @@
 	}
 	require_once(realpath(dirname(__FILE__)) . "/Courses.php");
 
+	/**
+	 * This class is responsible for the management of Tests
+	 */
+
 	class Tests extends Courses {
 		protected $connection;
 
@@ -24,7 +28,7 @@
 		/**
 		 * @param string $table The table to add to
 		 * @param string $courseId The id of the course to add
-		 * @param $testName
+		 * @param string $testName The name of the test to add
 		 *
 		 * @return array
 		 */
@@ -58,12 +62,10 @@
 			//check if data passed is an array
 			if (!is_array($data) || count($data) == 0) {
 				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
-
 				return false;
 			}
 			if (func_num_args() < 1) {
 				trigger_error("Tests::makeTest requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-
 				return false;
 			}
 
@@ -74,9 +76,9 @@
 			//add quiz name and relevant course to the tests table
 			$vals = $this->addToTestTable($table, $courseId, $testName, $data);
 			$sql = $vals[1];
-			$currentTestNumber = $vals[0];
+			$currentTestNumber = ($vals[0] === null)? '0' : $vals[0];
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			if ($query === null || $query === false) {
+			if (!$this->checkResult($query)) {
 				return false;
 			}
 			//insert the test into the Questions table. Oh boy...
@@ -84,7 +86,10 @@
 			$numberOfQuestions = 1;
 			$table = $this->tables['Questions'];
 			foreach ($questions as $question) {
-				$prompt = $question['prompt'];
+				$prompt = mysqli_real_escape_string($this->connection, $question['prompt']);
+				for($i = 0; $i < count($question['choices']); $i++){
+					$question['choices'][$i]['value'] = mysqli_real_escape_string($this->connection, $question['choices'][$i]['value']);
+				}
 				$choices = $question['choices'];
 				if ($choices[0] === null) {
 					unset($choices[0]);
@@ -178,53 +183,9 @@
 			$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestId, '$quizName');";
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($query === null || $query === false) {
+			if (!$this->checkResult($query)) {
 				return false;
 			}
-
-			//insert the test into the Questions table. Oh boy...
-//			$numberOfQuestions = 1;
-//			foreach ($questions as $question) {
-//				$prompt = $question['prompt'];
-//				$choices = $question['choices'];
-//				$choiceValues = array(0 => null, 1 => null, 2 => null, 3 => null);
-//				//cycle through the choices
-//				$correct = ' ';
-//				for ($i = 0; $i < count($choices); $i++) {
-//					$choiceValues[$i] = $choices[$i]['value'];
-//					//get a
-//					if ($choices[$i]['correct']) {
-//						switch ($i) {
-//							case 0:
-//							{
-//								$correct = 'a';
-//								break;
-//							}
-//							case 1:
-//							{
-//								$correct = 'b';
-//								break;
-//							}
-//							case 2:
-//							{
-//								$correct = 'c';
-//								break;
-//							}
-//							case 3:
-//							{
-//								$correct = 'd';
-//								break;
-//							}
-//						}
-//					}
-//				}
-//
-//				//insert everything into the current test
-//				$sql = "INSERT INTO `$table` (testId, number, a, b, c, d, correct, prompt) VALUES ($currentTestId, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', $correct, '$prompt');";
-//				mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-//				$numberOfQuestions++;
-//			}
-
 			return true;
 		}
 
@@ -263,7 +224,7 @@
 			$sql = "SELECT * FROM `$table` WHERE testId='$testId' ORDER BY questionNumber;";
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if (mysqli_num_rows($query) === 0) {
+			if (!$this->checkResult($query)) {
 				return false;
 			}
 
@@ -329,7 +290,7 @@
 			$table = $this->tables['Tests'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if (!$this->checkSqlResult($sql)) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 

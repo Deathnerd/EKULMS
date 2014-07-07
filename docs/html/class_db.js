@@ -1,7 +1,7 @@
 var class_db =
 [
     [ "__construct", "class_db.html#a095c5d389db211932136b53f25f39685", null ],
-    [ "checkSqlResult", "class_db.html#a79f742455432acb343b7ebed6013995f", null ],
+    [ "checkResult", "class_db.html#a79f742455432acb343b7ebed6013995f", null ],
     [ "close", "class_db.html#aa69c8bf1f1dcf4e72552efff1fe3e87e", null ],
     [ "connect", "class_db.html#a78572828d11dcdf2a498497d9001d557", null ],
     [ "connection", "class_db.html#a7fa48f6882eccec91ea9c433e1ad2a57", null ],

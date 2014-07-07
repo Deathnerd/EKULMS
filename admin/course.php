@@ -1,7 +1,6 @@
 <?
 	/**
 	 * This script handles the logic to make a course
-	 * @todo Add database disconnect
 	 */
 	//need an action
 	if (!isset($_GET['action'])) {
@@ -24,14 +23,14 @@
 			if (!isset($_GET['courseName'])) {
 				echo "Course name required!";
 				break;
-			} else if (!isset($_GET['courseId'])) {
+			} elseif (!isset($_GET['courseId'])) {
 				echo "Course id required!";
 				break;
-			} else if (!isset($_GET['userName'])) {
+			} elseif (!isset($_GET['userName'])) {
 				echo "Username required!";
 				break;
 			}
-			if (isset($_GET['description'])){
+			if (isset($_GET['description'])) {
 				$description = $_GET['description'];
 			} else {
 				$description = " ";
@@ -113,9 +112,9 @@
 			break;
 		}
 		default:
-		{
+			{
 			echo "No action sent";
 			die("Error in " . __FILE__ . " on line " . __LINE__ . ". " . $action . " is not a valid action");
-		}
+			}
 	}
 	exit();

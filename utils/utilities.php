@@ -23,13 +23,13 @@ class Utilities {
 
 	/**
 	 * @param string $path_to_JSON The full or relative path to the JSON file
+	 * @return array An associative array of the file contents
 	 */
-	public function importFromJSON($path_to_JSON){
+	public function importFromJSONFile($path_to_JSON){
 		if(!is_string($path_to_JSON) || !is_file($path_to_JSON)){
 			$this->_raiseError(__LINE__, __FUNCTION__, __CLASS__, __FILE__);
 		}
-
-		
+		return json_decode(fopen($path_to_JSON, 'r'), true);
 	}
 
 	/**

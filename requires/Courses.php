@@ -8,8 +8,9 @@
 	 * This file manages all things related to courses
 	 * @uses Db::__construct()
 	 * @uses Users::__construct()
-	 * @todo make a function to check if a course already exists
 	 */
+
+
 	class Courses extends Users {
 
 		protected $connection = null;
@@ -31,7 +32,7 @@
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -58,7 +59,7 @@
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$id'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -85,7 +86,7 @@
 			$table = $this->tables['Courses'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseName='$courseName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql === null || $sql === false || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -117,7 +118,7 @@
 
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 			//check if successfully entered
-			if ($this->fetchById($id) === false || $sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->fetchById($id) || !$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -158,7 +159,7 @@
 				$id = $value;
 			}
 			//check if the row exists
-			if ($this->fetchById($id) === false || $sql == false || $sql === null) {
+			if (!$this->fetchById($id) || !$this->checkResult($sql)) {
 				$changedValue = $this->fetchById($id);
 				if ($changedValue[$column] != $value) { //check if the value was not actually changed
 					return false;
@@ -199,7 +200,7 @@
 			$table = $this->tables['Teach'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -233,9 +234,9 @@
 			$userId = intval($userId['id']);
 			//add instructor to the Enrollment table
 			$table = $this->tables['Enrollment'];
-			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if ($sql == false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -261,7 +262,7 @@
 			$table = $this->tables['Courses'];
 
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -288,7 +289,7 @@
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE id=$userId")  or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
 			//if the student is not enrolled in any courses
-			if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+			if (!$this->checkResult($sql)) {
 				return false;
 			}
 
@@ -305,7 +306,7 @@
 			foreach($courseIds as $courseId){
 				$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-				if ($sql === false || $sql === null || mysqli_num_rows($sql) === 0) {
+				if (!$this->checkResult($sql)) {
 					return false;
 				}
 				$result = $sql->fetch_row();
@@ -317,5 +318,28 @@
 
 			//return all results as an array
 			return $rows;
+		}
+
+
+		public function addCourse($courseId, $courseName, $description = ''){
+			if (func_num_args() < 2) {
+				trigger_error("Courses::addCourse requires at least two arguments. " . func_num_args() . " arguments supplied", E_USER_ERROR);
+			}
+
+			if(!$this->checkString($courseId) || $this->checkString($courseName) || $this->checkString($description))
+				trigger_error("Arguments for Courses::addCourse must be strings", E_USER_ERROR);
+
+			if(!$this->courseExists($courseId))
+				return false;
+
+			$courseId = mysqli_real_escape_string($this->database, $courseId);
+			$courseName = mysqli_real_escape_string($this->database, $courseName);
+			$description = mysqli_real_escape_string($this->database, $description);
+
+			$sql = mysqli_query($this->database, "INSERT INTO courses (courseId, courseName, description) VALUES ($courseId, $courseName, $description);") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			if(!$this->checkResult($sql)){
+				return false;
+			}
+			return true;
 		}
 	}

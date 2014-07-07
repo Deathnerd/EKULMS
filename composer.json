@@ -3,5 +3,9 @@
 		"phpunit/phpunit": "4.0.0",
 	    "illuminate/database": "*",
 		"phpdocumentor/phpdocumentor": "2.5.0"
+	},
+
+	"require": {
+		"realityking/pchart": "dev-master"
 	}
 }

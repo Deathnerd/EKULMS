@@ -1,8 +1,8 @@
 <?
-	// /**
-	// * This page will provide an interface for instructor users to create quizzes.
-	// * @todo check if user is an admin or an instructor. Currently checking only for admin
-	// */
+	 /**
+	 * This page will provide an interface for instructor users to create quizzes.
+	 * @todo check if user is an admin or an instructor. Currently checking only for admin
+	 */
 	session_start();
 	if (!isset($_SESSION['userName'])) { //if there isn't a user logged in, send them to the login page
 		header('Location: signin.php');
