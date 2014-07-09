@@ -58,7 +58,7 @@
 		 * @return bool True if successful, false if it fails
 		 */
 
-		public function makeTest($data) {
+		public function makeTest(array $data) {
 			//check if data passed is an array
 			if (!is_array($data) || count($data) == 0) {
 				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
@@ -141,7 +141,7 @@
 		 *
 		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
 		 */
-		public function updateTest($data) {
+		public function updateTest(array $data) {
 			//check if data passed is an array
 			if (!is_array($data) || count($data) == 0) {
 				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
