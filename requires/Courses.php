@@ -9,8 +9,6 @@
 	 * @uses Db::__construct()
 	 * @uses Users::__construct()
 	 */
-
-
 	class Courses extends Users {
 
 		protected $connection = null;
@@ -160,7 +158,7 @@
 		 */
 
 		public function addInstructor($courseId, $userName) {
-			$this->checkNumberOfArguments(__CLASS__,__FUNCTION__, 2, func_num_args(), true);
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
 			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			$courseId = mysqli_real_escape_string($this->connection, $courseId);
@@ -222,11 +220,12 @@
 
 		/**
 		 * Fetches all enrolled courses for a student
+		 *
 		 * @param $userName string the user name to search for
 		 *
 		 * @return array|bool Return an array of courses if enrolled in any, false if otherwise
 		 */
-		public function fetchEnrolledCourses($userName){
+		public function fetchEnrolledCourses($userName) {
 			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 			$this->checkString($userName, __CLASS__, __FUNCTION__);
 
@@ -234,7 +233,7 @@
 			$userId = $this->fetchUser($userName);
 			$userId = $userId['id'];
 			$table = $this->tables['Enrollment'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE id=$userId")  or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE id=$userId") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
 			//if the student is not enrolled in any courses
 			if (!$this->checkResult($sql)) {
@@ -251,7 +250,7 @@
 			$rows = array();
 			//build the return array
 			$count = 0;
-			foreach($courseIds as $courseId){
+			foreach ($courseIds as $courseId) {
 				$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
 				if (!$this->checkResult($sql)) {
@@ -269,18 +268,20 @@
 		}
 
 
-		public function addCourse($courseId, $courseName, $description = ''){
+		public function addCourse($courseId, $courseName, $description = '') {
 			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
 			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			if(!$this->courseExists($courseId))
+			if (!$this->courseExists($courseId)) {
 				return false;
+			}
 
 			$courseId = mysqli_real_escape_string($this->database, $courseId);
 			$courseName = mysqli_real_escape_string($this->database, $courseName);
 			$description = mysqli_real_escape_string($this->database, $description);
 
 			$sql = mysqli_query($this->database, "INSERT INTO courses (courseId, courseName, description) VALUES ($courseId, $courseName, $description);") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+
 			return $this->checkResult($sql);
 		}
 	}

@@ -4,11 +4,11 @@
 	 */
 
 	error_reporting(E_ALL);
+
 	/**
 	 * Class for facilitating Database connections
 	 * @todo change from ini configuration file to JSON
 	 */
-
 	class Db {
 		/**
 		 * @var string The database name from the config file
@@ -103,11 +103,12 @@
 		 *
 		 * @return array The resultant rows from the SQL query
 		 */
-		public function fetchAllRows($SQLResult){
+		public function fetchAllRows($SQLResult) {
 			$rows = array();
 			while ($row = $SQLResult->fetch_assoc()) {
 				$rows[] = $row;
 			}
+
 			return $rows;
 		}
 
@@ -118,76 +119,86 @@
 		 *
 		 * @return bool True if non-false object return, false if otherwise
 		 */
-		public function checkResult($SQLResult){
+		public function checkResult($SQLResult) {
 			if ($SQLResult === null || $SQLResult === false || mysqli_num_rows($SQLResult) === 0) {
 				return false;
 			}
-            return true;
+
+			return true;
 		}
 
 		/**
 		 * This utility function will check the number of arguments
 		 *
-		 * @param string $class Class name
-		 * @param string $function Function name
+		 * @param string  $class             Class name
+		 * @param string  $function          Function name
 		 * @param integer $numberOfArguments How many arguments are required
 		 * @param integer $argumentsSupplied How many arguments were supplied
-		 * @param bool $exact Should the number be exact? Default to false
+		 * @param bool    $exact             Should the number be exact? Default to false
 		 *
 		 * @return bool True if successful
 		 */
-		public function checkNumberOfArguments($class, $function, $numberOfArguments, $argumentsSupplied, $exact = false){
-			if(!$exact) {
+		public function checkNumberOfArguments($class, $function, $numberOfArguments, $argumentsSupplied, $exact = false) {
+			if (!$exact) {
 				if ($argumentsSupplied != $numberOfArguments) {
 					trigger_error("$class::$function requires exactly $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
+
 					return false;
 				}
 			} else {
 				if ($argumentsSupplied < $numberOfArguments) {
 					trigger_error("$class::$function requires at least $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
+
 					return false;
 				}
 			}
+
 			return true;
 		}
 
 		/**
 		 * This utility function will check an argument type
 		 *
-		 * @param mixed $argument The argument to check
-		 * @param string $class The class where the error occurred
+		 * @param mixed  $argument The argument to check
+		 * @param string $class    The class where the error occurred
 		 * @param string $function The function where the error occurred
-		 * @param string $type The type the argument was is supposed to be
+		 * @param string $type     The type the argument was is supposed to be
 		 *
 		 * @return bool True if succeeded
 		 */
-		public function checkArgumentType($argument, $class, $function, $type){
+		public function checkArgumentType($argument, $class, $function, $type) {
 			$errorString = "";
 			switch ($type) {
 				case 'scalar':
-					if (!is_scalar($argument))
+					if (!is_scalar($argument)) {
 						$errorString = "Argument(s) for $class::$function must be a $type";
+					}
 					break;
 				case 'array':
-					if (!is_array($argument))
+					if (!is_array($argument)) {
 						$errorString = "Argument(s) for $class::$function must be an $type";
+					}
 					break;
 				case 'object':
-					if (!is_object($argument))
+					if (!is_object($argument)) {
 						$errorString = "Argument(s) for $class::$function must be an $type";
+					}
 					break;
 				case 'string':
-					if (!is_string($argument))
+					if (!is_string($argument)) {
 						$errorString = "Argument(s) for $class::$function must be a $type";
+					}
 					break;
 				case 'numeric':
-					if (!is_numeric($argument))
+					if (!is_numeric($argument)) {
 						$errorString = "Argument(s) for $class::$function must be $type";
+					}
 					break;
 			}
 
-			if($errorString != ""){
+			if ($errorString != "") {
 				trigger_error($errorString, E_USER_ERROR);
+
 				return false;
 			}
 
@@ -197,9 +208,10 @@
 		/**
 		 * Simple method to check if the supplied argument is a string and has a length greater than zero
 		 *
-		 * @param string|array $string the string or array containing strings to check
-		 * @param string $class The class where the error might occur
-		 * @param string $function The function where the error might occur
+		 * @param string|array $string   the string or array containing strings to check
+		 * @param string       $class    The class where the error might occur
+		 * @param string       $function The function where the error might occur
+		 *
 		 * @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
 		 */
 		function checkString($string, $class, $function) {
@@ -213,6 +225,7 @@
 			if (!is_string($string) && strlen($string) == 0) {
 				trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
 			}
+
 			return true;
 		}
 	}

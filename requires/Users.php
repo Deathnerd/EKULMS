@@ -12,7 +12,6 @@
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 * @uses Db::__construct()
 	 */
-
 	class Users extends Db {
 		protected $connection = null;
 
@@ -33,7 +32,7 @@
 		 *
 		 * @return boolean returns true if the operation completed successfully, false if it failed but did not produce an error
 		 */
-		public function userExists($userName){
+		public function userExists($userName) {
 			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 			$this->checkString($userName, __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs

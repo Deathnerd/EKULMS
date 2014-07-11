@@ -13,7 +13,6 @@
 	/**
 	 * This class is responsible for the management of Tests
 	 */
-
 	class Tests extends Courses {
 		protected $connection;
 
@@ -26,13 +25,13 @@
 		}
 
 		/**
-		 * @param string $table The table to add to
+		 * @param string $table    The table to add to
 		 * @param string $courseId The id of the course to add
 		 * @param string $testName The name of the test to add
 		 *
 		 * @return array
 		 */
-		private function addToTestTable($table, $courseId, $testName){
+		private function addToTestTable($table, $courseId, $testName) {
 			$this->checkArgumentType($table, __CLASS__, __FUNCTION__, 'string');
 			$this->checkArgumentType($courseId, __CLASS__, __FUNCTION__, 'string');
 			$this->checkArgumentType($testName, __CLASS__, __FUNCTION__, 'string');
@@ -55,6 +54,7 @@
 			if (!$this->checkResult($query)) {
 				return false;
 			}
+
 			return $currentTestNumber;
 		}
 
@@ -71,7 +71,7 @@
 			if (count($data) == 0 || !$this->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array')) {
 				return false;
 			}
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true );
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
 			$table = $this->tables['Tests'];
 			$courseId = mysqli_real_escape_string($this->connection, $data['courseId']);
@@ -79,14 +79,14 @@
 
 			//add quiz name and relevant course to the tests table
 			$currentTestNumber = $this->addToTestTable($table, $courseId, $testName, $data);
-			$currentTestNumber = ($currentTestNumber === null)? '0' : $currentTestNumber;
+			$currentTestNumber = ($currentTestNumber === null) ? '0' : $currentTestNumber;
 			//insert the test into the Questions table. Oh boy...
 			$questions = $data["quiz"]["questions"];
 			$numberOfQuestions = 1;
 			$table = $this->tables['Questions'];
 			foreach ($questions as $question) {
 				$prompt = mysqli_real_escape_string($this->connection, $question['prompt']);
-				for($i = 0; $i < count($question['choices']); $i++){
+				for ($i = 0; $i < count($question['choices']); $i++) {
 					$question['choices'][$i]['value'] = mysqli_real_escape_string($this->connection, $question['choices'][$i]['value']);
 				}
 				$choices = $question['choices'];
@@ -137,6 +137,7 @@
 
 		/**
 		 * This will update a test with new data
+		 *
 		 * @param $data array Takes in an array of the test
 		 *
 		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
