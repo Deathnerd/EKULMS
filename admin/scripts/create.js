@@ -37,7 +37,7 @@ var removeNull = function (json) {
 $(document).ready(function () {
 
 	//fix up the selection box
-    var option = $('option');
+	var option = $('option');
 	var options = option.splice(0, option.length);
 	//loop through each of the options and trim off the preceding directory name and following file extension
 	$.each(options, function (index) {
@@ -139,7 +139,7 @@ $(document).ready(function () {
 			var divs = $(document).find('.question');
 			$.each(divs, function (index) {
 				var num = index + 1;
-                var divIndex = $(divs[index]);
+				var divIndex = $(divs[index]);
 				divIndex.attr('id', 'question_' + num);
 				divIndex.find('.question_label').text("Question " + num);
 			});
@@ -154,18 +154,15 @@ $(document).ready(function () {
 			var questions = $('.question'); //find all the questions
 			for (var i = 0; i < questions.length; i++) { //for all the questions in the page
 				json.quiz.questions[i] = {}; //create a new object to contain the choices
-				json.quiz.questions[i].prompt = $(questions[i]).find('textarea').val(); //there's only one textarea
-				json.quiz.questions[i].choices = [];//create a new array for choices
-				var choices = $(questions[i]).find('tr'); //find all the choices within the question
+				var questions_json = json.quiz.questions[i];
+				questions_json.prompt = $(questions_json[i]).find('textarea').val(); //there's only one textarea
+				questions_json.choices = [];//create a new array for choices
+				var choices = $(questions_json[i]).find('tr'); //find all the choices within the question
 				for (var j = 1; j < choices.length; j++) { //loop through the question's choices; start at 1 to skip the header
-					json.quiz.questions[i].choices[j] = {}; //
-					json.quiz.questions[i].choices[j].value = $(choices[j]).find('[type=text]').val(); //fetch the value of the choice
-					if ($(choices[j]).find('[type=checkbox]:checked').length > 0) { //if the checkbox is checked set the json property to true
-						json.quiz.questions[i].choices[j].correct = true;
-					}
-					else {
-						json.quiz.questions[i].choices[j].correct = false;
-					}
+					questions_json.choices[j] = {}; //
+					var choices_j = questions_json.choices[j];
+					choices_j.value = $(choices_j[j]).find('[type=text]').val(); //fetch the value of the choice
+					choices_j.correct = $(choices_j[j].find('[type=checkbox]:checked').length > 0); { //if the checkbox is checked set the json property to true
 				}
 			}
 			json = removeNull(json);
@@ -174,19 +171,22 @@ $(document).ready(function () {
 			$.ajax({
 				dataType:    "json",
 				url:         site("post.php"),
+				data: {
+					data: JSON.stringify(json)
+				},
+				crossDomain: true,
 				success:     function (data) {
 					if (data != "Request empty") {
 						alert("Quiz saved");
 					}
 					else {
-						alert("Quiz not saved with error" + data);
+						alert("Quiz not saved with error: " + data);
 					}
 					console.log(data);
 					location.reload(true); //reload the page. Quick hack to update the select box. Need to do it AJAX style
-				},
-				data:        'data=' + JSON.stringify(json),
-				crossDomain: true
+				}
 			});
+		}
 		}
 	}, '#saveQuiz');
 	//function to populate the page from an existing quiz
@@ -263,20 +263,20 @@ $(document).ready(function () {
 			}
 		});
 	};
-
 	//action to fetch a test
 	$(document).on({
 		click: function () {
 			var value = $('select').val();
-
 			$.ajax({
 				dataType:    'json',
 				url:         site("fetch.php"),
+				data: {
+				      data: value
+				},
 				success:     function (data) {
 					console.log(data);
 					populate(data);
 				},
-				data:        'data=' + value,
 				crossDomain: true
 			});
 		}
@@ -284,7 +284,9 @@ $(document).ready(function () {
 	//handle the delete button
 	$(document).on({
 		click: function () {
-			alert("Are you sure you wish to delete this quiz? This action cannot be undone");
+			if(!confirm("Are you sure you wish to delete this quiz? This action cannot be undone")){
+				return;
+			}
 			var value = $('select').val();
 			$.ajax({
 				dataType:    'json',
@@ -298,7 +300,9 @@ $(document).ready(function () {
 					alert("Quiz deleted successfully");
 					location.reload(true); //dirty hack. Do this AJAX style in the future
 				},
-				data:        'data=' + value,
+				data: {
+				      data: value
+				},
 				crossDomain: true
 			});
 		}
