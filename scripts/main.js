@@ -10,7 +10,6 @@ $(document).ready(function () {
 		}
 		return url + file;
 	};
-
 	var holdingDiv = $('#holding_div');
 	//fix up the selection box
 	var option = $('option');
@@ -64,8 +63,8 @@ $(document).ready(function () {
 			success:     function (result) {
 				render(result); //render the page using fetched JSON
 			},
-			data: {
-			      data: value
+			data:        {
+				data: value
 			},
 			crossDomain: true
 		});
@@ -90,7 +89,7 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data: {
+				data:        {
 					userName: userName,
 					password: password
 				},
@@ -115,9 +114,9 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data: {
-				      userName: userName,
-				      password: password
+				data:        {
+					userName: userName,
+					password: password
 				},
 				crossDomain: true
 			});
@@ -127,9 +126,9 @@ $(document).ready(function () {
 	$(document).on({
 		click: function () {
 			var addUserToCourse = $("#addUserToCourse");
-			var	userName = addUserToCourse.find('#userName').val();
-			var	courseId = addUserToCourse.find('#courseId').val();
-			var	message = $("message");
+			var userName = addUserToCourse.find('#userName').val();
+			var courseId = addUserToCourse.find('#courseId').val();
+			var message = $("message");
 			//check for whitespace in the course id and username
 			if (/\s/.test(courseId) || /\s/.test(userName)) {
 				message.css("display", "block").text("Course id and Username may not contain spaces");
@@ -141,21 +140,20 @@ $(document).ready(function () {
 					var addUser = $('#addUserToCourse > div');
 					addUser.css('display', 'block').text(response);
 				},
-				data: {
-				      action: 'addStudent',
-				      courseId: courseId,
-				      userName: userName
+				data:    {
+					action:   'addStudent',
+					courseId: courseId,
+					userName: userName
 				}
 			});
 		}
 	}, '#signupUser input[type="button"]');
-
 	//user signup for course
 	$(document).on({
-		click: function(){
+		click: function () {
 			var courseId = $("#signupCourse").find('#courseId').val();
 			var message = $('#message');
-			if(courseId === ''){
+			if (courseId === '') {
 				message.css("display", "block").text("Please enter a course id");
 				return;
 			} else if (/\s/.test(courseId)) {
@@ -163,50 +161,46 @@ $(document).ready(function () {
 				return;
 			}
 			$.ajax({
-				url: site("courseSignup.php"),
-				success: function(response){
+				url:     site("courseSignup.php"),
+				success: function (response) {
 					message.css('display', 'block').text(response);
 				},
-				data: {
-				      action: 'addStudent',
-				      courseId: courseId
+				data:    {
+					action:   'addStudent',
+					courseId: courseId
 				}
 			});
 		}
 	}, '#signupCourse > input[type="button"]');
-
 	//list user's courses
 	$(document).on({
-		click: function(){
+		click: function () {
 			var table = $('#listStudentCourses > table');
 			$.ajax({
-				url: site('listStudentCourses.php'),
-				success: function(results){
+				url:     site('listStudentCourses.php'),
+				success: function (results) {
 					console.log(results);
 					console.log(typeof results);
-					if(typeof results != 'object'){
+					if (typeof results != 'object') {
 						alert("UH OH!");
 						return;
 					}
 					$(table).css('display', 'block');
-
-					for(var i = 0; i < results.length; i++){
+					for (var i = 0; i < results.length; i++) {
 						var courseName = results[i].courseName;
 						var courseId = results[i].courseId;
 						var description = results[i].description;
 						//append to table
-						table.append("<tr id='course_row'>"+
-										"<td>"+courseId+"</td>"+
-										"<td>"+courseName+"</td>"+
-										"<td>"+description+"</td>"+
-									"</tr>");
+						table.append("<tr id='course_row'>" +
+							"<td>" + courseId + "</td>" +
+							"<td>" + courseName + "</td>" +
+							"<td>" + description + "</td>" +
+							"</tr>");
 					}
 				}
 			})
 		}
-	},'#listStudentCourses > input[type="button"]');
-
-
+	}, '#listStudentCourses > input[type="button"]');
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {

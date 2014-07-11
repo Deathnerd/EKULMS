@@ -19,17 +19,20 @@ $(document).ready(function () {
 			var message = $('#message');
 			//check for whitespace strings in course id
 			if (/\s/.test(courseId)) {
-				message.css("display", "block");
-				message.text("Course id cannot have whitespace");
+				message.css("display", "block").text("Course id cannot have whitespace");
 				return;
 			}
 			$.ajax({
 				url:     site("course.php"),
 				success: function (message) {
-					message.text(message);
-					message.css('display', 'block');
+					message.text(message).css('display', 'block');;
 				},
-				data:    "courseId=" + courseId + "&courseName=" + courseName + "&description=" + description + "&action=createCourse"
+				data: {
+				      courseId: courseId,
+				      courseName: courseName,
+				      description: description,
+				      action: 'createCourse'
+				}
 			});
 		}
 	}, "#addCourse");
@@ -39,8 +42,9 @@ $(document).ready(function () {
 			$.ajax({
 				url:     site("course.php"),
 				success: function (results) {
-					$('#listResults').css('display', 'block');
-					var table = $('#listResults > table > tbody');
+					var listResults = $('#listResults');
+					listResults.css('display', 'block');
+					var table = listResults.find('tbody');
 					for (var i = 0; i < results.length; i++) {
 						var courseName = results[i].courseName;
 						var courseId = results[i].courseId;
@@ -52,7 +56,9 @@ $(document).ready(function () {
 							"<td>" + description + "</td>" + "<tr>");
 					}
 				},
-				data:    "action=list"
+				data: {
+				      action: 'list'
+				}
 			});
 		}
 	}, '#listCourses');
@@ -60,13 +66,13 @@ $(document).ready(function () {
 	//handles adding a user to either the instructors course table or the student course table
 	$(document).on({
 		click: function () {
-			var userName = $("#addUserToCourse > #userName").val();
-			var courseId = $("#addUserToCourse > #courseId").val();
+			var addUserToCourse = $("#addUserToCourse");
+			var userName = addUserToCourse.find('#userName').val();
+			var courseId = addUserToCourse.find('#courseId').val();
 			var message = $('#message');
 			//check for whitespace in the course id and username
 			if (/\s/.test(courseId) || /\s/.test(userName)) {
-				message.css("display", "block");
-				message.text("Course id and Username may not contain spaces");
+				message.css("display", "block").text("Course id and Username may not contain spaces");
 				return;
 			}
 			//check if adding an instructor
@@ -80,10 +86,14 @@ $(document).ready(function () {
 			$.ajax({
 				url:     site("course.php"),
 				success: function (response) {
-					message.text(response);
-					message.css('display', 'block');
+					message.text(response).css('display', 'block');
 				},
-				data:    "action=" + action + "&courseId=" + courseId + "&userName=" + userName
+//				data:    "action=" + action + "&courseId=" + courseId + "&userName=" + userName
+				data: {
+				      action: action,
+				      courseId: courseId,
+				      userName: userName
+				}
 			});
 		}
 	}, '#addUser');
