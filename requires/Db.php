@@ -92,7 +92,7 @@
 		 * Connection accessor
 		 * @return object MySQLi connection object
 		 */
-		public function connection() {
+		public function getConnection() {
 			return $this->connection;
 		}
 
@@ -123,6 +123,97 @@
 				return false;
 			}
             return true;
+		}
+
+		/**
+		 * This utility function will check the number of arguments
+		 *
+		 * @param string $class Class name
+		 * @param string $function Function name
+		 * @param integer $numberOfArguments How many arguments are required
+		 * @param integer $argumentsSupplied How many arguments were supplied
+		 * @param bool $exact Should the number be exact? Default to false
+		 *
+		 * @return bool True if successful
+		 */
+		public function checkNumberOfArguments($class, $function, $numberOfArguments, $argumentsSupplied, $exact = false){
+			if(!$exact) {
+				if ($argumentsSupplied != $numberOfArguments) {
+					trigger_error("$class::$function requires exactly $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
+					return false;
+				}
+			} else {
+				if ($argumentsSupplied < $numberOfArguments) {
+					trigger_error("$class::$function requires at least $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/**
+		 * This utility function will check an argument type
+		 *
+		 * @param mixed $argument The argument to check
+		 * @param string $class The class where the error occurred
+		 * @param string $function The function where the error occurred
+		 * @param string $type The type the argument was is supposed to be
+		 *
+		 * @return bool True if succeeded
+		 */
+		public function checkArgumentType($argument, $class, $function, $type){
+			$errorString = "";
+			switch ($type) {
+				case 'scalar':
+					if (!is_scalar($argument))
+						$errorString = "Argument(s) for $class::$function must be a $type";
+					break;
+				case 'array':
+					if (!is_array($argument))
+						$errorString = "Argument(s) for $class::$function must be an $type";
+					break;
+				case 'object':
+					if (!is_object($argument))
+						$errorString = "Argument(s) for $class::$function must be an $type";
+					break;
+				case 'string':
+					if (!is_string($argument))
+						$errorString = "Argument(s) for $class::$function must be a $type";
+					break;
+				case 'numeric':
+					if (!is_numeric($argument))
+						$errorString = "Argument(s) for $class::$function must be $type";
+					break;
+			}
+
+			if($errorString != ""){
+				trigger_error($errorString, E_USER_ERROR);
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Simple method to check if the supplied argument is a string and has a length greater than zero
+		 *
+		 * @param string|array $string the string or array containing strings to check
+		 * @param string $class The class where the error might occur
+		 * @param string $function The function where the error might occur
+		 * @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
+		 */
+		function checkString($string, $class, $function) {
+			if (gettype($string) == "array") {
+				for ($i = 1; $i <= count($string); $i++) {
+					if (!is_string($string[$i]) && strlen($string[$i]) == 0) {
+						trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
+					}
+				}
+			}
+			if (!is_string($string) && strlen($string) == 0) {
+				trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
+			}
+			return true;
 		}
 	}
  

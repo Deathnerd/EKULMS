@@ -23,30 +23,7 @@
 		 */
 		function __construct() {
 			parent::__construct(); //call the parent constructor
-			$this->connection = parent::connection(); //MySQL connection handler
-		}
-
-		/**
-		 * Simple method to check if the supplied argument is a string and has a length greater than zero
-		 *
-		 * @param string|array $string the string or array containing strings to check
-		 *
-		 * @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
-		 */
-		function checkString($string) {
-			if (gettype($string) == "array") {
-				for ($i = 1; $i <= count($string); $i++) {
-					echo is_string($string[$i]);
-					if (!is_string($string[$i]) && strlen($string[$i]) == 0) {
-						return false;
-					}
-				}
-			}
-			if (!is_string($string) && strlen($string) == 0) {
-				return false;
-			}
-
-			return true;
+			$this->connection = parent::getConnection(); //MySQL connection handler
 		}
 
 		/**
@@ -56,20 +33,15 @@
 		 *
 		 * @return boolean returns true if the operation completed successfully, false if it failed but did not produce an error
 		 */
-		public function userExists($userName) {
-			if (!$this->checkString($userName)) {
-				trigger_error("Argument for Users::checkUserExists must be a string", E_USER_ERROR);
-			}
+		public function userExists($userName){
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$this->checkString($userName, __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName)); //sanitize input
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE userName='$userName'") or die('Error in ' . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if (!$this->checkResult($sql)) { //user doesn't exist, null returned from query
-				return false;
-			}
-
-			return true;
+			return $this->checkResult($sql);
 		}
 
 		/**
@@ -81,12 +53,8 @@
 		 * @return boolean Returns true if a match, false if it failed but did not produce an error
 		 */
 		public function checkPassword($userName, $password) {
-			if (func_num_args() != 2) {
-				trigger_error("Users::checkPassword requires exactly two arguments" . func_num_args() . " supplied", E_USER_ERROR);
-			}
-			if (!$this->checkString($userName) || !$this->checkString($password)) {
-				trigger_error("Arguments for Users::checkPassword must be a string", E_USER_ERROR);
-			}
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$password = mysqli_real_escape_string($this->connection, strtolower($password));
@@ -113,9 +81,8 @@
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchUser($userName) {
-			if (!$this->checkString($userName)) {
-				trigger_error("Argument for Users::fetchUser must be a string", E_USER_ERROR);
-			}
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_get_args(), true);
+			$this->checkString($userName, __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$table = $this->tables['Users'];
@@ -138,25 +105,14 @@
 		 * @return boolean Return true if creation succeeded, false if it failed but did not produce an error
 		 */
 		public function create($userName, $password) {
-			//need at least two arguments
-			if (func_num_args() < 2) {
-				trigger_error("Users::create requires at least two arguments" . func_num_args() . " arguments supplied", E_USER_ERROR);
-			}
-			//check argument types
-			if (!$this->checkString($userName) || !$this->checkString($password)) { //check for string type on first two arguments
-				trigger_error("First two arguments for Users::create must be a string", E_USER_ERROR);
-			}
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
 			$password = mysqli_real_escape_string($this->connection, strtolower($password));
 			$table = $this->tables['Users'];
 			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			//check if the row is recorded
-			if (!$this->fetchUser($userName) || !$this->checkResult($sql)) {
-				return false;
-			}
 
-			//success!
-			return true;
+			return $this->fetchUser($userName) && $this->checkResult($sql);
 		}
 	}

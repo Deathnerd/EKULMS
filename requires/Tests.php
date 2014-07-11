@@ -33,6 +33,11 @@
 		 * @return array
 		 */
 		private function addToTestTable($table, $courseId, $testName){
+			$this->checkArgumentType($table, __CLASS__, __FUNCTION__, 'string');
+			$this->checkArgumentType($courseId, __CLASS__, __FUNCTION__, 'string');
+			$this->checkArgumentType($testName, __CLASS__, __FUNCTION__, 'string');
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+
 			$sql = "SELECT testNumber FROM `$table` WHERE courseId='$courseId';"; //check if the course already has tests in the database
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
@@ -46,8 +51,11 @@
 				//insert the test name, courseId, and new test number into the Tests table
 				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestNumber, '$testName');";
 			}
-			$returnValues = array($currentTestNumber, $sql);
-			return $returnValues;
+			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			if (!$this->checkResult($query)) {
+				return false;
+			}
+			return $currentTestNumber;
 		}
 
 		/**
@@ -60,27 +68,18 @@
 
 		public function makeTest(array $data) {
 			//check if data passed is an array
-			if (!is_array($data) || count($data) == 0) {
-				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
+			if (count($data) == 0 || !$this->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array')) {
 				return false;
 			}
-			if (func_num_args() < 1) {
-				trigger_error("Tests::makeTest requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-				return false;
-			}
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true );
 
 			$table = $this->tables['Tests'];
 			$courseId = mysqli_real_escape_string($this->connection, $data['courseId']);
 			$testName = mysqli_real_escape_string($this->connection, $data['_quizName']); //get the new test name
 
 			//add quiz name and relevant course to the tests table
-			$vals = $this->addToTestTable($table, $courseId, $testName, $data);
-			$sql = $vals[1];
-			$currentTestNumber = ($vals[0] === null)? '0' : $vals[0];
-			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-			if (!$this->checkResult($query)) {
-				return false;
-			}
+			$currentTestNumber = $this->addToTestTable($table, $courseId, $testName, $data);
+			$currentTestNumber = ($currentTestNumber === null)? '0' : $currentTestNumber;
 			//insert the test into the Questions table. Oh boy...
 			$questions = $data["quiz"]["questions"];
 			$numberOfQuestions = 1;
@@ -137,18 +136,14 @@
 		}
 
 		/**
+		 * This will update a test with new data
 		 * @param $data array Takes in an array of the test
 		 *
 		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
 		 */
 		public function updateTest(array $data) {
-			//check if data passed is an array
-			if (!is_array($data) || count($data) == 0) {
-				trigger_error("Argument for Tests::makeTest must be an array", E_USER_ERROR);
-			}
-			if (func_num_args() < 1) {
-				trigger_error("Tests::makeTest requires at least one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-			}
+			$this->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
 			$table = $this->tables['Tests'];
 			$quizName = mysqli_real_escape_string($this->connection, $data['_quizName']);
@@ -183,23 +178,12 @@
 			$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestId, '$quizName');";
 			$query = mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
-			if (!$this->checkResult($query)) {
-				return false;
-			}
-			return true;
+			return $this->checkResult($query);
 		}
 
 		public function fetchByName($name) {
-			if (!$this->checkString($name)) {
-				trigger_error("Argument for Tests::fetchByName must be a string", E_USER_ERROR);
-
-				return false;
-			}
-			if (func_num_args() != 1) {
-				trigger_error("Tests::makeTest requires one argument" . func_num_args() . " arguments supplied", E_USER_ERROR);
-
-				return false;
-			}
+			$this->checkString($name, __CLASS__, __FUNCTION__);
+			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
 			$test = array("_quizName" => $name);
 			$name = mysqli_real_escape_string($this->connection, $name); //sanitize input
@@ -283,10 +267,10 @@
 		}
 
 		/**
-		 * Lists all tests in the test table
+		 * Fetches all tests in the test table
 		 * @return array|bool Returns false if failed, otherwise returns an array of results
 		 */
-		public function listAll() {
+		public function fetchAll() {
 			$table = $this->tables['Tests'];
 			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
 
