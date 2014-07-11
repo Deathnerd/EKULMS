@@ -30,10 +30,10 @@ $(document).ready(function () {
 		}
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>');
-		$('#holding_div').append('<p id="quiz_name">' + json._quizName + '</p>');
+		holdingDiv.append('<p id="quiz_name">' + json._quizName + '</p>');
 		var questions = json.quiz.questions; //loop through each question
 		for (var question = 0; question < questions.length; question++) {
-			$("#holding_div").append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
+			holdingDiv.append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
 			//create a new question div
 			var question_body = $("#question_" + question);
 			question_body.append("<p>" + questions[question].prompt + "</p>");
@@ -45,12 +45,10 @@ $(document).ready(function () {
 					continue;
 				}
 				if (choices[choice].correct === true) {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')">' + choices[choice].value + '</input>');
-					question_body.append('<br />');
+					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')">' + choices[choice].value + '</input><br />');
 				}
 				else {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')">' + choices[choice].value + '</input>');
-					question_body.append('<br />');
+					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')">' + choices[choice].value + '</input><br />');
 				}
 			}
 			//append a correct/incorrect box to the end of the question. It's set to invisible
@@ -66,7 +64,9 @@ $(document).ready(function () {
 			success:     function (result) {
 				render(result); //render the page using fetched JSON
 			},
-			data:        "data=" + value,
+			data: {
+			      data: value
+			},
 			crossDomain: true
 		});
 	});
@@ -90,7 +90,10 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data:        "userName=" + userName + "&password=" + password,
+				data: {
+					userName: userName,
+					password: password
+				},
 				crossDomain: true
 			});
 		}
@@ -99,7 +102,7 @@ $(document).ready(function () {
 	$(document).on({
 		click: function () {
 			var userName = $('#userName').val();
-			var password = $('[type=password]').val();
+			var password = $('input[type=password]').val();
 			var message = $('#message');
 			$.ajax({
 				url:         site('signupUser.php'),
@@ -112,7 +115,10 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data:        "userName=" + userName + "&password=" + password,
+				data: {
+				      userName: userName,
+				      password: password
+				},
 				crossDomain: true
 			});
 		}
@@ -120,23 +126,21 @@ $(document).ready(function () {
 	//sign up for a course
 	$(document).on({
 		click: function () {
-			var	userName = $("#addUserToCourse > #userName").val();
-			var	courseId = $("#addUserToCourse > #courseId").val();
+			var addUserToCourse = $("#addUserToCourse");
+			var	userName = addUserToCourse.find('#userName').val();
+			var	courseId = addUserToCourse.find('#courseId').val();
 			var	message = $("message");
 			//check for whitespace in the course id and username
 			if (/\s/.test(courseId) || /\s/.test(userName)) {
-				message.css("display", "block");
-				message.text("Course id and Username may not contain spaces");
+				message.css("display", "block").text("Course id and Username may not contain spaces");
 				return;
 			}
 			$.ajax({
 				url:     site("courseSignup.php"),
 				success: function (response) {
 					var addUser = $('#addUserToCourse > div');
-					addUser.text(response);
-					addUser.css('display', 'block');
+					addUser.css('display', 'block').text(response);
 				},
-//				data:    "action=addStudent&courseId=" + courseId + "&userName=" + userName
 				data: {
 				      action: 'addStudent',
 				      courseId: courseId,
@@ -149,7 +153,7 @@ $(document).ready(function () {
 	//user signup for course
 	$(document).on({
 		click: function(){
-			var courseId = $("#signupCourse > #courseId").val();
+			var courseId = $("#signupCourse").find('#courseId').val();
 			var message = $('#message');
 			if(courseId === ''){
 				message.css("display", "block").text("Please enter a course id");
@@ -163,7 +167,10 @@ $(document).ready(function () {
 				success: function(response){
 					message.css('display', 'block').text(response);
 				},
-				data: "action=addStudent&courseId="+courseId
+				data: {
+				      action: 'addStudent',
+				      courseId: courseId
+				}
 			});
 		}
 	}, '#signupCourse > input[type="button"]');
