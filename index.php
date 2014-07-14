@@ -32,7 +32,7 @@
 			//populate the dropdown
 			require_once('requires/Tests.php');
 			$Tests = new Tests();
-			$listOfTests = $Tests->listAll();
+			$listOfTests = $Tests->fetchAll();
 			foreach ($listOfTests as $name){
 				echo '<option>'. $name['testName'] .'</option>';
 			}
