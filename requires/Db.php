@@ -216,13 +216,12 @@
 		 */
 		function checkString($string, $class, $function) {
 			if (gettype($string) == "array") {
-				for ($i = 1; $i <= count($string); $i++) {
+				for ($i = 0; $i < count($string); $i++) {
 					if (!is_string($string[$i]) && strlen($string[$i]) == 0) {
 						trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
 					}
 				}
-			}
-			if (!is_string($string) && strlen($string) == 0) {
+			} else if (!is_string($string) && strlen($string) == 0) {
 				trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
 			}
 
