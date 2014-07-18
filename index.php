@@ -9,7 +9,7 @@
 		exit();
 	}
 ?>
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>CSC 185 Practice Exams</title>
@@ -43,6 +43,7 @@
 <p id="userGreeting">
 	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
 </p>
+<div id="holding_div"></div>
 <?
 	require('requires/footer.php');
 ?>
