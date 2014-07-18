@@ -167,7 +167,7 @@
 		 * @return bool True if succeeded
 		 */
 		public function checkArgumentType($argument, $class, $function, $type) {
-			$errorString = "";
+			$errorString = false;
 			switch ($type) {
 				case 'scalar':
 					if (!is_scalar($argument)) {
@@ -196,13 +196,12 @@
 					break;
 			}
 
-			if ($errorString != "") {
-				trigger_error($errorString, E_USER_ERROR);
-
-				return false;
+			if (!$errorString) {
+				return true;
 			}
+			trigger_error($errorString, E_USER_ERROR);
 
-			return true;
+			return false;
 		}
 
 		/**
