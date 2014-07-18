@@ -1,4 +1,5 @@
 //Client logic goes here
+var holdingDiv = null;
 $(document).ready(function () {
 	//set globals
 	//construct the url to pass to the ajax function
@@ -10,32 +11,34 @@ $(document).ready(function () {
 		}
 		return url + file;
 	};
-	var holdingDiv = $('#holding_div');
 	//fix up the selection box
-	var option = $('option');
-	var options = option.splice(0, option.length);
-	//loop through each of the options and trim off the preceding directory name and following file extension
-	$.each(options, function (index) {
-		var word = options[index].value;
-		var slashSplit = word.split('/');
-		var dotSplit = slashSplit[1].split('.');
-		options[index].text = dotSplit[0];
-	});
+	/*var option = $('option');
+	 var options = option.splice(0, option.length);
+	 //loop through each of the options and trim off the preceding directory name and following file extension
+	 $.each(options, function (index) {
+	 var word = options[index].value;
+	 var slashSplit = word.split('/');
+	 var dotSplit = slashSplit[1].split('.');
+	 options[index].text = dotSplit[0];
+	 });*/
 	//function to render the questions
-	var render = function (json) {
+	holdingDiv = $('#holding_div');
+	console.log(holdingDiv);
+	window.render = function (json) {
 		console.log(json);
 		if (holdingDiv.length !== 0) {
-			holdingDiv.remove();
+			$(holdingDiv).remove();
 		}
 		//create the holding div for the quiz
 		$('body').append('<div id="holding_div"></div>');
+		holdingDiv = $('#holding_div');
 		holdingDiv.append('<p id="quiz_name">' + json._quizName + '</p>');
 		var questions = json.quiz.questions; //loop through each question
 		for (var question = 0; question < questions.length; question++) {
 			holdingDiv.append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
 			//create a new question div
-			var question_body = $("#question_" + question);
-			question_body.append("<p>" + questions[question].prompt + "</p>");
+			var question_body = "#question_" + question;
+			$(question_body).append("<p>" + (question + 1) + ") " + questions[question].prompt + "</p>");
 			//loop through each choice
 			var choices = questions[question].choices;
 			for (var choice = 0; choice < choices.length; choice++) {
@@ -44,15 +47,15 @@ $(document).ready(function () {
 					continue;
 				}
 				if (choices[choice].correct === true) {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')">' + choices[choice].value + '</input><br />');
+					$(question_body).append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')">' + choices[choice].value + '</input><br />');
 				}
 				else {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')">' + choices[choice].value + '</input><br />');
+					$(question_body).append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')">' + choices[choice].value + '</input><br />');
 				}
 			}
 			//append a correct/incorrect box to the end of the question. It's set to invisible
 			//at first through the stylesheet
-			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
+			$(question_body).append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
 	};
 	//The function to render a test
@@ -61,7 +64,7 @@ $(document).ready(function () {
 		$.ajax({
 			url:         site('fetch.php'),
 			success:     function (result) {
-				render(result); //render the page using fetched JSON
+				window.render(JSON.parse(result)); //render the page using fetched JSON
 			},
 			data:        {
 				data: value

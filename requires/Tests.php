@@ -186,7 +186,7 @@
 			$this->checkString($name, __CLASS__, __FUNCTION__);
 			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
-			$test = array("_quizName" => $name);
+//			$test = array("_quizName" => $name);
 			$name = mysqli_real_escape_string($this->connection, $name); //sanitize input
 			$table = $this->tables['Tests'];
 			$sql = "SELECT * FROM `$table` WHERE testName='$name';";
@@ -196,12 +196,6 @@
 			}
 			//contains testId, testName, testNumber, courseId
 			$testMetadata = mysqli_fetch_array($query);
-
-			//stuff to construct the array to return
-			$questionSkeleton = array(
-				"prompt"  => null,
-				"choices" => array()
-			);
 
 			//get all questions from the Questions table with the same testId
 			$testId = $testMetadata['testId'];
@@ -220,7 +214,6 @@
 			//build the array
 			$q['questions'] = array();
 			for ($i = 0; $i < count($questions); $i++) {
-				array_push($q, $questionSkeleton);
 				$q['questions'][$i]["prompt"] = $questions[$i]['prompt']; //add the prompt
 				$q['questions'][$i]["choices"] = array(); //create the choices array
 				$correct = $questions[$i]['correct'];
@@ -262,6 +255,7 @@
 				}
 			}
 			//append to the entire test
+			$test['_quizName'] = $name;
 			$test['quiz'] = $q;
 
 			return $test;
