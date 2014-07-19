@@ -201,6 +201,19 @@ $(document).ready(function () {
 			})
 		}
 	}, '#listStudentCourses > input[type="button"]');
+	$('#getStats').click(function () {
+		var courseId = $('#courses').val();
+		$.ajax({
+			url:     site('getStats.php'),
+			data:    {
+				courseId: courseId,
+				action:   "getSingleClass"
+			},
+			success: function (results) {
+				console.log(results);
+			}
+		})
+	});
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
