@@ -5,8 +5,11 @@
 	 * Date: 6/29/14
 	 * Time: 4:26 PM
 	 */
-
+	error_reporting(E_ALL);
+	require_once('utils/utilities.php');
+	$Utils = new Utilities();
 	session_start();
+	
 	if (!$_SESSION['userName'] || $_SESSION['admin'] != '1') { //if a user is not already signed in
 		exit();
 	}

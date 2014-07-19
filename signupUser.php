@@ -2,10 +2,12 @@
 	/**
 	 * This script handles the logic of signing up a user. If the user exists, it returns with a string saying so. Otherwise, the user is added to the database and a success message is returned
 	 */
+	error_reporting(E_ALL);
+	require_once('utils/utilities.php');
+	$Utils = new Utilities();
 	session_start();
-	if (!is_file('requires/Users.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Users.php! Check your installation");
-	}
+
+	$Utils->checkFile('requires/Users.php', __FILE__, __LINE__);
 	require_once('requires/Users.php'); //import the user database functions
 
 	if ($_SESSION['userName'] != '') { //if a user is already signed in

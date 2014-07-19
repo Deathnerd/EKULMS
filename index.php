@@ -1,10 +1,10 @@
 <?
-
 	/**
 	 * This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
 	 */
 	session_start();
-	if (!isset($_SESSION['userName'])) { //if not logged in already, go to login page
+	$userName = $_SESSION['userName'];
+	if (!isset($userName)) { //if not logged in already, go to login page
 		header('Location: signin.php');
 		exit();
 	}
@@ -34,14 +34,15 @@
 			$Tests = new Tests();
 			$listOfTests = $Tests->fetchAll();
 			foreach ($listOfTests as $name){
-				echo '<option>'. $name['testName'] .'</option>';
+				$testName = $name['testName'];
+				echo "<option>$testName</option>";
 			}
 		?>
 	</select>
 	<button type="button" id="load">Load</button>
 </header>
 <p id="userGreeting">
-	<? echo "Hello, " . $_SESSION['userName'] . "!"; ?>
+	<? echo "Hello, $userName!"; ?>
 </p>
 <?
 	require('requires/footer.php');

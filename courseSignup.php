@@ -6,7 +6,11 @@
 	 * Time: 6:37 PM
 	 */
 
+	error_reporting(E_ALL);
+	require_once('utils/utilities.php');
+	$Utils = new Utilities();
 	session_start();
+
 	if (!$_SESSION['userName']) { //if a user is already signed in
 		echo "userName not set";
 		exit();
@@ -17,14 +21,7 @@
 		exit();
 	}
 
-	if (!is_file('requires/Users.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Users.php! Check your installation");
-	}
-//	require_once('requires/Users.php'); //import the user database functions
-
-	if (!is_file('requires/Courses.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Courses.php! Check your installation");
-	}
+	$Utils->checkFile('requires/Courses.php', __FILE__, __LINE__);
 	require_once('requires/Courses.php'); //import the course database functions
 
 	$Courses = new Courses;

@@ -2,6 +2,10 @@
 	/**
 	 * This script handles the logic to make a course
 	 */
+	error_reporting(E_ALL);
+	require_once('../utils/utilities.php');
+	$Utils = new Utilities();
+
 	//need an action
 	if (!isset($_GET['action'])) {
 		echo "Action not set!";
@@ -9,9 +13,7 @@
 	}
 	$action = $_GET['action'];
 
-	if (!is_file('../requires/Courses.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Courses.php! Check your installation");
-	}
+	$Utils->checkFile('../requires/Courses.php', __FILE__, __LINE__);
 	require_once('../requires/Courses.php'); //import the user database methods
 	$Courses = new Courses;
 
@@ -42,7 +44,7 @@
 			if ($Courses->fetchById($courseId) == false) {
 				//create it
 				if (!$Courses->create($courseName, $courseId, $description)) {
-					echo "Ruh-roh, Raggy!";
+					echo "Failed to create course";
 				} else {
 					echo "Successfully created course";
 				}
@@ -72,17 +74,15 @@
 			if (!isset($_GET['courseId'])) {
 				echo "Course id required!";
 				exit();
-			} else {
-				if (!isset($_GET['userName'])) {
-					echo "Username required!";
-					break;
-				}
+			} elseif (!isset($_GET['userName'])) {
+				echo "Username required!";
+				break;
 			}
 			$userName = $_GET['userName'];
 			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if ($Courses->addStudent($courseId, $userName)) {
-				echo $userName . " successfully added to " . $courseId;
+				echo "$userName successfully added to $courseId";
 			} else {
 				echo "Error adding student";
 			}
@@ -95,26 +95,23 @@
 			if (!isset($_GET['courseId'])) {
 				echo "Course id required!";
 				exit();
-			} else {
-				if (!isset($_GET['userName'])) {
-					echo "Username required!";
-					exit();
-				}
+			} elseif (!isset($_GET['userName'])) {
+				echo "Username required!";
+				exit();
 			}
 			$userName = $_GET['userName'];
 			$courseId = $_GET['courseId'];
 			//if the user was successfully added
 			if ($Courses->addInstructor($courseId, $userName)) {
-				echo $userName . " successfully added to " . $courseId;
+				echo "$userName successfully added to $courseId";
 			} else {
 				echo "Error adding instructor";
 			}
 			break;
 		}
 		default:
-			{
-			echo "No action sent";
-			die("Error in " . __FILE__ . " on line " . __LINE__ . ". " . $action . " is not a valid action");
-			}
+		{
+			echo "$action is not a valid action";
+		}
 	}
 	exit();
