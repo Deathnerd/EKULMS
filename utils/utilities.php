@@ -54,4 +54,28 @@ class Utilities {
 	public function jsonArray(){
 		return array();
 	}
+
+	/**
+	 * Simple method to check if a file exists and die with a message if not
+	 *
+	 * @param string $location Where is the file?
+	 * @param string $file Where did we call this function?
+	 * @param string $line What line did we call this function at?
+	 */
+	function checkFile($location, $file, $line){
+		if (!is_file($location)) {
+			$file_name = end(explode('/', $location)); //get the actual file name
+			die("Error in $file on line $line: Cannot find $file_name! Check your installation");
+		}
+	}
+
+	/**
+	 * Takes any number of arguments, runs them through a print_r, and echos them out in a <pre> tag
+	 */
+	function printPre(){
+		foreach(func_get_args() as $argument){
+			$stuff = print_r($argument, true);
+			echo "<pre>$stuff</pre><br/>";
+		}
+	}
 }
