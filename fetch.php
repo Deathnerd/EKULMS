@@ -7,28 +7,14 @@
 	 */
 
 	header('Access-Control-Allow-Origin: *');
-	//set the data type to JSON
-//	header('Content-type: application/text');
-	//check to see if $_GET
-	if (isset($_GET['data'])) {
-//		$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
-	} else {
-		echo "Request empty";
-		exit();
+	header("Content-type: application/text");
+	if(!isset($_GET['data'])){
+		exit("Request Empty!");
 	}
-
-//	$contents = file_get_contents($file, true);
-//	//read and return text from the JSON file
-//	if ($contents == true) {
-//		//comment for debugging
-//		echo $contents;
-//	} else {
-//		echo "Cannot open file";
-//	}
 
 	require_once('requires/Tests.php');
 	$Test = new Tests();
-	$results = $Test->fetchByName("Quiz 1");
+	$results = $Test->fetchByName($_GET['data']);
 	if(!$results){
 		echo "Failed!";
 		exit();
