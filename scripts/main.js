@@ -10,29 +10,30 @@ $(document).ready(function () {
 		}
 		return url + file;
 	};
-	var holdingDiv = $('#holding_div');
+//	var $('#holding_div') = $('#holding_div');
 	//fix up the selection box
-	var option = $('option');
-	var options = option.splice(0, option.length);
+	/*var option = $('option');
+	var options = option.splice(0, option.length);*/
 	//loop through each of the options and trim off the preceding directory name and following file extension
-	$.each(options, function (index) {
+	/*$.each(options, function (index) {
 		var word = options[index].value;
 		var slashSplit = word.split('/');
 		var dotSplit = slashSplit[1].split('.');
 		options[index].text = dotSplit[0];
-	});
+	});*/
 	//function to render the questions
 	var render = function (json) {
 		console.log(json);
-		if (holdingDiv.length !== 0) {
-			holdingDiv.remove();
-		}
+		json = JSON.parse(json);
+		$('#holding_div').empty(); //clear out the holding div
+
 		//create the holding div for the quiz
-		$('body').append('<div id="holding_div"></div>');
-		holdingDiv.append('<p id="quiz_name">' + json._quizName + '</p>');
+		var body = $('body');
+		body.append('<div id="holding_div"></div>');
+		$('#holding_div').append('<p id="quiz_name">' + json._quizName + '</p>');
 		var questions = json.quiz.questions; //loop through each question
 		for (var question = 0; question < questions.length; question++) {
-			holdingDiv.append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
+			$('#holding_div').append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
 			//create a new question div
 			var question_body = $("#question_" + question);
 			question_body.append("<p>" + questions[question].prompt + "</p>");
@@ -54,6 +55,7 @@ $(document).ready(function () {
 			//at first through the stylesheet
 			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
+		$('#holding_div').append('<input type="button" value="Submit Test" id="submit_test">');
 	};
 	//The function to render a test
 	$('#load').click(function () {
@@ -214,6 +216,14 @@ $(document).ready(function () {
 			}
 		})
 	});
+
+	$(document).on({
+		click: function(){
+			data:   {
+				quiz_name: $('#quiz_name').text()
+			}
+		}
+	}, '#submit_test');
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
