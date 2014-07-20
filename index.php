@@ -9,7 +9,7 @@
 		exit();
 	}
 ?>
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>CSC 185 Practice Exams</title>
