@@ -35,7 +35,7 @@
 		 */
 		public $tables;
 
-		private $debug = false;
+		private $debug = true;
 
 		/**
 		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
@@ -43,21 +43,17 @@
 		 * @throws error Complains that configuration file is not found and halts execution
 		 */
 		function __construct() {
-			if ($this->debug) {
-				$site = "/public_html";
-			} else {
-				$site = "";
-			}
-			if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . "/user-config.ini")) { //if the user config file isn't there
-				if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini')) { //if the default config file isn't there
+			$dirname = dirname(__FILE__);
+			if (!is_file($dirname . '/user-config.ini')) { //if the user config file isn't there
+				if (!is_file($dirname . '/default-config.ini')) { //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR); //sound the alarm!
 //					mysqli_connect("localhost", "root", "root", "EKULMS");
 				}
 				//using the default config file
-				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini', true);
+				$configVals = parse_ini_file($dirname . '/default-config.ini', true);
 			} else {
 				//using the user config file
-				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/user-config.ini', true);
+				$configVals = parse_ini_file($dirname . '/user-config.ini', true);
 			}
 			$this->database = $configVals['database']['name'];
 			$this->host = $configVals['database']['host'];
@@ -225,6 +221,28 @@
 			}
 
 			return true;
+		}
+
+		/**
+		 * Simple method to execute a query or die. Checks the query before returning
+		 *
+		 * @param object $link The database link
+		 * @param string $query
+		 * @param string $file
+		 * @param string $line
+		 *
+		 * @return bool|object Returns the result or false if nothing is returned
+		 */
+		public function queryOrDie($link, $query, $file, $line){
+			$this->checkArgumentType($link, __CLASS__, __FUNCTION__, 'object');
+			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
+
+			$mysqli_error = mysqli_error($link);
+			$query = mysqli_query($link, $query) or die("Error in $file on line $link: $mysqli_error");
+			if(!$this->checkResult($query)){
+				return false;
+			}
+			return $query;
 		}
 	}
  
