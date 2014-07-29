@@ -14,18 +14,41 @@
 	if (isset($_GET['data'])) {
 		$data = $_GET['data'];
 	} else {
-		echo "Request empty";
-		exit();
+		exit("Request empty!");
 	}
 
-	$json = json_decode(stripslashes($data), true);
+	if (isset($_GET['action'])) {
+		$action = $_GET['action'];
+	} else {
+		exit("Action empty!");
+	}
 
 	require_once('requires/Tests.php');
 	$Tests = new Tests();
-	if($Tests->makeTest($json)){
-		echo "Success!";
-	} else {
-		echo "failed";
+
+	$json = json_decode(stripslashes($data), true);
+
+	switch ($action) {
+		case "update":
+		{
+
+			break;
+		}
+		case "make":
+		{
+			break;
+		}
+		default:{
+			exit("Invalid action!");
+		}
 	}
 
-	exit();
+	if ($Tests->testExists($json['_quizName'])) {
+		if ($Tests->updateTest($json)) {
+			exit("Success");
+		}
+	} elseif ($Tests->makeTest($json)) {
+		exit("Success");
+	}
+
+	exit("Failed");

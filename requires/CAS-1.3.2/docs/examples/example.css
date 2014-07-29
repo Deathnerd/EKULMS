@@ -1,10 +1,11 @@
 .error {
-	border: 1px solid #aa0000;
-	color: #aa0000;
+	border: 1px solid #a00;
+	color: #a00;
 	padding: 5px;
 }
+
 .success {
-	border: 1px solid #00aa00;
-	color: #00aa00;
+	border: 1px solid #0a0;
+	color: #0a0;
 	padding: 5px;
 }
