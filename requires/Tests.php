@@ -151,7 +151,7 @@
 
 			//check if the test exists
 			$sql = "SELECT testName, testId FROM tests WHERE testName='$testName';";
-			if(!$results = $this->queryOrDie($this->connection, $sql, __FILE__, __LINE__)){
+			if (!$results = $this->queryOrDie($this->connection, $sql, __FILE__, __LINE__)) {
 				return false;
 			}
 
@@ -159,11 +159,10 @@
 			$testId = $currentQuizName['testId'];
 			$currentQuizName = $currentQuizName['testName'];
 
-
 			if ($testName != $currentQuizName) { //if the new name is different from the old one
 				//update the name of the quiz
 				$sql = "UPDATE `$table` SET testName='$testName' WHERE testName='$currentQuizName';";
-				if(!$this->queryOrDie($this->connection, $sql, __FILE__, __LINE__)){
+				if (!$this->queryOrDie($this->connection, $sql, __FILE__, __LINE__)) {
 					return false;
 				}
 			}
@@ -213,38 +212,19 @@
 					}
 				}
 
-				//insert everything into the current test
-//				$sql = "INSERT INTO `$table` (testId, questionNumber, a, b, c, d, correct, prompt) VALUES ($currentTestNumber, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', '$correct', '$prompt');";
-//				mysqli_query($this->connection, $sql) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+				//update the current test item
 				$sql = "UPDATE `$table` SET a='$choiceValues[0]', b='$choiceValues[1]', c='$choiceValues[2]', d='$choiceValues[3]', correct='$correct', prompt='$prompt' WHERE testId=$testId AND questionNumber=$numberOfQuestions;";
 				$this->queryOrDie($this->connection, $sql, __FILE__, __LINE__);
 				$numberOfQuestions++;
 			}
-			//add quiz name and relevant course to the tests table
-//			$courseId = $data['courseId'];
-//			//get the max test number
-//			$sql = "SELECT testNumber FROM `$table` WHERE courseId='$courseId';";
-//			if (!$query = $this->queryOrDie($this->connection, $sql, __FILE__, __LINE__)) {
-//				return false;
-//			}
 
-
-
-			/*$currentTestId = max($this->fetchAllRows($query));
-			$currentTestId = intval($currentTestId['testNumber']);
-			$currentTestId++; //increment the testId
-			$questions = $data["quiz"]["questions"];
-
-			//insert the test name, courseId, and new test number into the
-			$query = mysqli_query($this->connection, "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestId, '$testName');") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));*/
 			return true;
-
-//			return $this->checkResult($query);
 		}
 
 
 		/**
 		 * This function returns all columns of the
+		 *
 		 * @param string $name The name of the test to fetch
 		 *
 		 * @return array|bool Return all columns from Tests table if successful or false if not
@@ -285,6 +265,7 @@
 			while ($row = $query->fetch_assoc()) {
 				$questions[] = $row;
 			}
+
 			//build the array
 			$q['questions'] = array();
 			for ($i = 0; $i < count($questions); $i++) {
@@ -353,6 +334,7 @@
 
 		/**
 		 * Checks if a test exists by name
+		 *
 		 * @param string $testName The name of the test to check
 		 *
 		 * @return bool
@@ -364,6 +346,6 @@
 
 			$table = $this->tables['Tests'];
 
-			return $this->checkResult(mysqli_query($this->connection, "SELECT * FROM `$table` WHERE testName = '$testName';"));
+			return $this->checkResult(mysqli_query($this->connection, "SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$testName');"));
 		}
 	}
