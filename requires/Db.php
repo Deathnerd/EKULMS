@@ -226,23 +226,34 @@
 		/**
 		 * Simple method to execute a query or die. Checks the query before returning
 		 *
-		 * @param object $link The database link
-		 * @param string $query
+		 * @param string $query The query to run
 		 * @param string $file
 		 * @param string $line
 		 *
+		 * @internal param object $link The database link
 		 * @return bool|object Returns the result or false if nothing is returned
 		 */
-		public function queryOrDie($link, $query, $file, $line){
-			$this->checkArgumentType($link, __CLASS__, __FUNCTION__, 'object');
+		public function queryOrDie($query, $file, $line){
 			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
 
-			$mysqli_error = mysqli_error($link);
-			$query = mysqli_query($link, $query) or die("Error in $file on line $link: $mysqli_error");
+			$conn = $this->connection;
+			$query = mysqli_query($conn, $query) or die("Error in $file on line $line: " . mysqli_error($conn));
 			if(!$this->checkResult($query)){
 				return false;
 			}
 			return $query;
+		}
+
+		/**
+		 * Simple method to prep a string for mysqli usage
+		 *
+		 * @param string $string The string to prep
+		 *
+		 * @return string The prepared string
+		 */
+		public function escapeString($string){
+			$this->checkString($string, __CLASS__, __FILE__);
+			return mysqli_real_escape_string($this->connection, $string);
 		}
 	}
  
