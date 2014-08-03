@@ -5,6 +5,7 @@
 	 * @todo Fix cross-domain AJAX requests
 	 */
 
+	require_once('requires/Globals.php');
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
 	//set the data type to text
@@ -14,18 +15,44 @@
 	if (isset($_GET['data'])) {
 		$data = $_GET['data'];
 	} else {
-		echo "Request empty";
-		exit();
+		$DB->close();
+		exit("Request empty!");
+	}
+
+	if (isset($_GET['action'])) {
+		$action = $_GET['action'];
+	} else {
+		$DB->close();
+		exit("Action empty!");
 	}
 
 	$json = json_decode(stripslashes($data), true);
 
-	require_once('requires/Tests.php');
-	$Tests = new Tests();
-	if($Tests->makeTest($json)){
-		echo "Success!";
-	} else {
-		echo "failed";
+	switch ($action) {
+		case "update":
+		{
+			if($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)){
+				$DB->close();
+				exit("Success!");
+			} else {
+				$DB->close();
+				exit("Failed to update test");
+			}
+			break;
+		}
+		case "make":
+		{
+			if(!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)){
+				$DB->close();
+				exit("Success!");
+			} else {
+				$DB->close();
+				exit("Failed to make test");
+			}
+			break;
+		}
+		default:{
+			$DB->close();
+			exit("Invalid action!");
+		}
 	}
-
-	exit();

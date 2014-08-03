@@ -3,8 +3,6 @@
 	 * Contains the Db class
 	 */
 
-	error_reporting(E_ALL);
-
 	/**
 	 * Class for facilitating Database connections
 	 * @todo change from ini configuration file to JSON
@@ -35,29 +33,25 @@
 		 */
 		public $tables;
 
-		private $debug = false;
+		protected $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
+
+		private $debug = true;
 
 		/**
 		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
-		 *
-		 * @throws error Complains that configuration file is not found and halts execution
 		 */
 		function __construct() {
-			if ($this->debug) {
-				$site = "/public_html";
-			} else {
-				$site = "";
-			}
-			if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . "/user-config.ini")) { //if the user config file isn't there
-				if (!is_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini')) { //if the default config file isn't there
+			$dirname = dirname(__FILE__);
+			if (!is_file($dirname . '/user-config.ini')) { //if the user config file isn't there
+				if (!is_file($dirname . '/default-config.ini')) { //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR); //sound the alarm!
 //					mysqli_connect("localhost", "root", "root", "EKULMS");
 				}
 				//using the default config file
-				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/default-config.ini', true);
+				$configVals = parse_ini_file($dirname . '/default-config.ini', true);
 			} else {
 				//using the user config file
-				$configVals = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $site . '/user-config.ini', true);
+				$configVals = parse_ini_file($dirname . '/user-config.ini', true);
 			}
 			$this->database = $configVals['database']['name'];
 			$this->host = $configVals['database']['host'];
@@ -130,15 +124,15 @@
 		/**
 		 * This utility function will check the number of arguments
 		 *
+		 * @param integer $argumentsSupplied How many arguments were supplied
+		 * @param integer $numberOfArguments How many arguments are required
 		 * @param string  $class             Class name
 		 * @param string  $function          Function name
-		 * @param integer $numberOfArguments How many arguments are required
-		 * @param integer $argumentsSupplied How many arguments were supplied
 		 * @param bool    $exact             Should the number be exact? Default to false
 		 *
 		 * @return bool True if successful
 		 */
-		public function checkNumberOfArguments($class, $function, $numberOfArguments, $argumentsSupplied, $exact = false) {
+		public function checkNumberOfArguments($argumentsSupplied, $numberOfArguments, $class, $function, $exact = false) {
 			if (!$exact) {
 				if ($argumentsSupplied != $numberOfArguments) {
 					trigger_error("$class::$function requires exactly $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
@@ -160,14 +154,16 @@
 		 * This utility function will check an argument type
 		 *
 		 * @param mixed  $argument The argument to check
-		 * @param string $class    The class where the error occurred
-		 * @param string $function The function where the error occurred
 		 * @param string $type     The type the argument was is supposed to be
+		 *
+		 * @param string $class    The class where the error occurred
+		 *
+		 * @param string $function The function where the error occurred
 		 *
 		 * @return bool True if succeeded
 		 */
-		public function checkArgumentType($argument, $class, $function, $type) {
-			$errorString = "";
+		public function checkArgumentType($argument, $type, $class, $function) {
+			$errorString = false;
 			switch ($type) {
 				case 'scalar':
 					if (!is_scalar($argument)) {
@@ -196,13 +192,12 @@
 					break;
 			}
 
-			if ($errorString != "") {
-				trigger_error($errorString, E_USER_ERROR);
-
-				return false;
+			if (!$errorString) {
+				return true;
 			}
+			trigger_error($errorString, E_USER_ERROR);
 
-			return true;
+			return false;
 		}
 
 		/**
@@ -226,6 +221,38 @@
 			}
 
 			return true;
+		}
+
+		/**
+		 * Simple method to execute a query or die. Checks the query before returning
+		 *
+		 * @param string $query The query to run
+		 * @param string $file
+		 * @param string $line
+		 *
+		 * @internal param object $link The database link
+		 * @return bool|object Returns the result or false if nothing is returned
+		 */
+		public function queryOrDie($query, $file, $line){
+			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
+
+			$result = mysqli_query($this->connection, $query);
+			if(mysqli_errno($this->connection)){
+				die("Query in file: $file on line: $line failed spectacularly. Here's the error: " . mysqli_error($this->connection));
+			}
+			return $result;
+		}
+
+		/**
+		 * Simple method to prep a string for mysqli usage
+		 *
+		 * @param string $string The string to prep
+		 *
+		 * @return string The prepared string
+		 */
+		public function escapeString($string){
+			$this->checkString($string, __CLASS__, __FILE__);
+			return mysqli_real_escape_string($this->connection, $string);
 		}
 	}
  

@@ -3,13 +3,16 @@
 	 * This page will provide an interface for instructor users to create quizzes.
 	 * @todo check if user is an admin or an instructor. Currently checking only for admin
 	 */
+	require_once('requires/Globals.php');
 	session_start();
+
 	if (!isset($_SESSION['userName'])) { //if there isn't a user logged in, send them to the login page
 		header('Location: signin.php');
 	}
 	if ($_SESSION['admin'] != '1') { //if user isn't an admin, send them to the index
 		header('Location: index.php');
 	}
+
 	require('requires/header.php');
 ?>
 	<header id="topNav">
@@ -30,7 +33,7 @@
 			$files = glob('quizzes/*.json'); //find all the quiz files
 			//populate the dropdown
 			foreach ($files as $file) {
-				echo '<option>' . $file . '</option>';
+				echo '<option>$file</option>';
 			} ?>
 	</select>
 	<input type="button" value="Load" id="load">
@@ -67,4 +70,5 @@
 	</div>
 <?
 	require('requires/footer.php');
+	$DB->close();
 ?>

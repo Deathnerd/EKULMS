@@ -6,6 +6,7 @@
 	if (isset($_SESSION['userName'])) { //if there's already a user logged in, redirect them to the index
 		header('Location: index.php');
 	}
+	require_once('requires/Globals.php');
 	require('requires/header.php');
 ?>
 	<div id="bodyContainer">
