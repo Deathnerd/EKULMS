@@ -12,7 +12,7 @@
 	 * Returns the root domain. For example, if the script is www.example.com/foo/bar.php,
 	 * it will return www.example.com
 	 */
-	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
+//	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
 
 	/**
 	 * Set the location of the requires and utilities script. First checks if running on a Windows platform

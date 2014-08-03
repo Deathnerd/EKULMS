@@ -19,6 +19,5 @@
 		exit();
 	}
 
-	$json = json_encode($results);
-//	header("Content-type: application/text");
-	echo $json;
+	$DB->close();
+	exit(json_encode($results));

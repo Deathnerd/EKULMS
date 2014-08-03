@@ -33,6 +33,8 @@
 		 */
 		public $tables;
 
+		protected $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
+
 		private $debug = true;
 
 		/**
@@ -234,7 +236,11 @@
 		public function queryOrDie($query, $file, $line){
 			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
 
-			return mysqli_query($this->connection, $query) or die("Error in $file on line $line: " . mysqli_error($this->connection));
+			$result = mysqli_query($this->connection, $query);
+			if(mysqli_errno($this->connection)){
+				die("Query in file: $file on line: $line failed spectacularly. Here's the error: " . mysqli_error($this->connection));
+			}
+			return $result;
 		}
 
 		/**

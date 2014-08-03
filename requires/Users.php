@@ -53,11 +53,12 @@
 			$userName = $DB->escapeString(strtolower($userName));
 			$password = $DB->escapeString(strtolower($password));
 			$table = $DB->tables['Users'];
-			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = $userName", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($sql)) {
 				return false;
 			}
+
 			$results = $sql->fetch_array(MYSQLI_BOTH);
 
 			if ($results['password'] != $password) { //if the password supplied and the one fetched don't match
