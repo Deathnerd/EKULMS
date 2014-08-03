@@ -2,14 +2,11 @@
 
 	/**
 	 * This file manages all things related to courses
-	 * @uses Db::__construct()
-	 * @uses Users::__construct()
 	 */
 	class Courses {
 
 		/**
 		 * Constructor!
-		 * @uses Users::__construct()
 		 */
 		function __construct(Db $db) {
 			$this->Db = $db;
@@ -17,6 +14,7 @@
 
 		/**
 		 * This returns all courses in the database
+		 *
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchAll() {
@@ -35,18 +33,18 @@
 		/**
 		 * This function returns a course according to its ID. Dies if no arguments are supplied or if an SQL error is encountered
 		 *
-		 * @param string $id The course id being searched for
+		 * @param string $courseId The course id being searched for
 		 *
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
-		public function fetchById($id) {
+		public function fetchById($courseId) {
 			$DB = $this->Db;
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			//lowercase and sanitize input
-			$id = $DB->escapeString(strtolower($id));
+			$courseId = $DB->escapeString(strtolower($courseId));
 			$table = $DB->tables['Courses'];
-			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$id'", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId'", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($sql)) {
 				return false;
@@ -83,13 +81,13 @@
 		/**
 		 * This function will create a course. Dies on an sql error
 		 *
-		 * @param string $courseName
-		 * @param string $id
+		 * @param string $courseName The full name of the course
+		 * @param string $courseId   The course id
 		 * @param string $description
 		 *
 		 * @return boolean Return true if successful, or false if not
 		 */
-		public function create($courseName, $id, $description) {
+		public function create($courseName, $courseId, $description) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
@@ -97,43 +95,43 @@
 			//lowercase and sanitize input
 			$table = $DB->tables['Courses'];
 			$courseName = $DB->escapeString($courseName);
-			$id = $DB->escapeString($id);
+			$courseId = $DB->escapeString($courseId);
 			$description = $DB->escapeString($description);
 
-			$sql = $DB->queryOrDie("INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$courseId', '$description')", __FILE__, __LINE__);
 
 			//check if successfully entered
-			return $this->fetchById($id) && $DB->checkResult($sql);
+			return $this->fetchById($courseId) && $DB->checkResult($sql);
 		}
 
 		/**
 		 * This function will change a selected column of the Courses table for a selected course id
 		 *
-		 * @param string $id     The id of the course to change
-		 * @param string $column The column whose value will be changed
-		 * @param string $value  The value that will be inserted
+		 * @param string $courseId The id of the course to change
+		 * @param string $column   The column whose value will be changed
+		 * @param string $value    The value that will be inserted
 		 *
 		 * @return boolean Returns true if successful, otherwise false
 		 */
 
-		public function modify($id, $column, $value) {
+		public function modify($courseId, $column, $value) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			$id = $DB->escapeString($id);
+			$courseId = $DB->escapeString($courseId);
 			$column = $DB->escapeString($column);
 			$value = $DB->escapeString($value);
 
 			$table = $DB->tables['Courses'];
-			$sql =  $DB->queryOrDie("UPDATE `$table` SET $column='$value' WHERE courseId='$id'", __FILE__, __LINE__);
+			$sql =  $DB->queryOrDie("UPDATE `$table` SET $column='$value' WHERE courseId='$courseId'", __FILE__, __LINE__);
 			//if the course id was changed, then update the $id to the changed id
 			if ($column == "courseId") {
-				$id = $value;
+				$courseId = $value;
 			}
 			//check if the row exists
-			if (!$this->fetchById($id) || !$DB->checkResult($sql)) {
-				$changedValue = $this->fetchById($id);
+			if (!$this->fetchById($courseId) || !$DB->checkResult($sql)) {
+				$changedValue = $this->fetchById($courseId);
 				if ($changedValue[$column] != $value) { //check if the value was not actually changed
 					return false;
 				}
@@ -288,6 +286,7 @@
 
 		/**
 		 * Add a course to the database
+		 *
 		 * @param string $courseId The courseId
 		 * @param string $courseName The course name
 		 * @param string $description The description of the course
