@@ -1,6 +1,8 @@
 //Client logic goes here
 $(document).ready(function () {
 	//set globals
+	var courseId = "";
+	var quizName = "";
 	//construct the url to pass to the ajax function
 	var site = function (file) {
 		var url = "http://";
@@ -13,20 +15,20 @@ $(document).ready(function () {
 //	var $('#holding_div') = $('#holding_div');
 	//fix up the selection box
 	/*var option = $('option');
-	var options = option.splice(0, option.length);*/
+	 var options = option.splice(0, option.length);*/
 	//loop through each of the options and trim off the preceding directory name and following file extension
 	/*$.each(options, function (index) {
-		var word = options[index].value;
-		var slashSplit = word.split('/');
-		var dotSplit = slashSplit[1].split('.');
-		options[index].text = dotSplit[0];
-	});*/
+	 var word = options[index].value;
+	 var slashSplit = word.split('/');
+	 var dotSplit = slashSplit[1].split('.');
+	 options[index].text = dotSplit[0];
+	 });*/
 	//function to render the questions
 	var render = function (json) {
 		console.log(json);
 		json = JSON.parse(json);
+		_courseId = json.courseId;
 		$('#holding_div').empty(); //clear out the holding div
-
 		//create the holding div for the quiz
 		var body = $('body');
 		body.append('<div id="holding_div"></div>');
@@ -75,7 +77,7 @@ $(document).ready(function () {
 	$(document).on({
 		click: function () {
 			var userName = $('#userName').val();
-			var password = $('[type=password]').val();
+			var password = $('input[type=password]').val();
 			var message = $('#message');
 			$.ajax({
 				url:         site('login.php'),
@@ -216,14 +218,53 @@ $(document).ready(function () {
 			}
 		})
 	});
-
 	$(document).on({
-		click: function(){
-			data:   {
-				quiz_name: $('#quiz_name').text()
+		click: function () {
+			if ($('input:checked').length < $('.question_body').length) {
+				alert("Please make sure you have answered every question before submitting");
+				return;
 			}
+			$.ajax({
+				url:     site('submit.php'),
+				data:    {
+					payload: JSON.stringify(populateSubmit()),
+					action:  'submit'
+				},
+				success: function (results) {
+					/*console.log(results);
+					results = JSON.parse(results);
+					$('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');*/
+				}
+			})
 		}
 	}, '#submit_test');
+	var populateSubmit = function () {
+		var json = {
+			_testName: $('select').val(),
+			_courseId: courseId,
+			answers:   []
+		};
+		var questions = $('.question_body'); //get all the questions
+		var selectionLetters = ['A', 'B', 'C', 'D'];
+		for (var i = 0; i < questions.length; i++) {
+			json.answers[i] = {
+				text:            "",
+				correct:         false,
+				selectionLetter: ""
+			};
+			var question = questions[i]; //current question
+			json.answers[i].text = $(question).find('p').text(); //get the question text
+			var choices = $(question).find('input'); //get the choices
+			for (var j = 0; j < choices.length; j++) {
+				if ($(choices[j]).is(':checked')) {
+					json.answers[i].selectionLetter = selectionLetters[j]; //what option did they select?
+					//is it correct or no?
+					json.answers[i].correct = $(choices[j]).attr('onclick').search('true') != -1;
+				}
+			}
+		}
+		return json;
+	}
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
