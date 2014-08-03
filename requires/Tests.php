@@ -26,9 +26,9 @@
 		 */
 		public function addToTestTable($courseId, $testName) {
 			$DB = $this->Db;
-			$DB->checkArgumentType($courseId, __CLASS__, __FUNCTION__, 'string');
-			$DB->checkArgumentType($testName, __CLASS__, __FUNCTION__, 'string');
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkArgumentType($courseId, 'string', __CLASS__, __FUNCTION__);
+			$DB->checkArgumentType($testName, 'string', __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 
 			$courseId = $DB->escapeString($courseId);
 			$testName = $DB->escapeString($testName);
@@ -66,8 +66,8 @@
 		public function makeTest(array $data) {
 			$DB = $this->Db;
 			//check if data passed is an array
-			$DB->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkArgumentType($data, 'array', __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$courseId = $DB->escapeString($data['courseId']);
 			$testName = $DB->escapeString($data['_quizName']); //get the new test name
@@ -139,8 +139,8 @@
 		 */
 		public function updateTest(array $data) {
 			$DB = $this->Db;
-			$DB->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkArgumentType($data, 'array', __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$table = $DB->tables['Tests'];
 			$testName = $DB->escapeString($data['_quizName']);
@@ -228,7 +228,7 @@
 		public function fetchByName($name) {
 			$DB = $this->Db;
 			$DB->checkString($name, __CLASS__, __FUNCTION__);
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$test = array("_quizName" => $name);
 			$name = $DB->escapeString($name); //sanitize input
@@ -336,7 +336,7 @@
 		public function testExists($testName) {
 			$DB = $this->Db;
 			$DB->checkString($testName, __CLASS__, __FUNCTION__);
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args());
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__);
 
 			$table = $DB->tables['Tests'];
 			$testName = $DB->escapeString($testName);
@@ -354,7 +354,7 @@
 		private function _getMaxTestNumberForCourse($course_id){
 			$DB = $this->Db;
 			$DB->checkString($course_id, __CLASS__, __FUNCTION__);
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$table = $DB->tables['Tests'];
 			$course_id = $DB->escapeString($course_id);

@@ -37,8 +37,6 @@
 
 		/**
 		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
-		 *
-		 * @throws error Complains that configuration file is not found and halts execution
 		 */
 		function __construct() {
 			$dirname = dirname(__FILE__);
@@ -124,15 +122,15 @@
 		/**
 		 * This utility function will check the number of arguments
 		 *
+		 * @param integer $argumentsSupplied How many arguments were supplied
+		 * @param integer $numberOfArguments How many arguments are required
 		 * @param string  $class             Class name
 		 * @param string  $function          Function name
-		 * @param integer $numberOfArguments How many arguments are required
-		 * @param integer $argumentsSupplied How many arguments were supplied
 		 * @param bool    $exact             Should the number be exact? Default to false
 		 *
 		 * @return bool True if successful
 		 */
-		public function checkNumberOfArguments($class, $function, $numberOfArguments, $argumentsSupplied, $exact = false) {
+		public function checkNumberOfArguments($argumentsSupplied, $numberOfArguments, $class, $function, $exact = false) {
 			if (!$exact) {
 				if ($argumentsSupplied != $numberOfArguments) {
 					trigger_error("$class::$function requires exactly $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
@@ -154,13 +152,15 @@
 		 * This utility function will check an argument type
 		 *
 		 * @param mixed  $argument The argument to check
-		 * @param string $class    The class where the error occurred
-		 * @param string $function The function where the error occurred
 		 * @param string $type     The type the argument was is supposed to be
+		 *
+		 * @param string $class    The class where the error occurred
+		 *
+		 * @param string $function The function where the error occurred
 		 *
 		 * @return bool True if succeeded
 		 */
-		public function checkArgumentType($argument, $class, $function, $type) {
+		public function checkArgumentType($argument, $type, $class, $function) {
 			$errorString = false;
 			switch ($type) {
 				case 'scalar':

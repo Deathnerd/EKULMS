@@ -2,9 +2,7 @@
 	/**
 	 * This script handles the logic to make a course
 	 */
-	error_reporting(E_ALL);
-	require_once('../utils/utilities.php');
-	$Utils = new Utilities();
+	require_once('../requires/Globals.php');
 
 	//need an action
 	if (!isset($_GET['action'])) {
@@ -12,10 +10,6 @@
 		exit();
 	}
 	$action = $_GET['action'];
-
-	$Utils->checkFile('../requires/Courses.php', __FILE__, __LINE__);
-	require_once('../requires/Courses.php'); //import the user database methods
-	$Courses = new Courses;
 
 	switch ($action) {
 		//if the action is to create a course

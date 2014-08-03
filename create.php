@@ -13,7 +13,6 @@
 		header('Location: index.php');
 	}
 
-	$Utilities->checkFile('requires/header.php', __FILE__, __LINE__);
 	require('requires/header.php');
 ?>
 	<header id="topNav">
@@ -70,7 +69,6 @@
 		<!-- End choices table -->
 	</div>
 <?
-	$Utilities->checkFile('requires/footer.php', __FILE__, __LINE__);
 	require('requires/footer.php');
 	$DB->close();
 ?>

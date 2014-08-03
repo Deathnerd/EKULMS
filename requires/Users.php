@@ -26,7 +26,7 @@
 		 */
 		public function userExists($userName) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName)); //sanitize input
@@ -46,7 +46,7 @@
 		 */
 		public function checkPassword($userName, $password) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			//lowercase and sanitize inputs
@@ -76,7 +76,7 @@
 		 */
 		public function fetchUser($userName) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
@@ -101,7 +101,7 @@
 		 */
 		public function create($userName, $password) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));

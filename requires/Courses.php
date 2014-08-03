@@ -42,7 +42,7 @@
 		public function fetchById($id) {
 			$DB = $this->Db;
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			//lowercase and sanitize input
 			$id = $DB->escapeString(strtolower($id));
 			$table = $DB->tables['Courses'];
@@ -65,7 +65,7 @@
 		 */
 		public function fetchByName($courseName) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize input
 			$courseName = $DB->escapeString(strtolower($courseName));
@@ -91,7 +91,7 @@
 		 */
 		public function create($courseName, $id, $description) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			//lowercase and sanitize input
@@ -118,7 +118,7 @@
 
 		public function modify($id, $column, $value) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			$id = $DB->escapeString($id);
@@ -153,7 +153,7 @@
 
 		public function addInstructor($courseId, $userName) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			$courseId = $DB->escapeString($courseId);
@@ -185,7 +185,7 @@
 		 */
 		public function addStudent($courseId, $userName) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			$courseId = $DB->escapeString($courseId);
@@ -217,7 +217,7 @@
 		 */
 		public function courseExists($courseId) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), 1);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, 1);
 			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
 
 			$courseId = $DB->escapeString($courseId);
@@ -239,7 +239,7 @@
 		 */
 		public function fetchEnrolledCourses($userName, $type) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 
 			$userName = $DB->escapeString(strtolower($userName));
@@ -296,7 +296,7 @@
 		 */
 		public function addCourse($courseId, $courseName, $description = '') {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			if (!$this->courseExists($courseId)) {
@@ -327,7 +327,7 @@
 		 */
 		public function updateCourse($courseId, $courseName, $description){
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			if (!$this->courseExists($courseId)) {

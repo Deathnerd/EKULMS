@@ -10,7 +10,6 @@
 		header('Location: signin.php');
 		exit();
 	}
-	$Utils->checkFile('requires/header.php', __FILE__, __LINE__);
 	require_once('requires/header.php');
 ?>
 	<p id="userGreeting">
@@ -51,7 +50,6 @@
 		</select>
 	</div>
 <?
-	$Utils->checkFile('requires/footer.php', __FILE__, __LINE__);
 	require_once('requires/footer.php');
 	$DB->close();
 ?>
