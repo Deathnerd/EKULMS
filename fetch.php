@@ -6,15 +6,14 @@
 	 * @todo Fix cross-domain AJAX requests
 	 */
 
+	require_once('requires/Globals.php');
 	header('Access-Control-Allow-Origin: *');
 	header("Content-type: application/text");
 	if(!isset($_GET['data'])){
 		exit("Request Empty!");
 	}
 
-	require_once('requires/Tests.php');
-	$Test = new Tests();
-	$results = $Test->fetchByName($_GET['data']);
+	$results = $Tests->fetchByName($_GET['data']);
 	if(!$results){
 		echo "Failed!";
 		exit();

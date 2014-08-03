@@ -3,8 +3,6 @@
 	 * Contains the Db class
 	 */
 
-	error_reporting(E_ALL);
-
 	/**
 	 * Class for facilitating Database connections
 	 * @todo change from ini configuration file to JSON
@@ -236,12 +234,7 @@
 		public function queryOrDie($query, $file, $line){
 			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
 
-			$conn = $this->connection;
-			$query = mysqli_query($conn, $query) or die("Error in $file on line $line: " . mysqli_error($conn));
-			if(!$this->checkResult($query)){
-				return false;
-			}
-			return $query;
+			return mysqli_query($this->connection, $query) or die("Error in $file on line $line: " . mysqli_error($this->connection));
 		}
 
 		/**

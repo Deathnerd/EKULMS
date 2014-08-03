@@ -2,12 +2,14 @@
 	/**
 	 * This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
 	 */
+	require_once('requires/Globals.php');
 	session_start();
 	$userName = $_SESSION['userName'];
 	if (!isset($userName)) { //if not logged in already, go to login page
 		header('Location: signin.php');
 		exit();
 	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,8 +32,6 @@
 	<p id="pageTitle"></p>
 	<select><?
 			//populate the dropdown
-			require_once('requires/Tests.php');
-			$Tests = new Tests();
 			$listOfTests = $Tests->fetchAll();
 			foreach ($listOfTests as $name){
 				$testName = $name['testName'];
@@ -46,4 +46,5 @@
 </p>
 <?
 	require('requires/footer.php');
+	$DB->close();
 ?>

@@ -6,9 +6,7 @@
 	 * Time: 6:37 PM
 	 */
 
-	error_reporting(E_ALL);
-	require_once('utils/utilities.php');
-	$Utils = new Utilities();
+	require_once('requires/Globals.php');
 	session_start();
 
 	if (!$_SESSION['userName']) { //if a user is already signed in
@@ -21,10 +19,6 @@
 		exit();
 	}
 
-	$Utils->checkFile('requires/Courses.php', __FILE__, __LINE__);
-	require_once('requires/Courses.php'); //import the course database functions
-
-	$Courses = new Courses;
 	if (!$Courses->courseExists($_GET['courseId'])) {
 		echo "Course does not exist";
 		exit();
@@ -35,5 +29,5 @@
 		exit();
 	}
 	echo("Success");
-	$Courses->close(); //close connection
+	$DB->close(); //close connection
 	exit();

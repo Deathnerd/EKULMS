@@ -7,6 +7,7 @@
 		header('Location: index.php');
 		exit();
 	}
+	require_once('requires/Globals.php');
 	require('requires/header.php');
 ?>
 	<div id="bodyContainer">

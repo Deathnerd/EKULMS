@@ -5,9 +5,7 @@
 	 * Date: 6/29/14
 	 * Time: 4:26 PM
 	 */
-	error_reporting(E_ALL);
-	require_once('utils/utilities.php');
-	$Utils = new Utilities();
+	require_once('requires/Globals.php');
 	session_start();
 	
 	if (!$_SESSION['userName'] || $_SESSION['admin'] != '1') { //if a user is not already signed in
@@ -19,15 +17,9 @@
 		exit();
 	}
 
-	if(!is_file('requires/Courses.php')){
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Courses.php! Check your installation");
-	}
-	require_once('requires/Courses.php');
-
-	$Courses = new Courses();
-
 	if($Courses->courseExists($_GET['courseId'])){
 		echo "Course already exists";
+		$DB->close();
 		exit();
 	}
 
@@ -36,4 +28,4 @@
 	} else {
 		echo("Success");
 	}
-	$Courses->close();
+	$DB->close();

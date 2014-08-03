@@ -3,12 +3,7 @@
 	 * This script handles the logic of signing up a user. If the user exists, it returns with a string saying so. Otherwise, the user is added to the database and a success message is returned
 	 */
 	error_reporting(E_ALL);
-	require_once('utils/utilities.php');
-	$Utils = new Utilities();
 	session_start();
-
-	$Utils->checkFile('requires/Users.php', __FILE__, __LINE__);
-	require_once('requires/Users.php'); //import the user database functions
 
 	if ($_SESSION['userName'] != '') { //if a user is already signed in
 		header('Location: index.php');
@@ -31,9 +26,7 @@
 		exit();
 	}
 
-	$Users = new Users; //Users class contains functions related to user interaction/manipulation
-	$Db = new Db; //base class containing generic database functions
-
+	require_once('requires/Globals.php');
 	//check if user exists in database
 	if (!$Users->userExists($_SESSION['userName'])) { //if user does not already exist, then attempt to create it
 		if ($Users->create($_SESSION['userName'], $_SESSION['password'])) { //if user created successfully

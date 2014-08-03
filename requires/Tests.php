@@ -5,23 +5,17 @@
 	 * Date: 4/8/14
 	 * Time: 12:23 AM
 	 */
-	if (!is_file(realpath(dirname(__FILE__)) . '/Courses.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Courses.php! Check your installation");
-	}
-	require_once(realpath(dirname(__FILE__)) . "/Courses.php");
 
 	/**
 	 * This class is responsible for the management of Tests
 	 */
-	class Tests extends Courses {
-		protected $connection;
+	class Tests{
 
 		/**
 		 * Constructor!
-		 * @uses Courses::__construct()
 		 */
-		function __construct() {
-			parent::__construct(); //call the parent constructor
+		function __construct(Db $db) {
+			$this->Db = $db;
 		}
 
 		/**
@@ -31,19 +25,20 @@
 		 * @return array
 		 */
 		public function addToTestTable($courseId, $testName) {
-			$this->checkArgumentType($courseId, __CLASS__, __FUNCTION__, 'string');
-			$this->checkArgumentType($testName, __CLASS__, __FUNCTION__, 'string');
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB = $this->Db;
+			$DB->checkArgumentType($courseId, __CLASS__, __FUNCTION__, 'string');
+			$DB->checkArgumentType($testName, __CLASS__, __FUNCTION__, 'string');
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
 
-			$courseId = $this->escapeString($courseId);
-			$testName = $this->escapeString($testName);
+			$courseId = $DB->escapeString($courseId);
+			$testName = $DB->escapeString($testName);
 
-			$table = $this->tables['Tests'];
+			$table = $DB->tables['Tests'];
 			$currentTestNumber = 1;
 
-			$result = $this->queryOrDie("SELECT testNumber FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
+			$result = $DB->queryOrDie("SELECT testNumber FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
 
-			if (!$this->checkResult($result)) { //if the course is not listed in the Tests table, add the first record
+			if (!$DB->checkResult($result)) { //if the course is not listed in the Tests table, add the first record
 				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', 1, '$testName');";
 			} else { //if the course is listed in the Tests table, increment the test number and insert
 				$currentTestNumber = $this->_getMaxTestNumberForCourse($courseId);
@@ -53,7 +48,7 @@
 				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestNumber, '$testName');";
 			}
 
-			if (!$this->checkResult($this->queryOrDie($sql, __FILE__, __LINE__))) {
+			if (!$DB->checkResult($DB->queryOrDie($sql, __FILE__, __LINE__))) {
 				return false;
 			}
 
@@ -69,13 +64,13 @@
 		 */
 
 		public function makeTest(array $data) {
+			$DB = $this->Db;
 			//check if data passed is an array
-			$this->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
-			$table = $this->tables['Tests'];
-			$courseId = $this->escapeString($data['courseId']);
-			$testName = $this->escapeString($data['_quizName']); //get the new test name
+			$courseId = $DB->escapeString($data['courseId']);
+			$testName = $DB->escapeString($data['_quizName']); //get the new test name
 
 			//add quiz name and relevant course to the tests table
 			$currentTestNumber = $this->addToTestTable($courseId, $testName, $data);
@@ -83,11 +78,11 @@
 			//insert the test into the Questions table. Oh boy...
 			$questions = $data["quiz"]["questions"];
 			$numberOfQuestions = 1;
-			$table = $this->tables['Questions'];
+			$table = $DB->tables['Questions'];
 			foreach ($questions as $question) {
-				$prompt = $this->escapeString($question['prompt']);
+				$prompt = $DB->escapeString($question['prompt']);
 				for ($i = 0; $i < count($question['choices']); $i++) {
-					$question['choices'][$i]['value'] = $this->escapeString($question['choices'][$i]['value']);
+					$question['choices'][$i]['value'] = $DB->escapeString($question['choices'][$i]['value']);
 				}
 				$choices = $question['choices'];
 				if ($choices[0] === null) {
@@ -128,7 +123,7 @@
 
 				//insert everything into the current test
 				$sql = "INSERT INTO `$table` (testId, questionNumber, a, b, c, d, correct, prompt) VALUES ($currentTestNumber, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', '$correct', '$prompt');";
-				$this->queryOrDie($sql, __FILE__, __LINE__);
+				$DB->queryOrDie($sql, __FILE__, __LINE__);
 				$numberOfQuestions++;
 			}
 
@@ -143,15 +138,16 @@
 		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
 		 */
 		public function updateTest(array $data) {
-			$this->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB = $this->Db;
+			$DB->checkArgumentType($data, __CLASS__, __FUNCTION__, 'array');
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
-			$table = $this->tables['Tests'];
-			$testName = $this->escapeString($data['_quizName']);
+			$table = $DB->tables['Tests'];
+			$testName = $DB->escapeString($data['_quizName']);
 
 			//check if the test exists
-			$sql = "SELECT testName, testId FROM `$table` WHERE testName='$testName';";
-			if (!$results = $this->queryOrDie($sql, __FILE__, __LINE__)) {
+			$results = $DB->queryOrDie("SELECT testName, testId FROM `$table` WHERE testName='$testName';", __FILE__, __LINE__);
+			if (!$results) {
 				return false;
 			}
 
@@ -162,18 +158,18 @@
 			if ($testName != $currentQuizName) { //if the new name is different from the old one
 				//update the name of the quiz
 				$sql = "UPDATE `$table` SET testName='$testName' WHERE testName='$currentQuizName';";
-				if (!$this->queryOrDie($sql, __FILE__, __LINE__)) {
+				if (!$DB->queryOrDie($sql, __FILE__, __LINE__)) {
 					return false;
 				}
 			}
 
 			$questions = $data["quiz"]["questions"];
 			$numberOfQuestions = 1;
-			$table = $this->tables['Questions'];
+			$table = $DB->tables['Questions'];
 			foreach ($questions as $question) {
-				$prompt = $this->escapeString($question['prompt']);
+				$prompt = $DB->escapeString($question['prompt']);
 				for ($i = 0; $i < count($question['choices']); $i++) {
-					$question['choices'][$i]['value'] = $this->escapeString($question['choices'][$i]['value']);
+					$question['choices'][$i]['value'] = $DB->escapeString($question['choices'][$i]['value']);
 				}
 				$choices = $question['choices'];
 				if ($choices[0] === null) {
@@ -214,7 +210,7 @@
 
 				//update the current test item
 				$sql = "UPDATE `$table` SET a='$choiceValues[0]', b='$choiceValues[1]', c='$choiceValues[2]', d='$choiceValues[3]', correct='$correct', prompt='$prompt' WHERE testId=$testId AND questionNumber=$numberOfQuestions;";
-				$this->queryOrDie($sql, __FILE__, __LINE__);
+				$DB->queryOrDie($sql, __FILE__, __LINE__);
 				$numberOfQuestions++;
 			}
 
@@ -230,14 +226,15 @@
 		 * @return array|bool Return all columns from Tests table if successful or false if not
 		 */
 		public function fetchByName($name) {
-			$this->checkString($name, __CLASS__, __FUNCTION__);
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB = $this->Db;
+			$DB->checkString($name, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
 			$test = array("_quizName" => $name);
-			$name = $this->escapeString($name); //sanitize input
-			$table = $this->tables['Tests'];
+			$name = $DB->escapeString($name); //sanitize input
+			$table = $DB->tables['Tests'];
 
-			if (!$query = $this->queryOrDie("SELECT * FROM `$table` WHERE testName='$name';", __FILE__, __LINE__)) {
+			if (!$query = $DB->queryOrDie("SELECT * FROM `$table` WHERE testName='$name';", __FILE__, __LINE__)) {
 				return false;
 			}
 			//contains testId, testName, testNumber, courseId
@@ -251,10 +248,10 @@
 
 			//get all questions from the Questions table with the same testId
 			$testId = $testMetadata['testId'];
-			$table = $this->tables['Questions'];
-			$query = $this->queryOrDie("SELECT * FROM `$table` WHERE testId='$testId' ORDER BY questionNumber;", __FILE__, __LINE__);
+			$table = $DB->tables['Questions'];
+			$query = $DB->queryOrDie("SELECT * FROM `$table` WHERE testId='$testId' ORDER BY questionNumber;", __FILE__, __LINE__);
 
-			if (!$this->checkResult($query)) {
+			if (!$DB->checkResult($query)) {
 				return false;
 			}
 
@@ -318,14 +315,15 @@
 		 * @return array|bool Returns false if failed, otherwise returns an array of results
 		 */
 		public function fetchAll() {
-			$table = $this->tables['Tests'];
-			$sql = $this->queryOrDie("SELECT * FROM `$table`", __FILE__, __LINE__);
-			if (!$this->checkResult($sql)) {
+			$DB = $this->Db;
+			$table = $DB->tables['Tests'];
+			$sql = $DB->queryOrDie("SELECT * FROM `$table`", __FILE__, __LINE__);
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
 			//return all results as an array
-			return $this->fetchAllRows($sql);
+			return $DB->fetchAllRows($sql);
 		}
 
 		/**
@@ -336,13 +334,14 @@
 		 * @return bool
 		 */
 		public function testExists($testName) {
-			$this->checkString($testName, __CLASS__, __FUNCTION__);
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args());
+			$DB = $this->Db;
+			$DB->checkString($testName, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args());
 
-			$table = $this->tables['Tests'];
-			$testName = $this->escapeString($testName);
+			$table = $DB->tables['Tests'];
+			$testName = $DB->escapeString($testName);
 
-			return $this->checkResult($this->queryOrDie("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$testName');", __FILE__, __LINE__));
+			return $DB->checkResult($DB->queryOrDie("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$testName');", __FILE__, __LINE__));
 		}
 
 		/**
@@ -353,13 +352,14 @@
 		 * @return int The test number if there is one or 0 (false) if not
 		 */
 		private function _getMaxTestNumberForCourse($course_id){
-			$this->checkString($course_id, __CLASS__, __FUNCTION__);
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB = $this->Db;
+			$DB->checkString($course_id, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 
-			$table = $this->tables['Tests'];
-			$course_id = $this->escapeString($course_id);
-			$result = $this->queryOrDie("SELECT MAX(testNumber) AS 'testNumber' FROM `$table` WHERE courseId='$course_id'; ", __FILE__, __LINE__);
-			if($this->checkResult($result)){
+			$table = $DB->tables['Tests'];
+			$course_id = $DB->escapeString($course_id);
+			$result = $DB->queryOrDie("SELECT MAX(testNumber) AS 'testNumber' FROM `$table` WHERE courseId='$course_id'; ", __FILE__, __LINE__);
+			if($DB->checkResult($result)){
 				return intval($result['testNumber']);
 			}
 			return 0;

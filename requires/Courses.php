@@ -1,25 +1,18 @@
 <?
-	if (!is_file(realpath(dirname(__FILE__)) . '/Users.php')) {
-		die("Error in " . __FILE__ . " on line " . __LINE__ . ": Cannot find Users.php! Check your installation");
-	}
-	require(realpath(dirname(__FILE__)) . "/Users.php");
 
 	/**
 	 * This file manages all things related to courses
 	 * @uses Db::__construct()
 	 * @uses Users::__construct()
 	 */
-	class Courses extends Users {
-
-		protected $connection = null;
+	class Courses {
 
 		/**
 		 * Constructor!
 		 * @uses Users::__construct()
 		 */
-		function __construct() {
-			parent::__construct(); //call the parent constructor
-			$this->connection = Db::getConnection(); //MySQL connection handler
+		function __construct(Db $db) {
+			$this->Db = $db;
 		}
 
 		/**
@@ -27,15 +20,16 @@
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchAll() {
-			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table`") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$DB = $this->Db;
+			$table = $DB->tables['Courses'];
+			$sql = $DB->queryOrDie("SELECT * FROM `$table`", __FILE__, __LINE__);
 
-			if (!$this->checkResult($sql)) {
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
 			//return all results as an array
-			return $this->fetchAllRows($sql);
+			return $DB->fetchAllRows($sql);
 		}
 
 		/**
@@ -46,14 +40,15 @@
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchById($id) {
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB = $this->Db;
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
 			//lowercase and sanitize input
-			$id = mysqli_real_escape_string($this->connection, strtolower($id));
-			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$id'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$id = $DB->escapeString(strtolower($id));
+			$table = $DB->tables['Courses'];
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$id'", __FILE__, __LINE__);
 
-			if (!$this->checkResult($sql)) {
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
@@ -69,14 +64,15 @@
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
 		 */
 		public function fetchByName($courseName) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize input
-			$courseName = mysqli_real_escape_string($this->connection, strtolower($courseName));
-			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseName='$courseName'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$courseName = $DB->escapeString(strtolower($courseName));
+			$table = $DB->tables['Courses'];
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseName='$courseName'", __FILE__, __LINE__);
 
-			if (!$this->checkResult($sql)) {
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
@@ -94,19 +90,20 @@
 		 * @return boolean Return true if successful, or false if not
 		 */
 		public function create($courseName, $id, $description) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			//lowercase and sanitize input
-			$table = $this->tables['Courses'];
-			$courseName = mysqli_real_escape_string($this->connection, $courseName);
-			$id = mysqli_real_escape_string($this->connection, $id);
-			$description = mysqli_real_escape_string($this->connection, $description);
+			$table = $DB->tables['Courses'];
+			$courseName = $DB->escapeString($courseName);
+			$id = $DB->escapeString($id);
+			$description = $DB->escapeString($description);
 
-			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = $DB->queryOrDie("INSERT INTO `$table` (courseName, courseId, description) VALUES ('$courseName', '$id', '$description')", __FILE__, __LINE__);
 
 			//check if successfully entered
-			return $this->fetchById($id) && $this->checkResult($sql);
+			return $this->fetchById($id) && $DB->checkResult($sql);
 		}
 
 		/**
@@ -120,25 +117,22 @@
 		 */
 
 		public function modify($id, $column, $value) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			$id = mysqli_real_escape_string($this->connection, $id);
-			$column = mysqli_real_escape_string($this->connection, $column);
-			if ($value == "description") { //don't lowercase the value if it's a description
-				$value = mysqli_real_escape_string($this->connection, $value);
-			} else {
-				$value = mysqli_real_escape_string($this->connection, $value);
-			}
+			$id = $DB->escapeString($id);
+			$column = $DB->escapeString($column);
+			$value = $DB->escapeString($value);
 
-			$table = $this->tables['Courses'];
-			$sql = mysqli_query($this->connection, "UPDATE `$table` SET $column='$value' WHERE courseId='$id'") or die("Error in file " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$table = $DB->tables['Courses'];
+			$sql =  $DB->queryOrDie("UPDATE `$table` SET $column='$value' WHERE courseId='$id'", __FILE__, __LINE__);
 			//if the course id was changed, then update the $id to the changed id
 			if ($column == "courseId") {
 				$id = $value;
 			}
 			//check if the row exists
-			if (!$this->fetchById($id) || !$this->checkResult($sql)) {
+			if (!$this->fetchById($id) || !$DB->checkResult($sql)) {
 				$changedValue = $this->fetchById($id);
 				if ($changedValue[$column] != $value) { //check if the value was not actually changed
 					return false;
@@ -158,20 +152,27 @@
 		 */
 
 		public function addInstructor($courseId, $userName) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			$courseId = mysqli_real_escape_string($this->connection, $courseId);
-			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
+			$courseId = $DB->escapeString($courseId);
+			$userName = $DB->escapeString(strtolower($userName));
 
+			require_once("Users.php");
+
+			$Users = new Users($DB);
 			//get the userId from the Users table
-			$userId = $this->fetchUser($userName);
+			$userId = $Users->fetchUser($userName);
+			if(!$userId){
+				return false;
+			}
 			$userId = intval($userId['id']);
 			//add instructor to the Teach table
-			$table = $this->tables['Teach'];
-			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$table = $DB->tables['Teach'];
+			$sql =  $DB->queryOrDie("INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')", __FILE__, __LINE__);
 
-			return $this->checkResult($sql);
+			return $DB->checkResult($sql);
 		}
 
 		/**
@@ -183,20 +184,28 @@
 		 * @return boolean returns true if successful, false if otherwise
 		 */
 		public function addStudent($courseId, $userName) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 2, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			$courseId = mysqli_real_escape_string($this->connection, $courseId);
-			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
+			$courseId = $DB->escapeString($courseId);
+			$userName = $DB->escapeString(strtolower($userName));
 
+			require_once("Users.php");
+			$Users = new Users($this->Db);
 			//get the userId from the Users table
-			$userId = $this->fetchUser($userName);
+			$userId = $Users->fetchUser($userName);
+			if(!$userId){
+				return false;
+			}
 			$userId = intval($userId['id']);
 			//add instructor to the Enrollment table
-			$table = $this->tables['Enrollment'];
-			$sql = mysqli_query($this->connection, "INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$table = $DB->tables['Enrollment'];
 
-			return $this->checkResult($sql);
+			if(!$DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__)){
+				return $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')", __FILE__, __LINE__));
+			}
+			return false;
 		}
 
 		/**
@@ -207,15 +216,16 @@
 		 * @returns boolean returns true if course exists, false otherwise
 		 */
 		public function courseExists($courseId) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), 1);
-			$this->checkString($courseId, __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), 1);
+			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
 
-			$courseId = mysqli_real_escape_string($this->connection, $courseId);
-			$table = $this->tables['Courses'];
+			$courseId = $DB->escapeString($courseId);
+			$table = $DB->tables['Courses'];
 
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId'",__FILE__, __LINE__);
 
-			return $this->checkResult($sql);
+			return $DB->checkResult($sql);
 		}
 
 		/**
@@ -223,20 +233,28 @@
 		 *
 		 * @param $userName string the user name to search for
 		 *
+		 * @param $type string the type of user to fetch
+		 *
 		 * @return array|bool Return an array of courses if enrolled in any, false if otherwise
 		 */
-		public function fetchEnrolledCourses($userName) {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
-			$this->checkString($userName, __CLASS__, __FUNCTION__);
+		public function fetchEnrolledCourses($userName, $type) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 1, func_num_args(), true);
+			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 
-			$userName = mysqli_real_escape_string($this->connection, strtolower($userName));
-			$userId = $this->fetchUser($userName);
+			$userName = $DB->escapeString(strtolower($userName));
+			$Users = new Users($DB);
+			//get the userId from the Users table
+			$userId = $Users->fetchUser($userName);
 			$userId = $userId['id'];
-			$table = $this->tables['Enrollment'];
-			$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE id=$userId") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			if($type === 'student')
+				$table = $DB->tables['Enrollment'];
+			else
+				$table = $DB->tables['Teach'];
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE id=$userId", __FILE__, __LINE__);
 
 			//if the student is not enrolled in any courses
-			if (!$this->checkResult($sql)) {
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
@@ -246,14 +264,14 @@
 				$courseIds[] = $row['courseId'];
 			}
 
-			$table = $this->tables['Courses'];
+			$table = $DB->tables['Courses'];
 			$rows = array();
 			//build the return array
 			$count = 0;
 			foreach ($courseIds as $courseId) {
-				$sql = mysqli_query($this->connection, "SELECT * FROM `$table` WHERE courseId='$courseId'") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+				$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId'", __FILE__, __LINE__);
 
-				if (!$this->checkResult($sql)) {
+				if (!$DB->checkResult($sql)) {
 					return false;
 				}
 				$result = $sql->fetch_row();
@@ -268,20 +286,59 @@
 		}
 
 
+		/**
+		 * Add a course to the database
+		 * @param string $courseId The courseId
+		 * @param string $courseName The course name
+		 * @param string $description The description of the course
+		 *
+		 * @return bool
+		 */
 		public function addCourse($courseId, $courseName, $description = '') {
-			$this->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
-			$this->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			if (!$this->courseExists($courseId)) {
 				return false;
 			}
 
-			$courseId = mysqli_real_escape_string($this->database, $courseId);
-			$courseName = mysqli_real_escape_string($this->database, $courseName);
-			$description = mysqli_real_escape_string($this->database, $description);
+			$table = $DB->tables['Courses'];
+			$courseId = $DB->escapeString($courseId);
+			$courseName = $DB->escapeString($courseName);
+			$description = $DB->escapeString($description);
 
-			$sql = mysqli_query($this->database, "INSERT INTO courses (courseId, courseName, description) VALUES ($courseId, $courseName, $description);") or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
+			if(!$DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND courseName='$courseName' AND description = '$description';", __FILE__, __LINE__)){
+				return  $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (courseId, courseName, description) VALUES ($courseId, $courseName, $description);", __FILE__, __LINE__));
+			}
 
-			return $this->checkResult($sql);
+			return false;
+		}
+
+
+		/**
+		 * This will update the course based on the courseId
+		 *
+		 * @param string $courseId The id of the course to update
+		 * @param string $courseName The name of the course
+		 * @param string $description The description of the course
+		 *
+		 * @return bool
+		 */
+		public function updateCourse($courseId, $courseName, $description){
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(__CLASS__, __FUNCTION__, 3, func_num_args(), true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+
+			if (!$this->courseExists($courseId)) {
+				return false;
+			}
+
+			$table = $DB->tables['Courses'];
+			$courseId = $DB->escapeString($courseId);
+			$courseName = $DB->escapeString($courseName);
+			$description = $DB->escapeString($description);
+
+			return $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET courseName='$courseName', description='$description' WHERE courseid = '$courseId';", __FILE__, __LINE__ ));
 		}
 	}
