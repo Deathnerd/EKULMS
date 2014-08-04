@@ -12,12 +12,12 @@ As of April 8th, 2014, EKULMS is in alpha stage. This is a proof of concept that
 * Basic course management - **Complete**
 * Basic test management - **In progress**
 * Integration with the EKU Central Authentication System  - **Todo**
-* MySQL PDO queries instead of inline PHP - **Todo**
+* ~~MySQL PDO queries instead of inline PHP~~ Repace with MVC such as Laravel or Cake- **Todo**
 * User statistics with visual graphs representing a student's progress over time - **In progress**
 * Aesthetically pleasing, functional, and user-friendly UI - **Todo**
-* Complete AJAX/JSON based REST API - Indefinitely in progress**
+* Complete AJAX/JSON based REST API - **Indefinitely in progress**
 * Full PHPDoc documentation for ease of future development - **Indefinitely in progress**
-* Complete code refactor to provide clean, maintainable code - **Todo**
+* Complete code refactor to provide clean, maintainable code - **Complete**
 * Setup and migration scripts (Python or PHP) - **Todo (not necessary for launch)**
 * Full HTML5 web standards compliance - **Indefinitely in progress**
 * Full responsive design - **Todo (not necessary for launch)**
