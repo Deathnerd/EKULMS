@@ -2,12 +2,14 @@
 	/**
 	 * This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
 	 */
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
+	$DB = new Db();
+	$Tests = new Tests($DB);
+	$Utils = new Utilities();
 	session_start();
 	$userName = $_SESSION['userName'];
-	if (!isset($userName)) { //if not logged in already, go to login page
-		header('Location: signin.php');
-		exit();
+	if (!$Utils->checkIsSet(array($userName), array(""))) { //if not logged in already, go to login page
+		$Utils->redirectAndExit('signin.php');
 	}
 
 ?>
@@ -44,8 +46,7 @@
 <p id="userGreeting">
 	<? echo "Hello, $userName!"; ?>
 </p>
-<div id="holding_div"></div>
 <?
-	require('requires/footer.php');
+	$UI->show("footer");
 	$DB->close();
 ?>

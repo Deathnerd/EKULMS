@@ -6,30 +6,21 @@
 	 * @todo Fix cross-domain AJAX requests
 	 */
 
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 	header('Access-Control-Allow-Origin: *');
-<<<<<<< HEAD
-
-	require_once('requires/Tests.php');
-	$Test = new Tests();
-
-	if(!$results = $Test->fetchByName($_GET['data'])){
-		exit(json_encode(array('_quizName' => "Failed To Load")));
-	}
-
-	exit(json_encode($results));
-=======
 	header("Content-type: application/text");
-	if(!isset($_GET['data'])){
-		exit("Request Empty!");
+	$DB = new Db();
+	$Tests = new Tests($DB);
+	$Utils = new Utilities();
+
+	if(!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))){
+		exit();
 	}
 
 	$results = $Tests->fetchByName($_GET['data']);
 	if(!$results){
-		echo "Failed!";
-		exit();
+		exit("Failed!");
 	}
 
 	$DB->close();
 	exit(json_encode($results));
->>>>>>> Tests

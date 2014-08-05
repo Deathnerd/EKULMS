@@ -56,7 +56,6 @@ class Utilities {
 	}
 
 	/**
-<<<<<<< HEAD:utils/utilities.php
 	 * Prints an object inside a <pre> tag using print_r() for easy reading
 	 *
 	 * @param mixed   $thingToPrint the object to output with a print_r()
@@ -67,7 +66,8 @@ class Utilities {
 			<pre><? print_r($arg) ?></pre><br/><?
 		}
 	}
-=======
+
+	/**
 	 * Simple method to check if a file exists and die with a message if not
 	 *
 	 * @param string $location Where is the file?
@@ -111,5 +111,26 @@ class Utilities {
 
 		return $returnVal;
 	}
->>>>>>> Tests:requires/utils/utilities.php
+
+	/**
+	 * This is a shortcut method that closes a database connection and exits with a message if one is supplied
+	 *
+	 * @param Db     $DB The database object that has the active connection
+	 * @param string $message The message to echo upon exit
+	 */
+	function closeAndExit(Db $DB, $message = ""){
+		$DB->close();
+		exit($message);
+	}
+
+
+	/**
+	 * This is a shortcut method to redirect a client and exit the script
+	 *
+	 * @param string $location The location to bounce back to
+	 */
+	public function redirectAndExit($location){
+		header("Location: $location");
+		exit();
+	}
 }

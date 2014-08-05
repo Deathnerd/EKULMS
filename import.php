@@ -6,9 +6,12 @@
 	 * Time: 7:09 PM
 	 */
 
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 
 	chdir("./quizzes");
+
+	$DB = new Db();
+	$Tests = new Tests($DB);
 	$files = scandir(".");
 	for($i = 2; $i < count($files); $i++){
 		print_r($files[$i]);

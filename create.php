@@ -3,17 +3,19 @@
 	 * This page will provide an interface for instructor users to create quizzes.
 	 * @todo check if user is an admin or an instructor. Currently checking only for admin
 	 */
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 	session_start();
+	$Utils = new Utilities();
 
-	if (!isset($_SESSION['userName'])) { //if there isn't a user logged in, send them to the login page
-		header('Location: signin.php');
+	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there isn't a user logged in, send them to the login page
+		$Utils->redirectAndExit("signin.php");
 	}
 	if ($_SESSION['admin'] != '1') { //if user isn't an admin, send them to the index
-		header('Location: index.php');
+		$Utils->redirectAndExit('index.php');
 	}
-
-	require('requires/header.php');
+	$DB = new Db();
+	$UI = new UI("Create Test");
+	$UI->show('header');
 ?>
 	<header id="topNav">
 		<div id="logo">
@@ -69,6 +71,6 @@
 		<!-- End choices table -->
 	</div>
 <?
-	require('requires/footer.php');
+	$UI->show('footer');
 	$DB->close();
 ?>

@@ -2,15 +2,22 @@
 	/**
 	 * Lists a user's account information along with links to course pages and statistitcs. The usser will be redirected to the login page if they are not currently logged in
 	 */
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 	session_start();
 
-	$userName = $_SESSION['userName'];
-	if (!isset($userName)) { //if not logged in, go to the login page
+	$Utils = new Utilities();
+	if (!$Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if not logged in, go to the login page
 		header('Location: signin.php');
 		exit();
 	}
-	require_once('requires/header.php');
+
+	$userName = $_SESSION['userName'];
+
+	$DB = new Db();
+	$Courses = new Courses($DB);
+	$UI = new UI();
+
+	$UI->show("header");
 ?>
 	<p id="userGreeting">
 		<?= "Hello, $userName!"; ?>
@@ -50,6 +57,6 @@
 		</select>
 	</div>
 <?
-	require_once('requires/footer.php');
+	$UI->show("footer");
 	$DB->close();
 ?>

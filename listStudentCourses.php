@@ -6,7 +6,9 @@
 	 * Time: 8:02 PM
 	 */
 	error_reporting(E_ALL);
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
+	$DB = new Db();
+	$Courses = new Courses($DB);
 	session_start();
 
 	$enrolledCourses = $Courses->fetchEnrolledCourses($_SESSION['userName'], 'student');
@@ -15,9 +17,7 @@
 	if (is_array($enrolledCourses)) {
 		header('Access-Control-Allow-Origin: ');
 		header('Content-type: application/json');
-		echo json_encode($enrolledCourses);
-	} else {
-		echo "UH OH!";
+		$Utils->closeAndExit($DB, json_encode($enrolledCourses));
 	}
-	$DB->close();
-	exit();
+
+	$Utils->closeAndExit($DB, "UH OH!");
