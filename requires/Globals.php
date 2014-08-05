@@ -12,7 +12,7 @@
 	 * Returns the root domain. For example, if the script is www.example.com/foo/bar.php,
 	 * it will return www.example.com
 	 */
-//	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
+	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
 
 	/**
 	 * Set the location of the requires and utilities script. First checks if running on a Windows platform
@@ -26,19 +26,3 @@
 		define('REQUIRES_LOC', $_SERVER['DOCUMENT_ROOT'] . "/requires");
 		define('UTILITIES_LOC', REQUIRES_LOC . "/utils");
 	}
-
-	//begin initialization of classes
-	require_once("utils/utilities.php");
-	$Utilities = new Utilities();
-
-	require_once("Db.php");
-	$DB = new Db();
-
-	require_once('Courses.php');
-	$Courses = new Courses($DB);
-
-	require_once('Users.php');
-	$Users = new Users($DB);
-
-	require_once('Tests.php');
-	$Tests = new Tests($DB);
