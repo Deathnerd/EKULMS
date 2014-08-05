@@ -5,26 +5,20 @@
 	 * @todo Fix cross-domain AJAX requests
 	 */
 
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
-	//set the data type to text
-//	header('Content-type: application/text');
+	$Utils = new Utilities();
+	$DB = new Db();
+	$Tests = new Tests($DB);
 
 	//check to see if $_REQUEST
-	if (isset($_GET['data'])) {
-		$data = $_GET['data'];
-	} else {
-		$DB->close();
-		exit("Request empty!");
+	if(!$Utils->checkIsSet(array($_GET['data'], $_GET['action']), array("Request Empty!", "Action Empty!"))){
+		$Utils->closeAndExit($DB);
 	}
 
-	if (isset($_GET['action'])) {
-		$action = $_GET['action'];
-	} else {
-		$DB->close();
-		exit("Action empty!");
-	}
+	$data = $_GET['data'];
+	$action = $_GET['action'];
 
 	$json = json_decode(stripslashes($data), true);
 
@@ -32,27 +26,22 @@
 		case "update":
 		{
 			if($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)){
-				$DB->close();
-				exit("Success!");
+				$Utils->closeAndExit($DB, "Success!");
 			} else {
-				$DB->close();
-				exit("Failed to update test");
+				$Utils->closeAndExit($DB, "Failed to update test");
 			}
 			break;
 		}
 		case "make":
 		{
 			if(!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)){
-				$DB->close();
-				exit("Success!");
+				$Utils->closeAndExit($DB, "Success!");
 			} else {
-				$DB->close();
-				exit("Failed to make test");
+				$Utils->closeAndExit($DB, "Failed to make test");
 			}
 			break;
 		}
 		default:{
-			$DB->close();
-			exit("Invalid action!");
+			$Utils->closeAndExit($DB, "Invalid action!");
 		}
 	}

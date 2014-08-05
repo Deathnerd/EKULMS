@@ -3,11 +3,14 @@
 	 * This page allows the user to sign up. If they are already logged in, the user will be redirected to the index. If the username already exists, the user will be notified and not allowed to register with that name
 	 */
 	session_start();
-	if (isset($_SESSION['userName'])) { //if there's already a user logged in, redirect them to the index
-		header('Location: index.php');
+	require_once('autoloader.php');
+	$Utils = new Utilities();
+	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there's already a user logged in, redirect them to the index
+		$Utils->redirectAndExit("index.php");
 	}
-	require_once('requires/Globals.php');
-	require('requires/header.php');
+
+	$UI = new UI();
+	$UI->show("header");
 ?>
 	<div id="bodyContainer">
 		<p>User Name:</p>
@@ -21,5 +24,5 @@
 		<p id="message" style="display: none;">Default text</p>
 	</div>
 <?
-	require('requires/footer.php');
+	$UI->show("footer");
 ?>

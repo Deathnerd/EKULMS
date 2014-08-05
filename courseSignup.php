@@ -6,28 +6,21 @@
 	 * Time: 6:37 PM
 	 */
 
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
 	session_start();
+	$DB = new Db();
+	$Courses = new Courses($DB);
+	$Utilities = new Utilities();
 
-	if (!$_SESSION['userName']) { //if a user is already signed in
-		echo "userName not set";
-		exit();
-	}
-
-	if (!isset($_GET['courseId'])) {
-		echo "courseId not set!";
+	if(!$Utilities->checkIsSet(array($_SESSION['userName'], $_GET['courseId']), array("User name not set!", "CourseId not set!"))){
 		exit();
 	}
 
 	if (!$Courses->courseExists($_GET['courseId'])) {
-		echo "Course does not exist";
-		exit();
+		exit("Course does not exist");
 	}
 	//insert user into course enrollment table
 	if (!$Courses->addStudent($_GET['courseId'], $_SESSION['userName'])) {
-		echo "Failed to sign up for course. Contact administrator";
-		exit();
+		exit("Failed to sign up for course. Contact administrator");
 	}
-	echo("Success");
-	$DB->close(); //close connection
-	exit();
+	$Utilities->closeAndExit($DB, "Success");

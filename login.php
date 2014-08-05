@@ -2,60 +2,38 @@
 	/**
 	 * This page logs in the user and requires the User.php file.
 	 */
-	require_once('requires/Globals.php');
+	require_once("autoloader.php");
+	$Utils = new Utilities();
+	$DB = new Db();
+	$Users = new Users($DB);
 	session_start();
 
 	$sessionUserName = $_SESSION['userName'];
-	if (isset($sessionUserName)) {
-		echo "$sessionUserName already logged in. Please log out first";
-		$DB->close();
-		exit();
-	}
-
 	$userName = $_GET['userName'];
-	if(!isset($userName)) {
-		echo "No user name received";
-		session_destroy();
-		$DB->close();
-		exit();
-	} elseif (!strlen($userName) > 0){
-		echo "User Name cannot be 0 characters";
-		session_destroy();
-		$DB->close();
-		exit();
-	}
-
 	$password = $_GET['password'];
-	if(!isset($password)) {
-		echo "No user name received";
+	if ($Utils->checkIsSet(array($sessionUserName), array("$sessionUserName already logged in. Please log out first"))
+	|| !$Utils->checkIsSet(array($userName, $password), array("No user name received", "No password recieved"))) {
 		session_destroy();
-		$DB->close();
-		exit();
-	} elseif (!strlen($password) > 0){
-		echo "Password cannot be 0 characters";
-		session_destroy();
-		$DB->close();
-		exit();
+		$Utils->closeAndExit($DB);
 	}
 
 	//check if user exists in database
 	if ($Users->userExists($userName)) { //if user exists
 		if (!$Users->checkPassword($userName, $password)) { //if the password is incorrect
-			echo "Incorrect password";
-			$DB->close();
 			session_destroy();
-			exit();
+			$Utils->closeAndExit($DB, "Incorrect password");
 		}
 		//if the user exists and the password is correct
-		echo "Success!";
+		$message = "Success!";
 		$userInfo = $Users->fetchUser($userName);
-		$_SESSION['id'] = $userInfo['id']; //remember the user id
-		$_SESSION['userName'] = $userInfo['userName']; //remember the actual userName
-		$_SESSION['admin'] = $userInfo['admin'];
+
+		//set the id, userName, and admin values for the session
+		foreach($userInfo as $key => $value){
+			$_SESSION[$key] = $value;
+		}
 		unset($_SESSION['password']); //trash the password
 	} else {
-		echo "User not found. Have you created an account?";
+		$message = "User not found. Have you created an account?";
 		session_destroy();
 	}
-	$DB->close();
-	exit();
+	$Utils->closeAndExit($DB, $message);

@@ -7,21 +7,20 @@
 	 */
 
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
+	require_once("autoloader.php");
 	header('Access-Control-Allow-Origin: *');
+	$Utils = new Utilities();
 
 	//set the data type to JSON
 
 	//check to see if $_REQUEST
-	if (isset($_GET['data'])) {
-		$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
-	} else {
-		echo "Request empty";
+	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty"))) {
 		exit();
 	}
+	$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
 
 	if (!$file) {
-		echo "File not found!";
-		exit();
+		exit("File not found!");
 	}
 	unlink($file) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-	echo "Success";
+	exit("Success");
