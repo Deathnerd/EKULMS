@@ -56,6 +56,18 @@ class Utilities {
 	}
 
 	/**
+	 * Prints an object inside a <pre> tag using print_r() for easy reading
+	 *
+	 * @param mixed   $thingToPrint the object to output with a print_r()
+	 */
+	public function print_pre($thingToPrint) {
+		foreach(func_get_args() as $arg){
+			?>
+			<pre><? print_r($arg) ?></pre><br/><?
+		}
+	}
+
+	/**
 	 * Simple method to check if a file exists and die with a message if not
 	 *
 	 * @param string $location Where is the file?
