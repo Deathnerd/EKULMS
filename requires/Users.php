@@ -55,17 +55,9 @@
 			$table = $DB->tables['Users'];
 			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
 
-			if (!$DB->checkResult($sql)) {
-				return false;
-			}
+			$results = $sql->fetch_array(MYSQLI_ASSOC);
 
-			$results = $sql->fetch_array(MYSQLI_BOTH);
-
-			if ($results['password'] != $password) { //if the password supplied and the one fetched don't match
-				return false;
-			}
-
-			return true;
+			return password_verify($password, $results['password']);
 		}
 
 		/**
@@ -89,7 +81,7 @@
 			}
 
 			//return the user row as an array
-			return $sql->fetch_array(MYSQLI_BOTH);
+			return $sql->fetch_array(MYSQLI_ASSOC);
 		}
 
 		/**
@@ -106,9 +98,9 @@
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
-			$password = $DB->escapeString(strtolower($password));
+			$password = password_hash($DB->escapeString(strtolower($password)), PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
-			$sql =  $DB->queryOrDie("INSERT INTO `$table` (userName, password) VALUES ('$userName', '$password')", __FILE__, __LINE__);
+			$sql =  $DB->queryOrDie("INSERT INTO `$table` (userName, password, date_created, last_logged_in) VALUES ('$userName', '$password', NOW(), NOW())", __FILE__, __LINE__);
 
 			return $this->fetchUser($userName) && $DB->checkResult($sql);
 		}

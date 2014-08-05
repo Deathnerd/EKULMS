@@ -112,6 +112,9 @@ $(document).ready(function () {
 				success:     function (response) {
 					message.text(response);
 					message.css('display', 'block');
+					if (response === 'logged_in'){
+						window.location = site('index.php');
+					}
 					if (response === 'Success!') {
 						setTimeout(function () {
 							window.location = site('index.php');

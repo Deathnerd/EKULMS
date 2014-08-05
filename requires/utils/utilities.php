@@ -99,4 +99,26 @@ class Utilities {
 
 		return $returnVal;
 	}
+
+	/**
+	 * This is a shortcut method that closes a database connection and exits with a message if one is supplied
+	 *
+	 * @param Db     $DB The database object that has the active connection
+	 * @param string $message The message to echo upon exit
+	 */
+	function closeAndExit(Db $DB, $message = ""){
+		$DB->close();
+		exit($message);
+	}
+
+
+	/**
+	 * This is a shortcut method to redirect a client and exit the script
+	 *
+	 * @param string $location The location to bounce back to
+	 */
+	public function redirectAndExit($location){
+		header("Location: $location");
+		exit();
+	}
 }
