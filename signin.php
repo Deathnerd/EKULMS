@@ -19,6 +19,8 @@
 		<input type="password"><br/>
 		<input type="button" value="login" id="loginButton"><br/>
 		<a href="signup.php">Not registered? Sign up</a>
+		<br/>
+		<br/>
 		<a href="password_reset.php">Forgot your password?</a>
 
 		<p id="message" style="display: none;">Stuff</p>

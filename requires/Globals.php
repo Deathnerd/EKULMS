@@ -6,6 +6,11 @@
 	 * Time: 4:58 PM
 	 */
 	error_reporting(E_ALL);
+	//check the php version. Requires at least 5.5
+	if (version_compare(phpversion(), '5.5', '<')) {
+		exit("EKULMS requires at least PHP version 5.5. Please check your installation");
+	}
+
 
 	//begin global variables definitions
 	/**
@@ -13,6 +18,11 @@
 	 * it will return www.example.com
 	 */
 	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
+
+	define('SMTP_SERVER', 'smtp.gmail.com');
+	define('SMTP_USER', 'wes.gilleland@gmail.com');
+	define('SMTP_PORT', 587);
+	define('SMTP_PASSWORD', "LEnTf03wpBopAF2U");
 
 	/**
 	 * Set the location of the requires and utilities script. First checks if running on a Windows platform

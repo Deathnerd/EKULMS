@@ -18,6 +18,8 @@
 
 		<p>Password:</p>
 		<input type="password"><br/>
+		<p>Email:</p>
+		<input type="email"><br/>
 		<br>
 		<input type="button" value="Sign up" id="signUpButton"><br/>
 

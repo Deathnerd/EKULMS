@@ -6,9 +6,10 @@
 	/**
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 */
-	class Users{
+	class Users {
 
 		private $Db = null;
+
 		/**
 		 * Constructor method
 		 * @var Db $database the database object to use
@@ -51,7 +52,7 @@
 
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
-			$password = $DB->escapeString(strtolower($password));
+			$password = $DB->escapeString($password);
 			$table = $DB->tables['Users'];
 			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
 
@@ -74,7 +75,7 @@
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
 			$table = $DB->tables['Users'];
-			$sql =  $this->Db->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName'", __FILE__, __LINE__);
+			$sql = $this->Db->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName'", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($sql)) {
 				return false;
@@ -89,19 +90,94 @@
 		 *
 		 * @param string $userName The userName that will be inserted into the table
 		 * @param string $password The password that will be inserted into the table
+		 * @param string $email    The email to set
 		 *
 		 * @return boolean Return true if creation succeeded, false if it failed but did not produce an error
 		 */
-		public function create($userName, $password) {
+		public function create($userName, $password, $email) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
-			$password = password_hash($DB->escapeString(strtolower($password)), PASSWORD_BCRYPT);
+			$email = $DB->escapeString(strtolower($email));
+			$password = password_hash($DB->escapeString($password), PASSWORD_BCRYPT);
+			$email = password_hash($email, PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
-			$sql =  $DB->queryOrDie("INSERT INTO `$table` (userName, password, date_created, last_logged_in) VALUES ('$userName', '$password', NOW(), NOW())", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("INSERT INTO `$table` (userName, password, email, date_created, last_logged_in, reset_key) VALUES ('$userName', '$password', '$email', NOW(), NOW(), NULL)", __FILE__, __LINE__);
 
 			return $this->fetchUser($userName) && $DB->checkResult($sql);
+		}
+
+		/**
+		 * This function takes in a new password and the user_id and resets their password
+		 *
+		 * @param string $newPassword The new password
+		 * @param int    $user_id     The id of the user to be affected
+		 * @param string $reset_key   The reset key to check against
+		 *
+		 * @return bool
+		 */
+		public function resetPassword($newPassword, $user_id, $reset_key) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkArgumentType($user_id, 'numeric', __CLASS__, __FUNCTION__);
+			$DB->checkString($newPassword, __CLASS__, __FUNCTION__);
+			$DB->checkString($reset_key, __CLASS__, __FUNCTION__);
+
+			$password = password_hash($DB->escapeString($newPassword), PASSWORD_BCRYPT);
+			$reset_key = $DB->escapeString($reset_key);
+			$table = $DB->tables['Users'];
+
+			$sql = $DB->queryOrDie("UPDATE `$table` SET password='$password', reset_key=NULL WHERE id=$user_id AND reset_key <> NULL AND reset_key='$reset_key'", __FILE__, __LINE__);
+
+			return $DB->checkResult($sql);
+		}
+
+		/**
+		 * This function checks the supplied email against the supplied username and checks if they pair up.
+		 * @param string $userName The username to check against
+		 * @param string $email    The email to check
+		 *
+		 * @return bool
+		 */
+		public function checkEmail($userName, $email) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+
+			$userName = $DB->escapeString($userName);
+			$emailHashed = password_verify($DB->escapeString($email), PASSWORD_BCRYPT);
+			$table = $DB->tables['Users'];
+
+			$sql = $DB->queryOrDie("SELECT `userName` FROM `$table` WHERE userName = '$userName' AND email='$emailHashed';", __FILE__, __LINE__);
+
+			return $DB->checkResult($sql);
+		}
+
+
+		/**
+		 * Does what it says on the tin: generates a reset key for a user
+		 * @param string $userName The user name to generate a key for
+		 *
+		 * @return bool
+		 */
+		public function generateResetKey($userName){
+			$DB = $this->Db;
+			$DB->checkString($userName, __CLASS__, __FUNCTION__);
+
+			$userName = $DB->escapeString($userName);
+
+			$key = md5(time());
+
+			$table = $DB->tables['Users'];
+
+			$sql = $DB->queryOrDie("UPDATE `$table` SET reset_key='$key' WHERE userName = '$userName';", __FILE__, __LINE__);
+
+			if(!$DB->checkResult($sql)){
+				return false;
+			}
+
+			return $sql->fetch_array(MYSQLI_ASSOC);
 		}
 	}

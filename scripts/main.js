@@ -105,8 +105,9 @@ $(document).ready(function () {
 	$(document).on({
 		click: function () {
 			var userName = $('#userName').val();
-			var password = $('input[type=password]').val();
+			var password = $('input[type="password"]').val();
 			var message = $('#message');
+			var email = $('input[type="email"');
 			$.ajax({
 				url:         site('signupUser.php'),
 				success:     function (response) {
@@ -123,7 +124,8 @@ $(document).ready(function () {
 				},
 				data:        {
 					userName: userName,
-					password: password
+					password: password,
+				    email:    email
 				},
 				crossDomain: true
 			});
