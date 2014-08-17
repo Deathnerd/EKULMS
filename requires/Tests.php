@@ -9,7 +9,7 @@
 	/**
 	 * This class is responsible for the management of Tests
 	 */
-	class Tests{
+	class Tests {
 
 		/**
 		 * Constructor!
@@ -329,19 +329,19 @@
 		/**
 		 * Checks if a test exists by name
 		 *
-		 * @param string $testName The name of the test to check
+		 * @param string $test_name The name of the test to check
 		 *
 		 * @return bool
 		 */
-		public function testExists($testName) {
+		public function testExists($test_name) {
 			$DB = $this->Db;
-			$DB->checkString($testName, __CLASS__, __FUNCTION__);
+			$DB->checkString($test_name, __CLASS__, __FUNCTION__);
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__);
 
 			$table = $DB->tables['Tests'];
-			$testName = $DB->escapeString($testName);
+			$test_name = $DB->escapeString($test_name);
 
-			return $DB->checkResult($DB->queryOrDie("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$testName');", __FILE__, __LINE__));
+			return $DB->checkResult($DB->queryOrDie("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$test_name');", __FILE__, __LINE__));
 		}
 
 		/**
@@ -351,7 +351,7 @@
 		 *
 		 * @return int The test number if there is one or 0 (false) if not
 		 */
-		private function _getMaxTestNumberForCourse($course_id){
+		private function _getMaxTestNumberForCourse($course_id) {
 			$DB = $this->Db;
 			$DB->checkString($course_id, __CLASS__, __FUNCTION__);
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
@@ -359,13 +359,72 @@
 			$table = $DB->tables['Tests'];
 			$course_id = $DB->escapeString($course_id);
 			$result = $DB->queryOrDie("SELECT MAX(testNumber) AS 'testNumber' FROM `$table` WHERE courseId='$course_id'; ", __FILE__, __LINE__);
-			if($DB->checkResult($result)){
+			if ($DB->checkResult($result)) {
 				return intval($result['testNumber']);
 			}
+
 			return 0;
 		}
 
-		public function submitResults($userId, $data){
-			return true;
+		/**
+		 * This function inserts a new attempt for a test into the database
+		 *
+		 * @param int $user_id The id of the user that's submitting the test results
+		 * @param int $test_id The id of the test the user took
+		 * @param int $number_correct The number of correct questions
+		 * @param int $number_incorrect The number of incorrect questions
+		 *
+		 * @return bool Success status
+		 */
+		public function submitResults($user_id, $test_id, $number_correct, $number_incorrect) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 4, __CLASS__, __FUNCTION__, true);
+			foreach(func_get_args() as $arg){
+				$DB->checkArgumentType($arg, 'integer', __CLASS__, __FUNCTION__);
+			}
+
+
+			$table = $DB->tables['Results'];
+
+			//get current attempt
+			$results = $DB->queryOrDie("SELECT MAX('attempt') AS 'attempt' FROM `$table` WHERE userId='$user_id' AND testId='$test_id';", __FILE__, __LINE__);
+			if (!$DB->checkResult($results)) {
+				return false;
+			}
+
+			$attempt = intval($results['attempt']);
+			$percentage = $number_correct / ($number_correct + $number_incorrect);
+			if ($percentage >= 90) {
+				$grade = "A";
+			} elseif ($percentage >= 80) {
+				$grade = "B";
+			} elseif ($percentage >= 70) {
+				$grade = "C";
+			} elseif ($percentage >= 60) {
+				$grade = "D";
+			} else {
+				$grade = "F";
+			}
+
+			//insert into the table
+			$results = $DB->queryOrDie("INSERT INTO `results`
+										            (userid,
+										             testid,
+										             attempt,
+										             grade,
+										             submitted,
+										             number_correct,
+										             number_incorrect,
+										             percentage)
+										VALUES      ('$user_id',
+										             '$test_id',
+										             $attempt,
+										             $grade,
+										             Now(),
+										             '$number_correct',
+										             '$number_incorrect',
+										             $percentage); ", __FILE__, __LINE__);
+
+			return $DB->checkResult($results);
 		}
 	}

@@ -11,8 +11,9 @@
 	$Utils = new Utilities();
 	$Db = new Db;
 
-	if (!$Utils->checkIsSet(array($_GET['key'], $_GET['action']),
-	                       array("Key is not set", "Action is not set", "User name is not set"))) {
+	if (!$Utils->checkIsSet(array($_GET['action']),
+	                        array("Action is not set"))
+	) {
 		$Utils->closeAndExit($Db);
 	}
 
@@ -23,8 +24,9 @@
 
 	switch ($action) {
 		case 'reset':
-			if(!$Utils->checkIsSet(array($_GET['user_name'], $_GET['new_password']),
-									array("User name is not set", "A new password was not provided"))){
+			if (!$Utils->checkIsSet(array($_GET['key'], $_GET['user_name'], $_GET['new_password']),
+			                        array("Key is not set", "User name is not set", "A new password was not provided"))
+			) {
 				$Utils->closeAndExit($Db);
 			}
 			$user_name = $_GET['user_name'];
@@ -46,13 +48,16 @@
 		case 'send_email':
 			$Utils->checkIsSet(array($_GET['email'], $_GET['user_name']),
 			                   array("Email not supplied", "User name not supplied"));
+			if(!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)){
+				$Utils->closeAndExit($Db, "The email provided is not a valid email. Please check your input and try again");
+			}
 			$user_name = $_GET['user_name'];
 			$email = $_GET['email'];
-			if(!$Users->checkEmail($user_name, $email)){
+			if (!$Users->checkEmail($user_name, $email)) {
 				$Utils->closeAndExit($Db, "Failed to verify email. Make sure it is correct and is the email you signed up with. If so, then contact your administrator");
 			}
 			$reset_key = "";
-			if(($reset_key != $Users->generateResetKey($user_name))){
+			if (($reset_key != $Users->generateResetKey($user_name))) {
 				$Utils->closeAndExit($Db, "Failed to generate a key. Please contact your administrator");
 			}
 
@@ -66,12 +71,12 @@
 						</body>
 					</html>";
 
-			$config_vals = array("host" => SMTP_SERVER,
-			                     "port" => SMTP_PORT,
+			$config_vals = array("host"      => SMTP_SERVER,
+			                     "port"      => SMTP_PORT,
 			                     "user_name" => SMTP_USER,
-			                     "password" => SMTP_PASSWORD);
+			                     "password"  => SMTP_PASSWORD);
 
 			$Utils->sendEmail($Db, $to, $from, $subject, $body, $config_vals);
-			$Utils->closeAndExit($Db);
+			$Utils->closeAndExit($Db, "Success");
 	}
 

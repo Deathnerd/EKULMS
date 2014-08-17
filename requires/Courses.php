@@ -231,7 +231,7 @@
 		 *
 		 * @param $userName string the user name to search for
 		 *
-		 * @param $type string the type of user to fetch
+		 * @param $type string the type of user to fetch (student, instructor, admin)
 		 *
 		 * @return array|bool Return an array of courses if enrolled in any, false if otherwise
 		 */
@@ -245,7 +245,7 @@
 			//get the userId from the Users table
 			$userId = $Users->fetchUser($userName);
 			$userId = $userId['id'];
-			if($type === 'student')
+			if(strtolower($type) === 'student')
 				$table = $DB->tables['Enrollment'];
 			else
 				$table = $DB->tables['Teach'];

@@ -113,7 +113,7 @@ $(document).ready(function () {
 				success:     function (response) {
 					message.text(response);
 					message.css('display', 'block');
-					if (response === 'logged_in'){
+					if (response === 'logged_in') {
 						window.location = site('index.php');
 					}
 					if (response === 'Success!') {
@@ -125,7 +125,7 @@ $(document).ready(function () {
 				data:        {
 					userName: userName,
 					password: password,
-				    email:    email
+					email:    email
 				},
 				crossDomain: true
 			});
@@ -237,8 +237,8 @@ $(document).ready(function () {
 				},
 				success: function (results) {
 					/*console.log(results);
-					results = JSON.parse(results);
-					$('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');*/
+					 results = JSON.parse(results);
+					 $('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');*/
 				}
 			})
 		}
@@ -269,14 +269,32 @@ $(document).ready(function () {
 			}
 		}
 		return json;
-	}
+	};
+	$("#resetButton").click(function () {
+		var email = $('#email').val();
+		var action = "send_email";
+		$.ajax({
+			url:     site('reset.php'),
+			data:    {
+				email:  email,
+				action: action
+			},
+			success: function (results) {
+				var message = $('#message');
+				if (results !== "Success") {
+					message.text(results);
+					return;
+				}
+				message.text("An email has been sent to " + email + " with further instructions");
+			}
+		})
+	})
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
 	if (correct) {
 		$("#box_" + number).text("Correct!").css("background-color", "rgba(0, 255, 0, .5)").css("border", "solid 1px rgba(0, 255, 0, .75)").css('display', 'block');
-	}
-	else {
+	} else {
 		$("#box_" + number).text("Incorrect").css("background-color", "rgba(255, 0, 0, .5)").css("border", "solid 1px rgba(255, 0, 0, .75)").css("display", "block");
 	}
 };

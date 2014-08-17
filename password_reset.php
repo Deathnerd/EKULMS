@@ -16,11 +16,13 @@
 	$UI->show("header");
 ?>
     <div id="bodyContainer">
-        <p>User Name:</p>
+        <!--<p>User Name:</p>
         <input type="text" id="userName"><br/>
 
         <p>Password:</p>
-        <input type="password"><br/>
+        <input type="password"><br/>-->
+	    <p>Email: </p>
+	    <input id="email" type="text"/><br/>
         <input type="button" value="Reset my password" id="resetButton"><br/>
         <p id="message" style="display: none;">Stuff</p>
     </div>

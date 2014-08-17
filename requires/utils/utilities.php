@@ -42,7 +42,7 @@
 		 * @return array
 		 */
 		public function jsonObject($key = null) {
-			if (is_string($key) && $key) {
+			if (is_string($key) && !is_null($key)) {
 				return array($key => array());
 			}
 
@@ -115,12 +115,15 @@
 		}
 
 		/**
-		 * This is a shortcut method that closes a database connection and exits with a message if one is supplied
+		 * This is a shortcut method that closes a database connection and exits with a message if one is supplied.
+		 * It also sets the Content-type to application/text in the header for easy parsing/displaying on the client
 		 *
 		 * @param Db     $DB      The database object that has the active connection
 		 * @param string $message The message to echo upon exit
 		 */
 		function closeAndExit(Db $DB, $message = "") {
+			header_remove("Content-type");
+			header("Content-type: application/text");
 			$DB->close();
 			exit($message);
 		}
@@ -138,12 +141,13 @@
 
 		/**
 		 * @param Db         $Db          Requires a Database object for error checking
-		 * @param array      $to          A multi-level array with the structure of [
+		 * @param array $to               A multi-level array with the structure of
 		 *                                [
-		 *                                "name" => $name,
-		 *                                "address" => $address,
-		 *                                "reply_to" => $reply_to (optional)
-		 *                                ]
+		 *                                   [
+		 *                                      "name" => $name,
+		 *                                      "address" => $address,
+		 *                                      "reply_to" => $reply_to (optional)
+		 *                                   ]
 		 *                                ]
 		 * @param array      $from        An array with the structure similar to $to, but without "reply_to" key
 		 * @param string     $subject     The subject of the email
@@ -210,4 +214,10 @@
 
 			return true;
 		}
+
+
+		//TODO: make this an awesome method
+		/*public function countWhere($iterable, $compare1, $condition, $compare2){
+
+		}*/
 	}

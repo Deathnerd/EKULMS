@@ -164,30 +164,41 @@
 		 */
 		public function checkArgumentType($argument, $type, $class, $function) {
 			$errorString = false;
+			$real_type = gettype($argument);
 			switch ($type) {
 				case 'scalar':
 					if (!is_scalar($argument)) {
-						$errorString = "Argument(s) for $class::$function must be a $type";
+						$errorString = "Argument(s) for $class::$function must be a $type; passed $real_type";
 					}
 					break;
 				case 'array':
 					if (!is_array($argument)) {
-						$errorString = "Argument(s) for $class::$function must be an $type";
+						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
 					}
 					break;
 				case 'object':
 					if (!is_object($argument)) {
-						$errorString = "Argument(s) for $class::$function must be an $type";
+						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
 					}
 					break;
 				case 'string':
 					if (!is_string($argument)) {
-						$errorString = "Argument(s) for $class::$function must be a $type";
+						$errorString = "Argument(s) for $class::$function must be a $type; passed $real_type";
 					}
 					break;
 				case 'numeric':
 					if (!is_numeric($argument)) {
-						$errorString = "Argument(s) for $class::$function must be $type";
+						$errorString = "Argument(s) for $class::$function must be $type; passed $real_type";
+					}
+					break;
+				case 'integer':
+					if(!is_integer($argument)){
+						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
+					}
+					break;
+				case 'int':
+					if(!is_int($argument)){
+						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
 					}
 					break;
 			}
