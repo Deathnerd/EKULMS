@@ -7,16 +7,36 @@
 	$Tests = new Tests($DB);
 	$Utils = new Utilities();
 	session_start();
-	$userName = $_SESSION['userName'];
-	if (!$Utils->checkIsSet(array($userName), array(""))) { //if not logged in already, go to login page
-		$Utils->redirectAndExit('signin.php');
+	$user_name = $_SESSION['userName'];
+	if (!$Utils->checkIsSet(array($user_name), array(""))) { //if not logged in already, go to login page
+		$Utils->redirectTo('signin.php');
 	}
+	$Users = new Users($DB);
 
+	$errors = array();
+	$user = $Users->fetchUser($user_name);
+	if (!$user) {
+		array_push($errors, "Well this is awkward... The user was not found in the database");
+	}
+	$Courses = new Courses($DB);
+	$enrolled_courses = $Courses->fetchEnrolledCourses($user_name, 'student');
+	if (!$enrolled_courses) {
+		array_push($errors, "It appears you are not enrolled in a course. Please <a href='account.php'>enroll in one</a>");
+	}
+	$list_of_tests = array();
+	foreach ($enrolled_courses as $course) {
+		$allByCourseId = $Tests->fetchAllByCourseId($course['courseId']);
+		if($allByCourseId){
+			$list_of_tests[$course['courseName']][] = $allByCourseId;
+		} else {
+			continue;
+		}
+	}
 ?>
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
 	<head>
-		<title>CSC 185 Practice Exams</title>
+		<title>Practice Quizzes - EKULMS</title>
 		<meta name="description" content="Practice Exams for CSC 185">
 		<meta name="author" content="Wes Gilleland">
 		<meta name="published" content="TODO">
@@ -31,20 +51,39 @@
 	</div>
 	<div id="dropdown">
 	</div>
+	<div id="errors" style="float: right;">
+		<?
+			if(count($errors) > 0){
+				foreach($errors as $error){
+					echo "Error";
+				}
+			}
+		?>
+	</div>
 	<p id="pageTitle"></p>
 	<select><?
 			//populate the dropdown
-			$listOfTests = $Tests->fetchAll();
-			foreach ($listOfTests as $name){
-				$testName = $name['testName'];
-				echo "<option>$testName</option>";
+			/*$list_of_tests = $Tests->fetchAll();
+			foreach ($list_of_tests as $name) {
+				$test_name = $name['testName'];
+				echo "<option>$test_name</option>";
+			}*/
+
+			if(count($list_of_tests) > 0){
+				foreach($list_of_tests as $course){
+					foreach($course as $test){
+						echo "<option>{$test['testName']}</option>";
+					}
+				}
+			} else {
+				echo "<option>No tests found</option>";
 			}
 		?>
 	</select>
 	<button type="button" id="load">Load</button>
 </header>
 <p id="userGreeting">
-	<? echo "Hello, $userName!"; ?>
+	<? echo "Hello, $user_name!"; ?>
 </p>
 <?
 	$UI->show("footer");

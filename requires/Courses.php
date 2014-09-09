@@ -2,6 +2,7 @@
 
 	/**
 	 * This file manages all things related to courses
+	 * TODO: Make course name, course id, etc into properties to simplify calling these methods
 	 */
 	class Courses {
 
@@ -200,7 +201,7 @@
 			//add instructor to the Enrollment table
 			$table = $DB->tables['Enrollment'];
 
-			if(!$DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__)){
+			if(!$DB->checkResult($DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__))){
 				return $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')", __FILE__, __LINE__));
 			}
 			return false;
@@ -237,8 +238,8 @@
 		 */
 		public function fetchEnrolledCourses($userName, $type) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
-			$DB->checkString($userName, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
 			$userName = $DB->escapeString(strtolower($userName));
 			$Users = new Users($DB);
@@ -339,5 +340,31 @@
 			$description = $DB->escapeString($description);
 
 			return $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET courseName='$courseName', description='$description' WHERE courseid = '$courseId';", __FILE__, __LINE__ ));
+		}
+
+		/**
+		 * This function fetches all information for all tests associated with a course id
+		 * @param string $courseId The id of the course to fetch associated tests for
+		 *
+		 * @return array|bool False if failed, the test(s) associated with the course
+		 */
+		public function fetchAllTestInfo($courseId){
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
+
+			if(!$this->courseExists($courseId)){
+				return false;
+			}
+
+			$table = $DB->tables['Tests'];
+			$courseId = $DB->escapeString($courseId);
+
+			$results = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
+			if(!$DB->checkResult($results)){
+				return false;
+			}
+
+			return $DB->fetchAllRows($results);
 		}
 	}

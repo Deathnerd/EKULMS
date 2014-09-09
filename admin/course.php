@@ -2,40 +2,31 @@
 	/**
 	 * This script handles the logic to make a course
 	 */
-	require_once('../requires/Globals.php');
-
+	require_once('../autoloader.php');
+	$Utils = new Utilities();
+	$DB = new Db();
+	$Courses = new Courses($DB);
 	//need an action
-	if (!isset($_GET['action'])) {
-		echo "Action not set!";
-		exit();
-	}
-	$action = $_GET['action'];
+	$action = $Utils->checkIsSet(array($_GET['action']), array("Action not set!")) ? $_GET['action'] : $Utils->closeAndExit($DB);
 
 	switch ($action) {
 		//if the action is to create a course
 		case "createCourse":
 		{
 			//create course requires $courseName, $courseId, and $description
-			if (!isset($_GET['courseName'])) {
-				echo "Course name required!";
-				break;
-			} elseif (!isset($_GET['courseId'])) {
-				echo "Course id required!";
-				break;
-			} elseif (!isset($_GET['userName'])) {
-				echo "Username required!";
+
+			if (!$Utils->checkIsSet(array($_GET['courseName'], $_GET['courseId'], $_GET['userName']),
+			                       array("Course name required!", "Course id required!", "Username required!"))
+			) {
 				break;
 			}
-			if (isset($_GET['description'])) {
-				$description = $_GET['description'];
-			} else {
-				$description = " ";
-			}
+			$description = isset($_GET['description']) ? $_GET['description'] : " ";
+
 			$courseId = $_GET['courseId'];
 			$courseName = $_GET['courseName'];
 			$userName = $_GET['userName'];
 			//if the course does not exist
-			if ($Courses->fetchById($courseId) == false) {
+			if (!$Courses->fetchById($courseId)) {
 				//create it
 				if (!$Courses->create($courseName, $courseId, $description)) {
 					echo "Failed to create course";
@@ -51,7 +42,7 @@
 		case "list":
 		{
 			$list = $Courses->fetchAll();
-			if (is_array($list)) {
+			if ($list) {
 				header('Access-Control-Allow-Origin: *');
 				header("Content-type: application/json");
 				echo json_encode($list);
@@ -65,11 +56,7 @@
 		case "addStudent":
 		{
 			//requires $courseId an and $userName
-			if (!isset($_GET['courseId'])) {
-				echo "Course id required!";
-				exit();
-			} elseif (!isset($_GET['userName'])) {
-				echo "Username required!";
+			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
 				break;
 			}
 			$userName = $_GET['userName'];
@@ -86,12 +73,8 @@
 		case "addInstructor":
 		{
 			//requires $courseId and $userName
-			if (!isset($_GET['courseId'])) {
-				echo "Course id required!";
-				exit();
-			} elseif (!isset($_GET['userName'])) {
-				echo "Username required!";
-				exit();
+			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
+				$Utils->closeAndExit($DB);
 			}
 			$userName = $_GET['userName'];
 			$courseId = $_GET['courseId'];
@@ -104,8 +87,9 @@
 			break;
 		}
 		default:
-		{
+			{
 			echo "$action is not a valid action";
-		}
+			}
 	}
+	$DB->close();
 	exit();

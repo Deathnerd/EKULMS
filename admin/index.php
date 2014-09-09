@@ -2,16 +2,20 @@
 	/**
 	 * A simple admin interface
 	 */
+	require_once("../autoloader.php");
 	session_start();
 	if (!isset($_SESSION['userName']) || $_SESSION['admin'] != '1') { //if not logged in, go to the login page
 		header('Location: ../signin.php');
+		exit();
 	}
-	require($_SERVER["DOCUMENT_ROOT"].'/requires/header.php');
+	$DB = new Db();
+	$UI = new UI($_SERVER['PHP_SELF'], "Administrator Page - EKULMS");
+	$UI->show('header');
 ?>
 <link rel="stylesheet" href="../styles/admin.css"/>
 <script src="../scripts/admin.js"></script>
 <p id="userGreeting">
-	<?="Hello, " . $_SESSION['userName'] . "!"; ?>
+	<?="Hello, {$_SESSION['userName']} !"; ?>
 </p>
 
 <div class="bodyContainer">
@@ -66,5 +70,6 @@
 		</div>
 	</div>
 </div>
-</body>
-</html>
+<?
+	$UI->show('footer');
+	$DB->close();

@@ -107,7 +107,7 @@ $(document).ready(function () {
 			var userName = $('#userName').val();
 			var password = $('input[type="password"]').val();
 			var message = $('#message');
-			var email = $('input[type="email"');
+			var email = $('#email').val();
 			$.ajax({
 				url:         site('signupUser.php'),
 				success:     function (response) {
@@ -180,7 +180,7 @@ $(document).ready(function () {
 				}
 			});
 		}
-	}, '#signupCourse > input[type="button"]');
+	}, '#signupCourse > #addUser');
 	//list user's courses
 	$(document).on({
 		click: function () {
@@ -210,19 +210,28 @@ $(document).ready(function () {
 			})
 		}
 	}, '#listStudentCourses > input[type="button"]');
-	$('#getStats').click(function () {
-		var courseId = $('#courses').val();
+	/*$('#getStats').click(function () {
+		var courses = $('#courses');
+		var testName = courses.val();
+		var courseSplit = courses.
+
 		$.ajax({
-			url:     site('getStats.php'),
-			data:    {
-				courseId: courseId,
-				action:   "getSingleClass"
-			},
-			success: function (results) {
-				console.log(results);
+			url: site('reports.php'),
+			data: {
+			      action: 'all',
+
+
 			}
 		})
-	});
+	});*/
+
+	$('#courses').change(function(){
+			var testsDropdown = $('#tests');
+			// ajax to get tests by course id
+			testsDropdown.show();
+
+		}
+	);
 	$(document).on({
 		click: function () {
 			if ($('input:checked').length < $('.question_body').length) {
@@ -288,13 +297,18 @@ $(document).ready(function () {
 				message.text("An email has been sent to " + email + " with further instructions");
 			}
 		})
-	})
+	});
+
+	/*$('#addUser').click(function(){
+		var
+	});*/
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
 	if (correct) {
 		$("#box_" + number).text("Correct!").css("background-color", "rgba(0, 255, 0, .5)").css("border", "solid 1px rgba(0, 255, 0, .75)").css('display', 'block');
-	} else {
+	}
+	else {
 		$("#box_" + number).text("Incorrect").css("background-color", "rgba(255, 0, 0, .5)").css("border", "solid 1px rgba(255, 0, 0, .75)").css("display", "block");
 	}
 };

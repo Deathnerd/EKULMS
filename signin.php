@@ -6,9 +6,9 @@
 	require_once("autoloader.php");
 	$Utilities = new Utilities();
 	if($Utilities->checkIsSet(array($_SESSION['userName']), array(""))){
-		$Utilities->redirectAndExit('index.php');
+		$Utilities->redirectTo('index.php');
 	}
-	$UI = new UI();
+	$UI = new UI($_SERVER['PHP_SELF'], "Sign-in - EKULMS");
 	$UI->show("header");
 ?>
 	<div id="bodyContainer">

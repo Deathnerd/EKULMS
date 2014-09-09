@@ -11,6 +11,7 @@
 	$DB = new Db();
 	$Courses = new Courses($DB);
 	$Utilities = new Utilities();
+	$User = new Users($DB);
 
 	if(!$Utilities->checkIsSet(array($_SESSION['userName'], $_GET['courseId']), array("User name not set!", "CourseId not set!"))){
 		exit();
@@ -20,6 +21,9 @@
 		exit("Course does not exist");
 	}
 	//insert user into course enrollment table
+	if($User->isEnrolled($_GET['courseId'], $_SESSION['userName'])){
+		exit("User is already enrolled in the course");
+	}
 	if (!$Courses->addStudent($_GET['courseId'], $_SESSION['userName'])) {
 		exit("Failed to sign up for course. Contact administrator");
 	}

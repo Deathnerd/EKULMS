@@ -5,14 +5,8 @@
 	require_once('autoloader.php');
 	$Utilities = new Utilities();
 	session_start();
-	if ($Utilities->checkIsSet(array($_SESSION['userName']),
-	                           array("logged_in"))
-	) { //if a user is already signed in
-		exit();
-	}
-
-	if (!$Utilities->checkIsSet(array($_GET['userName'], $_GET['password'], $_GET['']),
-	                            array("No user name received", "No password received"))
+	if (!$Utilities->checkIsSet(array($_GET['userName'], $_GET['password'], $_GET['email']),
+	                            array("No user name received", "No password received", "No email received"))
 	) {
 		session_destroy();
 		exit();
@@ -23,10 +17,8 @@
 	//check if user exists in database
 	if (!$Users->userExists($_GET['userName'])) { //if user does not already exist, then attempt to create it
 		if ($Users->create($_GET['userName'], $_GET['password'], $_GET['email'])) { //if user created successfully
-			$userInfo = $Users->fetchUser($_SESSION['userName']);
-			$_SESSION['id'] = $userInfo['id']; //remember the user id
-			$_SESSION['userName'] = $userInfo['userName']; //remember the actual user name
-			$Utilities->closeAndExit($DB, "Success!");
+			$userInfo = $Users->fetchUser($_GET['userName']);
+			$Utilities->closeAndExit($DB, "Success! You may now log in with your credentials");
 		}
 		$Utilities->closeAndExit($DB, "Failed to create user!");
 	}

@@ -58,6 +58,7 @@
 			$this->user = $configVals['database']['user'];
 			$this->password = $configVals['database']['password'];
 			$this->tables = $configVals['tables'];
+//			unset($configVals);
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
 			if (mysqli_connect_errno($this->connection)) { //failed to connect
@@ -133,7 +134,7 @@
 		 * @return bool True if successful
 		 */
 		public function checkNumberOfArguments($argumentsSupplied, $numberOfArguments, $class, $function, $exact = false) {
-			if (!$exact) {
+			if ($exact) {
 				if ($argumentsSupplied != $numberOfArguments) {
 					trigger_error("$class::$function requires exactly $numberOfArguments argument(s) $argumentsSupplied arguments supplied", E_USER_ERROR);
 
@@ -192,12 +193,12 @@
 					}
 					break;
 				case 'integer':
-					if(!is_integer($argument)){
+					if (!is_integer($argument)) {
 						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
 					}
 					break;
 				case 'int':
-					if(!is_int($argument)){
+					if (!is_int($argument)) {
 						$errorString = "Argument(s) for $class::$function must be an $type; passed $real_type";
 					}
 					break;
@@ -227,8 +228,10 @@
 						trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
 					}
 				}
-			} else if (!is_string($string) && strlen($string) == 0) {
-				trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
+			} else {
+				if (!is_string($string) && strlen($string) == 0) {
+					trigger_error("Argument(s) for $class::$function must be a string", E_USER_ERROR);
+				}
 			}
 
 			return true;
@@ -244,13 +247,14 @@
 		 * @internal param object $link The database link
 		 * @return bool|object Returns the result or false if nothing is returned
 		 */
-		public function queryOrDie($query, $file, $line){
+		public function queryOrDie($query, $file, $line) {
 			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
 
 			$result = mysqli_query($this->connection, $query);
-			if(mysqli_errno($this->connection)){
+			if (mysqli_errno($this->connection)) {
 				die("Query in file: $file on line: $line failed spectacularly. Here's the error: " . mysqli_error($this->connection));
 			}
+
 			return $result;
 		}
 
@@ -261,8 +265,9 @@
 		 *
 		 * @return string The prepared string
 		 */
-		public function escapeString($string){
+		public function escapeString($string) {
 			$this->checkString($string, __CLASS__, __FILE__);
+
 			return mysqli_real_escape_string($this->connection, $string);
 		}
 	}

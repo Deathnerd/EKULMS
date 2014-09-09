@@ -7,15 +7,15 @@
 
 	$Utils = new Utilities();
 	if (!$Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if not logged in, go to the login page
-		header('Location: signin.php');
-		exit();
+		$Utils->redirectTo("signin.php");
 	}
 
 	$userName = $_SESSION['userName'];
 
 	$DB = new Db();
 	$Courses = new Courses($DB);
-	$UI = new UI();
+	$Tests = new Tests($DB);
+	$UI = new UI($_SERVER['PHP_SELF'], "User Account - EKULMS");
 
 	$UI->show("header");
 ?>
@@ -48,13 +48,24 @@
 		<select name="userCourses" id="courses">
 			<?
 				$userCourses = $Courses->fetchEnrolledCourses($userName, 'student');
-				foreach($userCourses as $course){
-					$courseName = $course['courseName'];
-					$courseId = $course['courseId'];
-					echo "<option value='$courseId'>$courseId -- $courseName</option>";
+				foreach ($userCourses as $course) {
+					echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
+					$tests = $Tests->fetchAllByCourseId($course['courseId']);
+					if (!$tests) {
+						echo "<option> -- No tests found</option>";
+					} else {
+						foreach ($tests as $test) {
+							echo "<option value='{$course['courseId']}|{$test['testId']}'>-- {$test['testName']}</option>";
+						}
+					}
 				}
 			?>
 		</select>
+		<select name="tests" id="tests">
+
+		</select>
+
+		<div id="statsResultsTable"></div>
 	</div>
 <?
 	$UI->show("footer");

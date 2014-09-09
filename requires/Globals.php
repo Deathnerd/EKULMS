@@ -8,7 +8,7 @@
 	error_reporting(E_ALL);
 	//check the php version. Requires at least 5.5
 	if (version_compare(phpversion(), '5.5', '<')) {
-		exit("EKULMS requires at least PHP version 5.5. Please check your installation");
+		trigger_error("EKULMS requires at least PHP version 5.5. Please check your installation", E_USER_ERROR);
 	}
 
 

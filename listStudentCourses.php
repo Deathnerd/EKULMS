@@ -17,7 +17,8 @@
 	if (is_array($enrolledCourses)) {
 		header('Access-Control-Allow-Origin: ');
 		header('Content-type: application/json');
-		$Utils->closeAndExit($DB, json_encode($enrolledCourses));
+		$DB->close();
+		exit(json_encode($enrolledCourses));
 	}
 
 	$Utils->closeAndExit($DB, "UH OH!");

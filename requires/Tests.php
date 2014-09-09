@@ -311,6 +311,53 @@
 		}
 
 		/**
+		 * Does what it says on the tin: Gets a test's id by the name
+		 *
+		 * @param string $testName The name of the test you want to get the id for
+		 *
+		 * @return array|bool|null Returns the id if
+		 */
+		public function getIdByName($testName) {
+			$DB = $this->Db;
+			$DB->checkString($testName, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+
+			$table = $DB->tables['Tests'];
+			$result = $DB->queryOrDie("SELECT * FROM `$table` WHERE testName = '$testName' LIMIT 1;", __FILE__, __LINE__);
+
+			if (!$DB->checkResult($result)) {
+				return false;
+			}
+
+			$id = $DB->fetchAllRows($result);
+
+			return intval($id[0]['testId']);
+		}
+
+		/**
+		 * Like almost all of my functions, it does what it says on the tin: Fetches all tests with the associated Course Id
+		 * @param string $courseId The id of the course to look up
+		 *
+		 * @return array|bool False if nothing is found, all results in an array if otherwise
+		 */
+
+		public function fetchAllByCourseId($courseId){
+			$DB = $this->Db;
+			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+
+			$table = $DB->tables['Tests'];
+
+			$result = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId'", __FILE__, __LINE__);
+
+			if(!$DB->checkResult($result)){
+				return false;
+			}
+
+			return $DB->fetchAllRows($result);
+		}
+
+		/**
 		 * Fetches all tests in the test table
 		 * @return array|bool Returns false if failed, otherwise returns an array of results
 		 */
@@ -369,9 +416,9 @@
 		/**
 		 * This function inserts a new attempt for a test into the database
 		 *
-		 * @param int $user_id The id of the user that's submitting the test results
-		 * @param int $test_id The id of the test the user took
-		 * @param int $number_correct The number of correct questions
+		 * @param int $user_id          The id of the user that's submitting the test results
+		 * @param int $test_id          The id of the test the user took
+		 * @param int $number_correct   The number of correct questions
 		 * @param int $number_incorrect The number of incorrect questions
 		 *
 		 * @return bool Success status
@@ -379,7 +426,7 @@
 		public function submitResults($user_id, $test_id, $number_correct, $number_incorrect) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 4, __CLASS__, __FUNCTION__, true);
-			foreach(func_get_args() as $arg){
+			foreach (func_get_args() as $arg) {
 				$DB->checkArgumentType($arg, 'integer', __CLASS__, __FUNCTION__);
 			}
 
@@ -387,20 +434,21 @@
 			$table = $DB->tables['Results'];
 
 			//get current attempt
-			$results = $DB->queryOrDie("SELECT MAX('attempt') AS 'attempt' FROM `$table` WHERE userId='$user_id' AND testId='$test_id';", __FILE__, __LINE__);
+			$results = $DB->queryOrDie("SELECT MAX(attempt) AS 'attempt' FROM `$table` WHERE userId=$user_id AND testId=$test_id LIMIT 1;", __FILE__, __LINE__);
 			if (!$DB->checkResult($results)) {
 				return false;
 			}
 
-			$attempt = intval($results['attempt']);
+			$results = $DB->fetchAllRows($results);
+			$attempt = intval($results[0]['attempt']) + 1;
 			$percentage = $number_correct / ($number_correct + $number_incorrect);
-			if ($percentage >= 90) {
+			if ($percentage >= .9) {
 				$grade = "A";
-			} elseif ($percentage >= 80) {
+			} elseif ($percentage >= .8) {
 				$grade = "B";
-			} elseif ($percentage >= 70) {
+			} elseif ($percentage >= .7) {
 				$grade = "C";
-			} elseif ($percentage >= 60) {
+			} elseif ($percentage >= .6) {
 				$grade = "D";
 			} else {
 				$grade = "F";
@@ -408,23 +456,61 @@
 
 			//insert into the table
 			$results = $DB->queryOrDie("INSERT INTO `results`
-										            (userid,
-										             testid,
+										            (userId,
+										             testId,
 										             attempt,
 										             grade,
 										             submitted,
 										             number_correct,
 										             number_incorrect,
 										             percentage)
-										VALUES      ('$user_id',
-										             '$test_id',
+										VALUES      ($user_id,
+										             $test_id,
 										             $attempt,
-										             $grade,
+										             '$grade',
 										             Now(),
-										             '$number_correct',
-										             '$number_incorrect',
+										             $number_correct,
+										             $number_incorrect,
 										             $percentage); ", __FILE__, __LINE__);
 
 			return $DB->checkResult($results);
+		}
+
+		/**
+		 * This function gets all results stored for a user in the database.
+		 *
+		 * @param int  $user_id  The id of the user to select results for
+		 * @param int  $test_id  The id of the test to fetch. Enter -1 is full report is wanted
+		 * @param null $order_by A MySQL ORDER BY argument
+		 *
+		 * @return array|bool Returns the results if successful, or false if otherwise
+		 */
+		public function getResults($user_id, $test_id, $order_by = null) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__);
+			$DB->checkArgumentType($user_id, 'int', __CLASS__, __FUNCTION__);
+			$DB->checkArgumentType($test_id, 'int', __CLASS__, __FUNCTION__);
+			if ($order_by && $order_by != "") {
+				$DB->checkString($order_by, __CLASS__, __FUNCTION__);
+				$order_by = $DB->escapeString($order_by);
+				$order_by = "ORDER BY $order_by";
+			} else {
+				$order_by = "";
+			}
+
+			$table = $DB->tables['Results'];
+
+			if ($test_id = -1) {
+				$query_string = "SELECT * FROM `$table` WHERE userId='$user_id' $order_by;";
+			} else {
+				$query_string = "SELECT * FROM `$table` WHERE userId='$user_id' AND testId='$test_id' $order_by";
+			}
+			$results = $DB->queryOrDie($query_string, __FILE__, __LINE__);
+
+			if (!$DB->checkResult($results)) {
+				return false;
+			}
+
+			return $DB->fetchAllRows($results);
 		}
 	}

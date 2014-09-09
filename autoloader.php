@@ -8,7 +8,7 @@
 
 	require_once("requires/Globals.php");
 
-	function __autoload($class_name) {
+	spl_autoload_register(function($class_name) {
 		if($class_name == "Utilities"){
 			$path = "requires/utils/$class_name.php";
 		} elseif($class_name == "PHPMailer"){
@@ -18,4 +18,4 @@
 			$path = "requires/$class_name.php";
 		}
 		require_once($path);
-	}
+	});

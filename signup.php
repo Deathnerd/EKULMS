@@ -6,10 +6,10 @@
 	require_once('autoloader.php');
 	$Utils = new Utilities();
 	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there's already a user logged in, redirect them to the index
-		$Utils->redirectAndExit("index.php");
+		$Utils->redirectTo("index.php");
 	}
 
-	$UI = new UI();
+	$UI = new UI($_SERVER['PHP_SELF'], "Sign-up - EKULMS");
 	$UI->show("header");
 ?>
 	<div id="bodyContainer">
@@ -19,7 +19,7 @@
 		<p>Password:</p>
 		<input type="password"><br/>
 		<p>Email:</p>
-		<input type="email"><br/>
+		<input type="text" id="email"><br/>
 		<br>
 		<input type="button" value="Sign up" id="signUpButton"><br/>
 

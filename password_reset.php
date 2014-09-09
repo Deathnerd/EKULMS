@@ -9,10 +9,10 @@
 	require_once('autoloader.php');
     $Utils = new Utilities();
     if($Utils->checkIsSet(array($_REQUEST['reset_key']), array(""))){
-        $Utils->redirectAndExit("reset.php?key=".$_REQUEST['reset_key']);
+        $Utils->redirectTo("reset.php?key=".$_REQUEST['reset_key']);
     }
 
-	$UI = new  UI();
+	$UI = new  UI($_SERVER['PHP_SELF'], "Password Reset - EKULMS");
 	$UI->show("header");
 ?>
     <div id="bodyContainer">

@@ -15,8 +15,9 @@
 		private $footerContent = "</body>
 									</html>";
 
-		function __construct($title = "") {
+		function __construct($page = "", $title = "") {
 			$this->pageTitle = $title;
+			$create_script_tag = ($page != "" && $page == "create.php") ? "<script type='text/javascript' src='scripts/create.js'></script>" : "";
 			$this->headerContent = "<!DOCTYPE html>
 								<html>
 								<head>
@@ -25,7 +26,7 @@
 									<meta name='author' content='Wes Gilleland'>
 									<meta name='published' content='TODO'>
 									<script type='text/javascript' src='scripts/jquery-2.1.0.min.js'></script>
-								<script type='text/javascript' src='scripts/create.js'></script>
+								$create_script_tag
 								<script type='text/javascript' src='scripts/main.js'></script>
 								<link type='text/css' rel='stylesheet' href='styles/reset.css'>
 								<link type='text/css' rel='stylesheet' href='styles/main.css'>

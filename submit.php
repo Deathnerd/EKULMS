@@ -17,6 +17,9 @@
 	                                  "Payload not received",
 	                                  "Action not set"))
 	) {
+		if(!isset($_SESSION['userName'])){
+			session_destroy();
+		}
 		exit();
 	}
 	$DB = new Db();
@@ -27,15 +30,16 @@
 	$user_name = $_SESSION['userName'];
 	//get all columns from user's row
 	$user_info = $Users->fetchUser($user_name);
-	$user_id = $user_info['id'];
+	$user_id = intval($user_info['id']);
 
 	$enrolled_courses = $Courses->fetchEnrolledCourses($user_name, "student");
 	$enrolled_course_id = $enrolled_courses['courseId'];
-	$payload = json_decode($_GET['payload']);
+	$payload = json_decode($_GET['payload'], true);
 
-	if ($Tests->testExists($payload['_testName'])) {
-		$test_id = $Tests->fetchByName($payload['_testName']);
-		$test_id = $test_id['testId'];
+	$test_name = $payload['_testName'];
+
+	if ($Tests->testExists($test_name)) {
+		$test_id = $Tests->getIdByName($test_name);
 	} else {
 		$Utilities->closeAndExit($DB, "I have no idea how this happened, but the test does not exist");
 	}

@@ -32,7 +32,7 @@
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName)); //sanitize input
 			$table = $DB->tables['Users'];
-			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName'", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName';", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -96,13 +96,12 @@
 		 */
 		public function create($userName, $password, $email) {
 			$DB = $this->Db;
-			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
-			$email = $DB->escapeString(strtolower($email));
 			$password = password_hash($DB->escapeString($password), PASSWORD_BCRYPT);
-			$email = password_hash($email, PASSWORD_BCRYPT);
+			$email = password_hash($DB->escapeString(strtolower($email)), PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
 			$sql = $DB->queryOrDie("INSERT INTO `$table` (userName, password, email, date_created, last_logged_in, reset_key) VALUES ('$userName', '$password', '$email', NOW(), NOW(), NULL)", __FILE__, __LINE__);
 
@@ -136,6 +135,7 @@
 
 		/**
 		 * This function checks the supplied email against the supplied username and checks if they pair up.
+		 *
 		 * @param string $userName The username to check against
 		 * @param string $email    The email to check
 		 *
@@ -158,11 +158,12 @@
 
 		/**
 		 * Does what it says on the tin: generates a reset key for a user
+		 *
 		 * @param string $userName The user name to generate a key for
 		 *
 		 * @return bool
 		 */
-		public function generateResetKey($userName){
+		public function generateResetKey($userName) {
 			$DB = $this->Db;
 			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 
@@ -174,10 +175,31 @@
 
 			$sql = $DB->queryOrDie("UPDATE `$table` SET reset_key='$key' WHERE userName = '$userName';", __FILE__, __LINE__);
 
-			if(!$DB->checkResult($sql)){
+			if (!$DB->checkResult($sql)) {
 				return false;
 			}
 
 			return $sql->fetch_array(MYSQLI_ASSOC);
+		}
+
+		/**
+		 * Checks if a user is enrolled in a course given a course id
+		 *
+		 * @param String $courseId The course to check if the user is enrolled in
+		 * @param String $userName The user name to check
+		 *
+		 * @return bool
+		 */
+		public function isEnrolled($courseId, $userName) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+			$user = $this->fetchUser($userName);
+			$courseId = $DB->escapeString($courseId);
+			$userId = $user['id'];
+
+			$table = $DB->tables['Enrollment'];
+
+			return $DB->checkResult($DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__));
 		}
 	}

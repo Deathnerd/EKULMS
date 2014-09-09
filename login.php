@@ -11,8 +11,7 @@
 	$sessionUserName = $_SESSION['userName'];
 	$userName = $_GET['userName'];
 	$password = $_GET['password'];
-	if ($Utils->checkIsSet(array($sessionUserName), array("$sessionUserName already logged in. Please log out first"))
-	|| !$Utils->checkIsSet(array($userName, $password), array("No user name received", "No password recieved"))) {
+	if (!$Utils->checkIsSet(array($userName, $password), array("No user name received", "No password recieved"))) {
 		session_destroy();
 		$Utils->closeAndExit($DB);
 	}
