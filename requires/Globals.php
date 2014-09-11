@@ -19,10 +19,10 @@
 	 */
 	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
 
-	define('SMTP_SERVER', 'smtp.gmail.com');
-	define('SMTP_USER', 'wes.gilleland@gmail.com');
+	define('SMTP_SERVER', 'smtp.server.com');
+	define('SMTP_USER', 'user@server.com');
 	define('SMTP_PORT', 587);
-	define('SMTP_PASSWORD', "LEnTf03wpBopAF2U");
+	define('SMTP_PASSWORD', "password");
 
 	/**
 	 * Set the location of the requires and utilities script. First checks if running on a Windows platform
