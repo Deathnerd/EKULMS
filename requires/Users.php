@@ -100,8 +100,8 @@
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
-			$password = password_hash($DB->escapeString($password), PASSWORD_BCRYPT);
-			$email = password_hash($DB->escapeString(strtolower($email)), PASSWORD_BCRYPT);
+			$password = password_hash($DB->escapeString($password).$DB->salt, PASSWORD_BCRYPT);
+			$email = password_hash($DB->escapeString($email).$DB->salt, PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
 			$sql = $DB->queryOrDie("INSERT INTO `$table` (userName, password, email, date_created, last_logged_in, reset_key) VALUES ('$userName', '$password', '$email', NOW(), NOW(), NULL)", __FILE__, __LINE__);
 
@@ -124,7 +124,7 @@
 			$DB->checkString($newPassword, __CLASS__, __FUNCTION__);
 			$DB->checkString($reset_key, __CLASS__, __FUNCTION__);
 
-			$password = password_hash($DB->escapeString($newPassword), PASSWORD_BCRYPT);
+			$password = password_hash($DB->escapeString($newPassword).$DB->salt, PASSWORD_BCRYPT);
 			$reset_key = $DB->escapeString($reset_key);
 			$table = $DB->tables['Users'];
 
@@ -146,8 +146,8 @@
 			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
 
-			$userName = $DB->escapeString($userName);
-			$emailHashed = password_verify($DB->escapeString($email), PASSWORD_BCRYPT);
+			$userName = $DB->escapeString(strtolower($userName));
+			$emailHashed = password_verify($DB->escapeString($email).$DB->salt, PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
 
 			$sql = $DB->queryOrDie("SELECT `userName` FROM `$table` WHERE userName = '$userName' AND email='$emailHashed';", __FILE__, __LINE__);
@@ -167,9 +167,9 @@
 			$DB = $this->Db;
 			$DB->checkString($userName, __CLASS__, __FUNCTION__);
 
-			$userName = $DB->escapeString($userName);
+			$userName = $DB->escapeString(strtolower($userName));
 
-			$key = md5(time());
+			$key = md5(time().$DB->salt);
 
 			$table = $DB->tables['Users'];
 
