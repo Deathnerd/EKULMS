@@ -32,9 +32,13 @@
 		 * @var array An array of tables from the config file
 		 */
 		public $tables;
-
-		protected $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
-
+		/**
+		 * @var string The salt
+		 */
+		public $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
+		/**
+		 * @var bool Are we in debug mode?
+		 */
 		private $debug = true;
 
 		/**
@@ -45,7 +49,6 @@
 			if (!is_file($dirname . '/user-config.ini')) { //if the user config file isn't there
 				if (!is_file($dirname . '/default-config.ini')) { //if the default config file isn't there
 					trigger_error("No configuration file found!", E_USER_ERROR); //sound the alarm!
-//					mysqli_connect("localhost", "root", "root", "EKULMS");
 				}
 				//using the default config file
 				$configVals = parse_ini_file($dirname . '/default-config.ini', true);
@@ -58,7 +61,6 @@
 			$this->user = $configVals['database']['user'];
 			$this->password = $configVals['database']['password'];
 			$this->tables = $configVals['tables'];
-//			unset($configVals);
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
 			if (mysqli_connect_errno($this->connection)) { //failed to connect

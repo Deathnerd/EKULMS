@@ -12,8 +12,8 @@
 	$UI = new UI($_SERVER['PHP_SELF'], "Administrator Page - EKULMS");
 	$UI->show('header');
 ?>
-<link rel="stylesheet" href="../styles/admin.css"/>
-<script src="../scripts/admin.js"></script>
+<link rel="stylesheet" href="../css/admin.css"/>
+<script src="../js/admin.js"></script>
 <p id="userGreeting">
 	<?="Hello, {$_SESSION['userName']} !"; ?>
 </p>

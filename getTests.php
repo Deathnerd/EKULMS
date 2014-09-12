@@ -24,10 +24,10 @@
 
 	$json = $Utils->jsonObject('tests');
 	$courses = $Courses->fetchEnrolledCourses($username, 'student');
-	foreach($courses as $course){
+	foreach ($courses as $course) {
 		$j = 0;
 		$tests = $Tests->fetchAllByCourseId($_GET['courseId']);
-		foreach($tests as $test){
+		foreach ($tests as $test) {
 			$json['tests'][$j]["testName"] = $test['testName'];
 			$json['tests'][$j]["testId"] = $test['testId'];
 			$json['tests'][$j]["testNumber"] = $test['testNumber'];

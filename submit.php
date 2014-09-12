@@ -17,7 +17,7 @@
 	                                  "Payload not received",
 	                                  "Action not set"))
 	) {
-		if(!isset($_SESSION['userName'])){
+		if (!isset($_SESSION['userName'])) {
 			session_destroy();
 		}
 		exit();
@@ -58,7 +58,7 @@
 	$number_of_questions = count($payload['answers']);
 	$number_of_incorrect_questions = $number_of_questions - $number_of_correct_questions;
 
-	if($Tests->submitResults($user_id, $test_id, $number_of_correct_questions, $number_of_incorrect_questions)){
+	if ($Tests->submitResults($user_id, $test_id, $number_of_correct_questions, $number_of_incorrect_questions)) {
 		$Utils->closeAndExit($DB, "Thank you for your submission");
 	}
 

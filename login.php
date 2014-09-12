@@ -27,7 +27,7 @@
 		$userInfo = $Users->fetchUser($userName);
 
 		//set the id, userName, and admin values for the session
-		foreach($userInfo as $key => $value){
+		foreach ($userInfo as $key => $value) {
 			$_SESSION[$key] = $value;
 		}
 		unset($_SESSION['password']); //trash the password

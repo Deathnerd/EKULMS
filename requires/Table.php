@@ -90,6 +90,7 @@
 		/**
 		 * This function takes an array of row(s) and inserts them at the specified position. If position is not given, then
 		 * it inserts them at the end of the rows
+		 *
 		 * @param array $cells      A single-depth array of cells to add to the rows. They may have the following attributes,
 		 *                          each relating to an html property: attributes, content, id, class.
 		 *
@@ -158,17 +159,17 @@
 
 			//return how many were added. Can be used as a true/false check
 
-			foreach($temp as $cell){
+			foreach ($temp as $cell) {
 				$this->_insertAt($pos, $cell, $this->rows);
 			}
 
 			return true;
-
 		}
 
 		/**
 		 * Fetches a row from an index. If no arguments are given, returns the last row. If a string, then checks if string
 		 * is 'first' or 'last', and returns the respective row. If is integer, then
+		 *
 		 * @param null|string|int $pos Takes a string, integer representing the index of the row to return, or a null value
 		 *                             to return the last row
 		 *

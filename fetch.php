@@ -13,12 +13,12 @@
 	$Tests = new Tests($DB);
 	$Utils = new Utilities();
 
-	if(!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))){
+	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))) {
 		exit();
 	}
 
 	$results = $Tests->fetchByName($_GET['data']);
-	if(!$results){
+	if (!$results) {
 		exit("Failed!");
 	}
 

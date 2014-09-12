@@ -1,12 +1,3 @@
 zip.php
-info.php
-.idea/
-requires/debug.php
-node_modules/
-web.config
-cgi-bin/
 quizzes/
-Vagrantfile
-vendor/
-composer.lock
 composer.json

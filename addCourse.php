@@ -11,15 +11,16 @@
 	$Utils = new Utilities();
 	if (!$Utils->checkIsSet(array($_SESSION['userName'], $_GET['courseId'], $_GET['courseName']),
 	                        array("", "CourseId not set", "Course Name not set"))
-		|| $_SESSION['admin'] != '1') { //if a user is not already signed in or is not an admin
+		|| $_SESSION['admin'] != '1'
+	) { //if a user is not already signed in or is not an admin
 		exit();
 	}
 
-	if($tests->courseExists($_GET['courseId'])){
+	if ($tests->courseExists($_GET['courseId'])) {
 		$Utils->closeAndExit($DB, "Course already exists");
 	}
 
-	if(!$tests->addCourse($_GET['courseId'], $_GET['courseName'], $_GET['description'])){
+	if (!$tests->addCourse($_GET['courseId'], $_GET['courseName'], $_GET['description'])) {
 		$Utils->closeAndExit($DB, "Failed to add course to the database. Contact administrator");
 	}
 

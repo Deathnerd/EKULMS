@@ -125,7 +125,7 @@
 			$value = $DB->escapeString($value);
 
 			$table = $DB->tables['Courses'];
-			$sql =  $DB->queryOrDie("UPDATE `$table` SET $column='$value' WHERE courseId='$courseId'", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("UPDATE `$table` SET $column='$value' WHERE courseId='$courseId'", __FILE__, __LINE__);
 			//if the course id was changed, then update the $id to the changed id
 			if ($column == "courseId") {
 				$courseId = $value;
@@ -163,13 +163,13 @@
 			$Users = new Users($DB);
 			//get the userId from the Users table
 			$userId = $Users->fetchUser($userName);
-			if(!$userId){
+			if (!$userId) {
 				return false;
 			}
 			$userId = intval($userId['id']);
 			//add instructor to the Teach table
 			$table = $DB->tables['Teach'];
-			$sql =  $DB->queryOrDie("INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')", __FILE__, __LINE__);
+			$sql = $DB->queryOrDie("INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -194,16 +194,17 @@
 			$Users = new Users($this->Db);
 			//get the userId from the Users table
 			$userId = $Users->fetchUser($userName);
-			if(!$userId){
+			if (!$userId) {
 				return false;
 			}
 			$userId = intval($userId['id']);
 			//add instructor to the Enrollment table
 			$table = $DB->tables['Enrollment'];
 
-			if(!$DB->checkResult($DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__))){
+			if (!$DB->checkResult($DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__))) {
 				return $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')", __FILE__, __LINE__));
 			}
+
 			return false;
 		}
 
@@ -222,7 +223,7 @@
 			$courseId = $DB->escapeString($courseId);
 			$table = $DB->tables['Courses'];
 
-			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId'",__FILE__, __LINE__);
+			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId'", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -232,7 +233,7 @@
 		 *
 		 * @param $userName string the user name to search for
 		 *
-		 * @param $type string the type of user to fetch (student, instructor, admin)
+		 * @param $type     string the type of user to fetch (student, instructor, admin)
 		 *
 		 * @return array|bool Return an array of courses if enrolled in any, false if otherwise
 		 */
@@ -246,10 +247,11 @@
 			//get the userId from the Users table
 			$userId = $Users->fetchUser($userName);
 			$userId = $userId['id'];
-			if(strtolower($type) === 'student')
+			if (strtolower($type) === 'student') {
 				$table = $DB->tables['Enrollment'];
-			else
+			} else {
 				$table = $DB->tables['Teach'];
+			}
 			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE id=$userId", __FILE__, __LINE__);
 
 			//if the student is not enrolled in any courses
@@ -288,8 +290,8 @@
 		/**
 		 * Add a course to the database
 		 *
-		 * @param string $courseId The courseId
-		 * @param string $courseName The course name
+		 * @param string $courseId    The courseId
+		 * @param string $courseName  The course name
 		 * @param string $description The description of the course
 		 *
 		 * @return bool
@@ -308,8 +310,8 @@
 			$courseName = $DB->escapeString($courseName);
 			$description = $DB->escapeString($description);
 
-			if(!$DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND courseName='$courseName' AND description = '$description';", __FILE__, __LINE__)){
-				return  $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (courseId, courseName, description) VALUES ($courseId, $courseName, $description);", __FILE__, __LINE__));
+			if (!$DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND courseName='$courseName' AND description = '$description';", __FILE__, __LINE__)) {
+				return $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (courseId, courseName, description) VALUES ($courseId, $courseName, $description);", __FILE__, __LINE__));
 			}
 
 			return false;
@@ -319,13 +321,13 @@
 		/**
 		 * This will update the course based on the courseId
 		 *
-		 * @param string $courseId The id of the course to update
-		 * @param string $courseName The name of the course
+		 * @param string $courseId    The id of the course to update
+		 * @param string $courseName  The name of the course
 		 * @param string $description The description of the course
 		 *
 		 * @return bool
 		 */
-		public function updateCourse($courseId, $courseName, $description){
+		public function updateCourse($courseId, $courseName, $description) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 3, __CLASS__, __FUNCTION__, true);
 			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
@@ -339,21 +341,22 @@
 			$courseName = $DB->escapeString($courseName);
 			$description = $DB->escapeString($description);
 
-			return $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET courseName='$courseName', description='$description' WHERE courseid = '$courseId';", __FILE__, __LINE__ ));
+			return $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET courseName='$courseName', description='$description' WHERE courseid = '$courseId';", __FILE__, __LINE__));
 		}
 
 		/**
 		 * This function fetches all information for all tests associated with a course id
+		 *
 		 * @param string $courseId The id of the course to fetch associated tests for
 		 *
 		 * @return array|bool False if failed, the test(s) associated with the course
 		 */
-		public function fetchAllTestInfo($courseId){
+		public function fetchAllTestInfo($courseId) {
 			$DB = $this->Db;
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
 
-			if(!$this->courseExists($courseId)){
+			if (!$this->courseExists($courseId)) {
 				return false;
 			}
 
@@ -361,7 +364,7 @@
 			$courseId = $DB->escapeString($courseId);
 
 			$results = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
-			if(!$DB->checkResult($results)){
+			if (!$DB->checkResult($results)) {
 				return false;
 			}
 

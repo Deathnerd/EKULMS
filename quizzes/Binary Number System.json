@@ -1,218 +1,218 @@
 {
-    "_quizName":"Binary Number System",
-	"courseId": "CSC185",
-    "quiz":{
-        "questions":[
-            {
-                "prompt":"Base 10 refers to which number system?",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"binary coded decimal"
-                    },
-                    {
-                        "correct":true,
-                        "value":"decimal"
-                    },
-                    {
-                        "correct":false,
-                        "value":"octal"
-                    },
-                    {
-                        "correct":false,
-                        "value":"hexadecimal"
-                    }
-                ]
-            },
-            {
-                "prompt":"Convert the decimal number 151.75 to binary.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"10000111.11"
-                    },
-                    {
-                        "correct":false,
-                        "value":"11010011.01"
-                    },
-                    {
-                        "correct":false,
-                        "value":"00111100.00"
-                    },
-                    {
-                        "correct":true,
-                        "value":"10010111.11"
-                    }
-                ]
-            },
-            {
-                "prompt":"Convert the binary number 1011010 to hexadecimal.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"5B"
-                    },
-                    {
-                        "correct":false,
-                        "value":"5F"
-                    },
-                    {
-                        "correct":true,
-                        "value":"5A"
-                    },
-                    {
-                        "correct":false,
-                        "value":"5C"
-                    }
-                ]
-            },
-            {
-                "prompt":"The number of bits used to store a BCD digit is:",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"8"
-                    },
-                    {
-                        "correct":true,
-                        "value":"4"
-                    },
-                    {
-                        "correct":false,
-                        "value":"1"
-                    },
-                    {
-                        "correct":false,
-                        "value":"2"
-                    }
-                ]
-            },
-            {
-                "prompt":"Convert the binary number 1001.0010 to decimal.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"125\t"
-                    },
-                    {
-                        "correct":false,
-                        "value":"12.5"
-                    },
-                    {
-                        "correct":false,
-                        "value":"90.125\t"
-                    },
-                    {
-                        "correct":true,
-                        "value":"9.125"
-                    }
-                ]
-            },
-            {
-                "prompt":"What is the decimal value of the hexadecimal number 777?",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"191"
-                    },
-                    {
-                        "correct":true,
-                        "value":"1911"
-                    },
-                    {
-                        "correct":false,
-                        "value":"19"
-                    },
-                    {
-                        "correct":false,
-                        "value":"19111"
-                    }
-                ]
-            },
-            {
-                "prompt":"What is the resultant binary of the decimal problem 49   1 = ?",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"01010101"
-                    },
-                    {
-                        "correct":false,
-                        "value":"00110101"
-                    },
-                    {
-                        "correct":true,
-                        "value":"00110010"
-                    },
-                    {
-                        "correct":false,
-                        "value":"00110001"
-                    }
-                ]
-            },
-            {
-                "prompt":"What is the difference between binary coding and binary coded decimal?",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"Binary coding is pure binary."
-                    },
-                    {
-                        "correct":false,
-                        "value":"BCD is pure binary."
-                    },
-                    {
-                        "correct":false,
-                        "value":"Binary coding has a decimal format."
-                    },
-                    {
-                        "correct":false,
-                        "value":"BCD has no decimal format."
-                    }
-                ]
-            },
-            {
-                "prompt":"The number of bits used to store a BCD digit is:",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"8"
-                    },
-                    {
-                        "correct":true,
-                        "value":"4"
-                    },
-                    {
-                        "correct":false,
-                        "value":"1"
-                    },
-                    {
-                        "correct":false,
-                        "value":"2"
-                    }
-                ]
-            },
-            {
-                "prompt":"3428 is the decimal value for which of the following binary coded decimal (BCD) groupings?",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"11010001001000"
-                    },
-                    {
-                        "correct":true,
-                        "value":"11010000101000"
-                    },
-                    {
-                        "correct":false,
-                        "value":"011010010000010"
-                    },
-                    {
-                        "correct":false,
-                        "value":"110100001101010"
-                    }
-                ]
-            }
-        ]
-    }
+	"_quizName": "Binary Number System",
+	"courseId":  "CSC185",
+	"quiz":      {
+		"questions": [
+			{
+				"prompt":  "Base 10 refers to which number system?",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "binary coded decimal"
+					},
+					{
+						"correct": true,
+						"value":   "decimal"
+					},
+					{
+						"correct": false,
+						"value":   "octal"
+					},
+					{
+						"correct": false,
+						"value":   "hexadecimal"
+					}
+				]
+			},
+			{
+				"prompt":  "Convert the decimal number 151.75 to binary.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "10000111.11"
+					},
+					{
+						"correct": false,
+						"value":   "11010011.01"
+					},
+					{
+						"correct": false,
+						"value":   "00111100.00"
+					},
+					{
+						"correct": true,
+						"value":   "10010111.11"
+					}
+				]
+			},
+			{
+				"prompt":  "Convert the binary number 1011010 to hexadecimal.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "5B"
+					},
+					{
+						"correct": false,
+						"value":   "5F"
+					},
+					{
+						"correct": true,
+						"value":   "5A"
+					},
+					{
+						"correct": false,
+						"value":   "5C"
+					}
+				]
+			},
+			{
+				"prompt":  "The number of bits used to store a BCD digit is:",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "8"
+					},
+					{
+						"correct": true,
+						"value":   "4"
+					},
+					{
+						"correct": false,
+						"value":   "1"
+					},
+					{
+						"correct": false,
+						"value":   "2"
+					}
+				]
+			},
+			{
+				"prompt":  "Convert the binary number 1001.0010 to decimal.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "125\t"
+					},
+					{
+						"correct": false,
+						"value":   "12.5"
+					},
+					{
+						"correct": false,
+						"value":   "90.125\t"
+					},
+					{
+						"correct": true,
+						"value":   "9.125"
+					}
+				]
+			},
+			{
+				"prompt":  "What is the decimal value of the hexadecimal number 777?",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "191"
+					},
+					{
+						"correct": true,
+						"value":   "1911"
+					},
+					{
+						"correct": false,
+						"value":   "19"
+					},
+					{
+						"correct": false,
+						"value":   "19111"
+					}
+				]
+			},
+			{
+				"prompt":  "What is the resultant binary of the decimal problem 49   1 = ?",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "01010101"
+					},
+					{
+						"correct": false,
+						"value":   "00110101"
+					},
+					{
+						"correct": true,
+						"value":   "00110010"
+					},
+					{
+						"correct": false,
+						"value":   "00110001"
+					}
+				]
+			},
+			{
+				"prompt":  "What is the difference between binary coding and binary coded decimal?",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "Binary coding is pure binary."
+					},
+					{
+						"correct": false,
+						"value":   "BCD is pure binary."
+					},
+					{
+						"correct": false,
+						"value":   "Binary coding has a decimal format."
+					},
+					{
+						"correct": false,
+						"value":   "BCD has no decimal format."
+					}
+				]
+			},
+			{
+				"prompt":  "The number of bits used to store a BCD digit is:",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "8"
+					},
+					{
+						"correct": true,
+						"value":   "4"
+					},
+					{
+						"correct": false,
+						"value":   "1"
+					},
+					{
+						"correct": false,
+						"value":   "2"
+					}
+				]
+			},
+			{
+				"prompt":  "3428 is the decimal value for which of the following binary coded decimal (BCD) groupings?",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "11010001001000"
+					},
+					{
+						"correct": true,
+						"value":   "11010000101000"
+					},
+					{
+						"correct": false,
+						"value":   "011010010000010"
+					},
+					{
+						"correct": false,
+						"value":   "110100001101010"
+					}
+				]
+			}
+		]
+	}
 }

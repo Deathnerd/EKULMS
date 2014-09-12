@@ -1,170 +1,170 @@
-{ 
-    "_quizName":"Binary Number System1",
-	"courseId": "CSC185",
-    "quiz":{
-        "questions":[
-            {
-                "prompt":"What is the result when a decimal 5238 is converted to base 16?",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"327.375"
-                    },
-                    {
-                        "correct":false,
-                        "value":"12166"
-                    },
-                    {
-                        "correct":false,
-                        "value":"1388"
-                    },
-                    {
-                        "correct":true,
-                        "value":"1476"
-                    }
-                ]
-            },
-            {
-                "prompt":"A binary code that progresses such that only one bit changes between two successive codes is _________.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"9's complement code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"excess-3 code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"8421 code"
-                    },
-                    {
-                        "correct":true,
-                        "value":"gray code"
-                    }
-                ]
-            },
-            {
-                "prompt":"Decimal numbers can be converted into binary by dividing by two and recording the remainders.",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"True"
-                    },
-                    {
-                        "correct":false,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"The process of converting a decimal number to its binary equivalent is called binary conversion.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"True"
-                    },
-                    {
-                        "correct":true,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"Base is the same as radix.",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"True"
-                    },
-                    {
-                        "correct":false,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"64 hexadecimal equals 100 decimal.",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"True"
-                    },
-                    {
-                        "correct":false,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"ASCII codes are used strictly for representing the letters in the alphabet.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"True"
-                    },
-                    {
-                        "correct":true,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"If you borrow from a position that contains a 0, you must borrow from the more significant bit that contains a 1. All 0s up to that point become 1s, and the digit last borrowed from becomes a 0.",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"True"
-                    },
-                    {
-                        "correct":false,
-                        "value":"False"
-                    }
-                ]
-            },
-            {
-                "prompt":"A binary code that progresses such that only one bit changes between two successive codes is _________.",
-                "choices":[
-                    {
-                        "correct":false,
-                        "value":"9's complement code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"excess-3 code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"8421 code"
-                    },
-                    {
-                        "correct":true,
-                        "value":"gray code"
-                    }
-                ]
-            },
-            {
-                "prompt":"The binary coded decimal (BCD) code is a system that represents each of the 10 decimal digits as a(n) ____________.",
-                "choices":[
-                    {
-                        "correct":true,
-                        "value":"4-bit binary code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"8-bit binary code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"16-bit binary code"
-                    },
-                    {
-                        "correct":false,
-                        "value":"ASCII code"
-                    }
-                ]
-            }
-        ]
-    }
+{
+	"_quizName": "Binary Number System1",
+	"courseId":  "CSC185",
+	"quiz":      {
+		"questions": [
+			{
+				"prompt":  "What is the result when a decimal 5238 is converted to base 16?",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "327.375"
+					},
+					{
+						"correct": false,
+						"value":   "12166"
+					},
+					{
+						"correct": false,
+						"value":   "1388"
+					},
+					{
+						"correct": true,
+						"value":   "1476"
+					}
+				]
+			},
+			{
+				"prompt":  "A binary code that progresses such that only one bit changes between two successive codes is _________.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "9's complement code"
+					},
+					{
+						"correct": false,
+						"value":   "excess-3 code"
+					},
+					{
+						"correct": false,
+						"value":   "8421 code"
+					},
+					{
+						"correct": true,
+						"value":   "gray code"
+					}
+				]
+			},
+			{
+				"prompt":  "Decimal numbers can be converted into binary by dividing by two and recording the remainders.",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "True"
+					},
+					{
+						"correct": false,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "The process of converting a decimal number to its binary equivalent is called binary conversion.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "True"
+					},
+					{
+						"correct": true,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "Base is the same as radix.",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "True"
+					},
+					{
+						"correct": false,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "64 hexadecimal equals 100 decimal.",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "True"
+					},
+					{
+						"correct": false,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "ASCII codes are used strictly for representing the letters in the alphabet.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "True"
+					},
+					{
+						"correct": true,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "If you borrow from a position that contains a 0, you must borrow from the more significant bit that contains a 1. All 0s up to that point become 1s, and the digit last borrowed from becomes a 0.",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "True"
+					},
+					{
+						"correct": false,
+						"value":   "False"
+					}
+				]
+			},
+			{
+				"prompt":  "A binary code that progresses such that only one bit changes between two successive codes is _________.",
+				"choices": [
+					{
+						"correct": false,
+						"value":   "9's complement code"
+					},
+					{
+						"correct": false,
+						"value":   "excess-3 code"
+					},
+					{
+						"correct": false,
+						"value":   "8421 code"
+					},
+					{
+						"correct": true,
+						"value":   "gray code"
+					}
+				]
+			},
+			{
+				"prompt":  "The binary coded decimal (BCD) code is a system that represents each of the 10 decimal digits as a(n) ____________.",
+				"choices": [
+					{
+						"correct": true,
+						"value":   "4-bit binary code"
+					},
+					{
+						"correct": false,
+						"value":   "8-bit binary code"
+					},
+					{
+						"correct": false,
+						"value":   "16-bit binary code"
+					},
+					{
+						"correct": false,
+						"value":   "ASCII code"
+					}
+				]
+			}
+		]
+	}
 }

@@ -18,6 +18,7 @@
 
 		<p>Password:</p>
 		<input type="password"><br/>
+
 		<p>Email:</p>
 		<input type="text" id="email"><br/>
 		<br>

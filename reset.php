@@ -48,7 +48,7 @@
 		case 'send_email':
 			$Utils->checkIsSet(array($_GET['email'], $_GET['user_name']),
 			                   array("Email not supplied", "User name not supplied"));
-			if(!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)){
+			if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
 				$Utils->closeAndExit($Db, "The email provided is not a valid email. Please check your input and try again");
 			}
 			$user_name = $_GET['user_name'];

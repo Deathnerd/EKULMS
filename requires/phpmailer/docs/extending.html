@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Examples using phpmailer</title>
+	<title>Examples using phpmailer</title>
 </head>
 
 <body>
@@ -8,10 +8,13 @@
 <h2>Examples using PHPMailer</h2>
 
 <h3>1. Advanced Example</h3>
+
 <p>
 
-This demonstrates sending multiple email messages with binary attachments
-from a MySQL database using multipart/alternative messages.<p>
+	This demonstrates sending multiple email messages with binary attachments
+	from a MySQL database using multipart/alternative messages.
+
+<p>
 
 <pre>
 require 'PHPMailerAutoload.php';
@@ -58,17 +61,19 @@ while ($row = mysqli_fetch_assoc($result))
 <p>
 
 <h3>2. Extending PHPMailer</h3>
-<p>
-
-Extending classes with inheritance is one of the most
-powerful features of object-oriented programming. It allows you to make changes to the
-original class for your own personal use without hacking the original
-classes, and it's very easy to do:
 
 <p>
-Here's a class that extends the phpmailer class and sets the defaults
-for the particular site:<br>
-PHP include file: my_phpmailer.php
+
+	Extending classes with inheritance is one of the most
+	powerful features of object-oriented programming. It allows you to make changes to the
+	original class for your own personal use without hacking the original
+	classes, and it's very easy to do:
+
+<p>
+	Here's a class that extends the phpmailer class and sets the defaults
+	for the particular site:<br>
+	PHP include file: my_phpmailer.php
+
 <p>
 
 <pre>

@@ -336,12 +336,13 @@
 
 		/**
 		 * Like almost all of my functions, it does what it says on the tin: Fetches all tests with the associated Course Id
+		 *
 		 * @param string $courseId The id of the course to look up
 		 *
 		 * @return array|bool False if nothing is found, all results in an array if otherwise
 		 */
 
-		public function fetchAllByCourseId($courseId){
+		public function fetchAllByCourseId($courseId) {
 			$DB = $this->Db;
 			$DB->checkString($courseId, __CLASS__, __FUNCTION__);
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
@@ -350,7 +351,7 @@
 
 			$result = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId'", __FILE__, __LINE__);
 
-			if(!$DB->checkResult($result)){
+			if (!$DB->checkResult($result)) {
 				return false;
 			}
 

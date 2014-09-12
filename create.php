@@ -1,5 +1,5 @@
 <?
-	 /**
+	/**
 	 * This page will provide an interface for instructor users to create quizzes.
 	 * @todo check if user is an admin or an instructor. Currently checking only for admin
 	 */

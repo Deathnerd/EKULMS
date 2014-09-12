@@ -13,7 +13,7 @@
 	$Tests = new Tests($DB);
 
 	//check to see if $_REQUEST
-	if(!$Utils->checkIsSet(array($_GET['data'], $_GET['action']), array("Request Empty!", "Action Empty!"))){
+	if (!$Utils->checkIsSet(array($_GET['data'], $_GET['action']), array("Request Empty!", "Action Empty!"))) {
 		$Utils->closeAndExit($DB);
 	}
 
@@ -25,7 +25,7 @@
 	switch ($action) {
 		case "update":
 		{
-			if($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)){
+			if ($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)) {
 				$Utils->closeAndExit($DB, "Success!");
 			} else {
 				$Utils->closeAndExit($DB, "Failed to update test");
@@ -34,14 +34,15 @@
 		}
 		case "make":
 		{
-			if(!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)){
+			if (!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)) {
 				$Utils->closeAndExit($DB, "Success!");
 			} else {
 				$Utils->closeAndExit($DB, "Failed to make test");
 			}
 			break;
 		}
-		default:{
+		default:
+			{
 			$Utils->closeAndExit($DB, "Invalid action!");
-		}
+			}
 	}

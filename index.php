@@ -26,7 +26,7 @@
 	$list_of_tests = array();
 	foreach ($enrolled_courses as $course) {
 		$allByCourseId = $Tests->fetchAllByCourseId($course['courseId']);
-		if($allByCourseId){
+		if ($allByCourseId) {
 			$list_of_tests[$course['courseName']][] = $allByCourseId;
 		} else {
 			continue;
@@ -40,10 +40,10 @@
 		<meta name="description" content="Practice Exams for CSC 185">
 		<meta name="author" content="Wes Gilleland">
 		<meta name="published" content="TODO">
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script type="text/javascript" src="scripts/main.js"></script>
-		<link type="text/css" rel="stylesheet" href="styles/reset.css">
-		<link type="text/css" rel="stylesheet" href="styles/main.css">
+		<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/reset.css">
+		<link type="text/css" rel="stylesheet" href="css/main.css">
 	</head>
 <body>
 <header id="topNav">
@@ -53,8 +53,8 @@
 	</div>
 	<div id="errors" style="float: right;">
 		<?
-			if(count($errors) > 0){
-				foreach($errors as $error){
+			if (count($errors) > 0) {
+				foreach ($errors as $error) {
 					echo "Error";
 				}
 			}
@@ -69,9 +69,9 @@
 				echo "<option>$test_name</option>";
 			}*/
 
-			if(count($list_of_tests) > 0){
-				foreach($list_of_tests as $course){
-					foreach($course as $test){
+			if (count($list_of_tests) > 0) {
+				foreach ($list_of_tests as $course) {
+					foreach ($course as $test) {
 						echo "<option>{$test['testName']}</option>";
 					}
 				}
