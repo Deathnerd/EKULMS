@@ -140,22 +140,22 @@
 		}
 
 		/**
-		 * @param Db         $Db          Requires a Database object for error checking
-		 * @param array      $to          A multi-level array with the structure of <br />
-		 *                                [ <br />
+		 * @param Db         $Db           Requires a Database object for error checking
+		 * @param array      $to           A multi-level array with the structure of <br />
+		 *                                 [ <br />
 		 *                                 &nbsp  [ <br />
 		 *                                 &nbsp &nbsp  "name" => $name, <br />
 		 *                                 &nbsp &nbsp  "address" => $address, <br />
 		 *                                 &nbsp &nbsp  "reply_to" => $reply_to (optional) <br />
 		 *                                 &nbsp ] <br />
-		 *                                ]
-		 * @param array      $from        An array with the structure similar to $to, but without "reply_to" key
-		 * @param string     $subject     The subject of the email
-		 * @param string     $body        The HTML body of the email
-		 * @param array      $config_vals The config values for the email. Requires the following values:
-		 *                                host, port, user_name, password
-		 * @param null|array $cc          An array with the structure similar to $from
-		 * @param null|array $bcc         An array with the sturcture similar to $cc
+		 *                                 ]
+		 * @param array      $from         An array with the structure similar to $to, but without "reply_to" key
+		 * @param string     $subject      The subject of the email
+		 * @param string     $body         The HTML body of the email
+		 * @param array      $config_vals  The config values for the email. Requires the following values:
+		 *                                 host, port, user_name, password
+		 * @param null|array $cc           An array with the structure similar to $from
+		 * @param null|array $bcc          An array with the sturcture similar to $cc
 		 *
 		 * @return bool
 		 */

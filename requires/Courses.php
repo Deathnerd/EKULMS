@@ -168,7 +168,7 @@
 			}
 			$userId = intval($userId['id']);
 			//add instructor to the Teach table
-			$table = $DB->tables['Teach'];
+			$table = $DB->tables['Instructors'];
 			$sql = $DB->queryOrDie("INSERT INTO `$table` (id, courseNumber) VALUES ($userId, '$courseId')", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
@@ -199,7 +199,7 @@
 			}
 			$userId = intval($userId['id']);
 			//add instructor to the Enrollment table
-			$table = $DB->tables['Enrollment'];
+			$table = $DB->tables['Students'];
 
 			if (!$DB->checkResult($DB->queryOrDie("SELECT id FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__))) {
 				return $DB->checkResult($DB->queryOrDie("INSERT INTO `$table` (id, courseId) VALUES ($userId, '$courseId')", __FILE__, __LINE__));
@@ -248,9 +248,9 @@
 			$userId = $Users->fetchUser($userName);
 			$userId = $userId['id'];
 			if (strtolower($type) === 'student') {
-				$table = $DB->tables['Enrollment'];
+				$table = $DB->tables['Students'];
 			} else {
-				$table = $DB->tables['Teach'];
+				$table = $DB->tables['Instructors'];
 			}
 			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE id=$userId", __FILE__, __LINE__);
 

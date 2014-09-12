@@ -1,0 +1,90 @@
+body {
+	background-color: #f4f4f4;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 35px;
+}
+
+input[type=text], input[type=button], input[type=password], textarea {
+	border: thin gray solid;
+	border-radius: 5px;
+}
+
+#topNav {
+	height: 35px;
+	background-color: #903;
+	color: white;
+	position: fixed;
+	top: 0;
+}
+
+#topNav > div, #pageTitle {
+	border: none;
+	width: 100px;
+	height: 100%;
+}
+
+#pageTitle, #dropdown {
+	float: right;
+}
+
+#holding_div {
+	padding: 5px;
+}
+
+#quiz_name {
+	margin-bottom: 5px;
+}
+
+.question_body {
+	margin: 15px;
+}
+
+.correct_incorrect_box {
+	width: 250px;
+	text-align: center;
+}
+
+.question {
+	padding: 5px;
+}
+
+textarea {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.choice, #topNav {
+	width: 100%;
+}
+
+table {
+	margin-top: 5px;
+}
+
+td > div {
+	border: none;
+}
+
+#dropdown, #pageTitle, #logo, .correct_incorrect_box, #tests {
+	display: none; /* Hide initially */
+}
+
+#dropdown * {
+	float: left;
+}
+
+header p, header a, header a:hover {
+	color: white;
+}
+
+header a:visited {
+	color: gray;
+}
+
+#listStudentCourses td {
+	padding: 5px;
+}
+
+div {
+	margin: 5px;
+}

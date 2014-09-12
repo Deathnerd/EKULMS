@@ -37,7 +37,7 @@ CREATE TABLE `courses` (
 -- Table structure for table `enrollment`
 --
 
-DROP TABLE IF EXISTS `enrollment`;
+DROP TABLE IF EXISTS students;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `enrollment` (
@@ -106,7 +106,7 @@ CREATE TABLE `results` (
 -- Table structure for table `teach`
 --
 
-DROP TABLE IF EXISTS `teach`;
+DROP TABLE IF EXISTS instructors;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teach` (

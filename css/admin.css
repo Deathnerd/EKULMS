@@ -1,0 +1,11 @@
+#courseSetup, #addUserToCourse, #signupCourse {
+	border: thin solid black;
+	margin: 20px;
+	padding: 10px;
+	max-width: 30%;
+	min-width: 350px;
+}
+
+td, th {
+	padding: 5px 10px;
+}

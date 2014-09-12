@@ -58,7 +58,7 @@
 
 			$results = $sql->fetch_array(MYSQLI_ASSOC);
 
-			return password_verify($password, $results['password']);
+			return password_verify($password.$DB->salt, $results['password']);
 		}
 
 		/**
@@ -198,7 +198,7 @@
 			$courseId = $DB->escapeString($courseId);
 			$userId = $user['id'];
 
-			$table = $DB->tables['Enrollment'];
+			$table = $DB->tables['Students'];
 
 			return $DB->checkResult($DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__));
 		}
