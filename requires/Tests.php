@@ -19,6 +19,9 @@
 		}
 
 		/**
+		 * Does what it says on the tin: Adds a test to the test table. This does not add the questions associated with
+		 * the test
+		 *
 		 * @param string $courseId The id of the course to add
 		 * @param string $testName The name of the test to add
 		 *
@@ -456,7 +459,7 @@
 			}
 
 			//insert into the table
-			$results = $DB->queryOrDie("INSERT INTO `results`
+			$results = $DB->queryOrDie("INSERT INTO `$table`
 										            (userId,
 										             testId,
 										             attempt,
