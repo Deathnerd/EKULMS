@@ -17,7 +17,6 @@
 	//check if user exists in database
 	if (!$Users->userExists($_GET['userName'])) { //if user does not already exist, then attempt to create it
 		if ($Users->create($_GET['userName'], $_GET['password'], $_GET['email'])) { //if user created successfully
-			$userInfo = $Users->fetchUser($_GET['userName']);
 			$Utilities->closeAndExit($DB, "Success! You may now log in with your credentials");
 		}
 		$Utilities->closeAndExit($DB, "Failed to create user!");

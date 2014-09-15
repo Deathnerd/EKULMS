@@ -18,19 +18,13 @@
 
 	//check if user exists in database
 	if ($Users->userExists($userName)) { //if user exists
-		if (!$Users->checkPassword($userName, $password)) { //if the password is incorrect
+		if (!$Users->login($userName, $password)) { //if the password is incorrect
 			session_destroy();
-			$Utils->closeAndExit($DB, "Incorrect password");
+			$message = "Incorrect password";
 		}
 		//if the user exists and the password is correct
 		$message = "Success!";
-		$userInfo = $Users->fetchUser($userName);
 
-		//set the id, userName, and admin values for the session
-		foreach ($userInfo as $key => $value) {
-			$_SESSION[$key] = $value;
-		}
-		unset($_SESSION['password']); //trash the password
 	} else {
 		$message = "User not found. Have you created an account?";
 		session_destroy();

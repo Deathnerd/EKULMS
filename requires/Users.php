@@ -58,7 +58,7 @@
 
 			$results = $sql->fetch_array(MYSQLI_ASSOC);
 
-			return password_verify($password.$DB->salt, $results['password']);
+			return password_verify($password . $DB->salt, $results['password']);
 		}
 
 		/**
@@ -201,5 +201,58 @@
 			$table = $DB->tables['Students'];
 
 			return $DB->checkResult($DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__));
+		}
+
+		/**
+		 * This logs by destroying the session and updating the timestamp for the last_logged_out column in the Users table
+		 *
+		 * @param string $userName The user to log out
+		 *
+		 * @return bool True if successful, false if otherwise
+		 */
+		public function logout($userName) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+			$DB->checkString($userName, __CLASS__, __FUNCTION__);
+
+			$user = $this->fetchUser($userName);
+			if (!$user) {
+				return false;
+			}
+			$table = $DB->tables['Users'];
+			$userName = $user['userName']; //make sure we have the actual user name that's in the database
+
+			return session_destroy() && $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET last_logged_out = NOW() WHERE userName = '$userName';", __FILE__, __LINE__));
+		}
+
+		/**
+		 * Logs in the user by starting a session, initializing all the values in the user's row into the $_SESSION array
+		 * (except for the password), and sets the last_logged_in value in the database for the user to NOW()
+		 *
+		 * @param string $userName The username to log in
+		 * @param string $password Their password
+		 *
+		 * @return bool Returns true if successful, false if not
+		 */
+		public function login($userName, $password) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+
+			$userInfo = $this->fetchUser($userName);
+			$table = $DB->tables['Users'];
+			$userName = $userInfo['userName']; //make sure we have the actual user name that's in the database
+
+			if (!$this->checkPassword($userName, $password) || !$DB->checkResult($DB->queryOrDie("UPDATE `$table` SET last_logged_in = NOW() WHERE userName='$userName';", __FILE__, __LINE__))) {
+				return false;
+			}
+			session_start();
+			//set the id, userName, and admin values for the session
+			foreach ($userInfo as $key => $value) {
+				$_SESSION[$key] = $value;
+			}
+			unset($_SESSION['password']); //trash the password
+
+			return true;
 		}
 	}

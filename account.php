@@ -25,7 +25,18 @@
 	<div class="bodyContainer">
 		<div id="signupCourse">
 			<p>Course Id:</p>
-			<input type="text" id="courseId">
+			<select name="courseSignupDropdown" id="courseSignupDropdown">
+				<option value="none">Select a Course</option>
+				<?
+					$allCourses = $Courses->fetchAll();
+					foreach ($allCourses as $course) {
+						?>
+						<option value="<?= $course['courseId']; ?>"><?= $course['courseName']; ?></option>
+					<?
+					}
+				?>
+			</select>
+<!--			<input type="text" id="courseId">-->
 			<br>
 			<input type="button" id="addUser" value="Sign up for course">
 

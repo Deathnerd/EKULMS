@@ -55,19 +55,13 @@
 		<?
 			if (count($errors) > 0) {
 				foreach ($errors as $error) {
-					echo "Error";
+					echo "$error <br />";
 				}
 			}
 		?>
 	</div>
 	<p id="pageTitle"></p>
 	<select><?
-			//populate the dropdown
-			/*$list_of_tests = $Tests->fetchAll();
-			foreach ($list_of_tests as $name) {
-				$test_name = $name['testName'];
-				echo "<option>$test_name</option>";
-			}*/
 
 			if (count($list_of_tests) > 0) {
 				foreach ($list_of_tests as $course) {

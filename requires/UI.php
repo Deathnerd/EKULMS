@@ -40,6 +40,7 @@
 										<p>DROPDOWN HERE</p>
 									</div>
 									<p id='pageTitle'>Quiz Creation</p>
+									<a href='logout.php'>Log out</a>
 								</header>";
 		}
 

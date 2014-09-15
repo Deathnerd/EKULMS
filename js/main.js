@@ -82,12 +82,8 @@ $(document).ready(function () {
 			$.ajax({
 				url:         site('login.php'),
 				success:     function (response) {
-					console.log(typeof response);
-					console.log(response);
-					console.log(response === 'Success!');
-					message.text(response);
-					message.css('display', 'block');
-					if (response === 'Success!') {
+					message.text(response).css('display', 'block');
+					if (response.indexOf('Success') != -1) {
 						setTimeout(function () {
 							window.location = site('account.php');
 						}, 2000);
