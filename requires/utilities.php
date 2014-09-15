@@ -9,6 +9,10 @@
 
 
 	class Utilities {
+		function __construct(Db $db) {
+			$this->DB = $db;
+		}
+
 		/**
 		 * @param int    $line         The line that the error occurred on
 		 * @param string $functionName The function where the error occurred
@@ -118,13 +122,14 @@
 		 * This is a shortcut method that closes a database connection and exits with a message if one is supplied.
 		 * It also sets the Content-type to application/text in the header for easy parsing/displaying on the client
 		 *
-		 * @param Db     $DB      The database object that has the active connection
 		 * @param string $message The message to echo upon exit
+		 *
+		 * @internal param \Db $DB The database object that has the active connection
 		 */
-		function closeAndExit(Db $DB, $message = "") {
+		function closeAndExit($message = "") {
 			header_remove("Content-type");
 			header("Content-type: application/text");
-			$DB->close();
+			$this->DB->close();
 			exit($message);
 		}
 
@@ -140,7 +145,6 @@
 		}
 
 		/**
-		 * @param Db         $Db           Requires a Database object for error checking
 		 * @param array      $to           A multi-level array with the structure of <br />
 		 *                                 [ <br />
 		 *                                 &nbsp  [ <br />
@@ -157,10 +161,12 @@
 		 * @param null|array $cc           An array with the structure similar to $from
 		 * @param null|array $bcc          An array with the sturcture similar to $cc
 		 *
+		 * @internal param \Db $Db Requires a Database object for error checking
 		 * @return bool
 		 */
-		public function sendEmail(Db $Db, $to, $from, $subject, $body, $config_vals, $cc = null, $bcc = null) {
+		public function sendEmail($to, $from, $subject, $body, $config_vals, $cc = null, $bcc = null) {
 			require_once('../../autoloader.php');
+			$Db = $this->DB;
 
 			$Db->checkArgumentType($to, 'array', __CLASS__, __FUNCTION__);
 			$Db->checkArgumentType($from, 'array', __CLASS__, __FUNCTION__);
@@ -207,9 +213,9 @@
 				$Mailer->msgHTML($body);
 				$Mailer->send();
 			} catch (phpmailerException $e) {
-				$this->closeAndExit($Db, $e->errorMessage());
+				$this->closeAndExit($e->errorMessage());
 			} catch (Exception $e) {
-				$this->closeAndExit($Db, $e->getMessage());
+				$this->closeAndExit($e->getMessage());
 			}
 
 			return true;
