@@ -51,7 +51,7 @@
 	</div>
 	<div id="dropdown">
 	</div>
-	<div id="errors" style="float: right;">
+	<div id="errors" style="float: right; width: auto;">
 		<?
 			if (count($errors) > 0) {
 				foreach ($errors as $error) {

@@ -21,10 +21,10 @@
 		if (!$Users->login($userName, $password)) { //if the password is incorrect
 			session_destroy();
 			$message = "Incorrect password";
+		} else {
+			//if the user exists and the password is correct
+			$message = "Success!";
 		}
-		//if the user exists and the password is correct
-		$message = "Success!";
-
 	} else {
 		$message = "User not found. Have you created an account?";
 		session_destroy();

@@ -88,3 +88,7 @@ header a:visited {
 div {
 	margin: 5px;
 }
+
+#errors {
+	width: auto;
+}

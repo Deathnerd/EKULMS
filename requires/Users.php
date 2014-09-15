@@ -57,8 +57,9 @@
 			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
 
 			$results = $sql->fetch_array(MYSQLI_ASSOC);
+			$password .= $DB->salt;
 
-			return password_verify($password . $DB->salt, $results['password']);
+			return password_verify($password, $results['password']);
 		}
 
 		/**

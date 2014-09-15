@@ -156,7 +156,7 @@ $(document).ready(function () {
 	//user signup for course
 	$(document).on({
 		click: function () {
-			var courseId = $("#signupCourse").find('#courseId').val();
+			var courseId = $('#courseSignupDropdown').val();
 			var message = $('#message');
 			if (courseId === '') {
 				message.css("display", "block").text("Please enter a course id");

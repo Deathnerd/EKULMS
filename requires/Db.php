@@ -78,6 +78,10 @@
 			}
 		}
 
+		function __wakeup(){
+			$this->connect();
+		}
+
 		/**
 		 * Closes the connection. Dies if it fails
 		 */
