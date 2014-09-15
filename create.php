@@ -5,7 +5,7 @@
 	 */
 	require_once("autoloader.php");
 	session_start();
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 
 	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there isn't a user logged in, send them to the login page
 		$Utils->redirectTo("signin.php");
@@ -13,7 +13,6 @@
 	if ($_SESSION['admin'] != '1') { //if user isn't an admin, send them to the index
 		$Utils->redirectTo('index.php');
 	}
-	$DB = new Db();
 	$UI = new UI($_SERVER['PHP_SELF'], "Create Test - EKULMS");
 	$UI->show('header');
 ?>

@@ -4,7 +4,7 @@
 	 */
 	session_start();
 	require_once("autoloader.php");
-	$Utilities = new Utilities();
+	$Utilities = new Utilities($DB);
 	if ($Utilities->checkIsSet(array($_SESSION['userName']), array(""))) {
 		$Utilities->redirectTo('index.php');
 	}

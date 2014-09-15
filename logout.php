@@ -7,9 +7,9 @@
 	session_start();
 	$DB = new Db;
 	$Users = new Users($DB);
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 
 	if ($Users->logout($_SESSION['userName'])) {
 		header('Location: signin.php');
 	}
-	$Utils->closeAndExit($DB, "Ruh-roh, Raggy!");
+	$Utils->closeAndExit("Ruh-roh, Raggy!");

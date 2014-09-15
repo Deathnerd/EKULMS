@@ -3,9 +3,8 @@
 	 * This is where the user will take a quiz. The user is redirected to the signin page if they are not already signed in
 	 */
 	require_once("autoloader.php");
-	$DB = new Db();
 	$Tests = new Tests($DB);
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 	session_start();
 	$user_name = $_SESSION['userName'];
 	if (!$Utils->checkIsSet(array($user_name), array(""))) { //if not logged in already, go to login page
@@ -66,7 +65,11 @@
 			if (count($list_of_tests) > 0) {
 				foreach ($list_of_tests as $course) {
 					foreach ($course as $test) {
-						echo "<option>{$test['testName']}</option>";
+						foreach ($test as $t) {
+							$test_id = $t['testId'];
+							$test_name = $t['testName'];
+							echo "<option value='$test_id'>$test_name</option>";
+						}
 					}
 				}
 			} else {

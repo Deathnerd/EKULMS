@@ -3,11 +3,10 @@
 	 * This script handles the logic to make a course
 	 */
 	require_once('../autoloader.php');
-	$Utils = new Utilities();
-	$DB = new Db();
+	$Utils = new Utilities($DB);
 	$Courses = new Courses($DB);
 	//need an action
-	$action = $Utils->checkIsSet(array($_GET['action']), array("Action not set!")) ? $_GET['action'] : $Utils->closeAndExit($DB);
+	$action = $Utils->checkIsSet(array($_GET['action']), array("Action not set!")) ? $_GET['action'] : $Utils->closeAndExit();
 
 	switch ($action) {
 		//if the action is to create a course
@@ -74,7 +73,7 @@
 		{
 			//requires $courseId and $userName
 			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
-				$Utils->closeAndExit($DB);
+				$Utils->closeAndExit();
 			}
 			$userName = $_GET['userName'];
 			$courseId = $_GET['courseId'];

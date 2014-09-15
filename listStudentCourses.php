@@ -21,4 +21,4 @@
 		exit(json_encode($enrolledCourses));
 	}
 
-	$Utils->closeAndExit($DB, "UH OH!");
+	$Utils->closeAndExit("UH OH!");

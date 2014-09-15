@@ -8,7 +8,7 @@
 
 	require('autoloader.php');
 	session_start();
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 	if (!$Utils->checkisSet(array($_SESSION['userName'],
 	                              $_GET['action'],
 	                              $_GET['test_name']),
@@ -25,7 +25,6 @@
 		$order_by = "";
 	}
 
-	$DB = new Db();
 	$Users = new Users($DB);
 	$Courses = new Courses($DB);
 	$Tests = new Tests($DB);
@@ -50,7 +49,7 @@
 			$test_results[] = $Tests->getResults($user_id, $test_id, $order_by);
 			break;
 		default:
-			$Utils->closeAndExit($DB, "Invalid action");
+			$Utils->closeAndExit("Invalid action");
 	}
 
 	$table_content = "";
@@ -78,4 +77,4 @@
 	$table_content
 </table>";
 
-	$Utils->closeAndExit($DB, $table_html);
+	$Utils->closeAndExit($table_html);

@@ -8,8 +8,7 @@
 	require_once("autoloader.php");
 	session_start();
 
-	$Utils = new Utilities();
-	$DB = new Db();
+	$Utils = new Utilities($DB);
 	$Courses = new Courses($DB);
 
 	if (!$Utils->checkIsSet(array($_SESSION['userName'], $_GET['courseId'], $_GET['courseName']),
@@ -20,11 +19,11 @@
 	}
 
 	if ($Courses->courseExists($_GET['courseId'])) {
-		$Utils->closeAndExit($DB, "Course already exists");
+		$Utils->closeAndExit("Course already exists");
 	}
 
 	if (!$Courses->addCourse($_GET['courseId'], $_GET['courseName'], $_GET['description'])) {
-		$Utils->closeAndExit($DB, "Failed to add course to the database. Contact administrator");
+		$Utils->closeAndExit("Failed to add course to the database. Contact administrator");
 	}
 
-	$Utils->closeAndExit($DB, "Success");
+	$Utils->closeAndExit("Success");

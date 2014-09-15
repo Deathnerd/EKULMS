@@ -9,7 +9,7 @@
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	require_once("autoloader.php");
 	header('Access-Control-Allow-Origin: *');
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 
 	//set the data type to JSON
 

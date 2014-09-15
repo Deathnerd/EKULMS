@@ -4,7 +4,7 @@
 	 */
 	session_start();
 	require_once('autoloader.php');
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there's already a user logged in, redirect them to the index
 		$Utils->redirectTo("index.php");
 	}

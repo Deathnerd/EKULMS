@@ -16,3 +16,5 @@
 		}
 		require_once($path);
 	});
+
+	$DB = new Db;

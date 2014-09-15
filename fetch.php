@@ -9,9 +9,8 @@
 	require_once("autoloader.php");
 	header('Access-Control-Allow-Origin: *');
 	header("Content-type: application/text");
-	$DB = new Db();
 	$Tests = new Tests($DB);
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 
 	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))) {
 		exit();

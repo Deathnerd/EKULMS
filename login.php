@@ -3,8 +3,7 @@
 	 * This page logs in the user and requires the User.php file.
 	 */
 	require_once("autoloader.php");
-	$Utils = new Utilities();
-	$DB = new Db();
+	$Utils = new Utilities($DB);
 	$Users = new Users($DB);
 	session_start();
 
@@ -13,7 +12,7 @@
 	$password = $_GET['password'];
 	if (!$Utils->checkIsSet(array($userName, $password), array("No user name received", "No password recieved"))) {
 		session_destroy();
-		$Utils->closeAndExit($DB);
+		$Utils->closeAndExit();
 	}
 
 	//check if user exists in database
@@ -29,4 +28,4 @@
 		$message = "User not found. Have you created an account?";
 		session_destroy();
 	}
-	$Utils->closeAndExit($DB, $message);
+	$Utils->closeAndExit($message);

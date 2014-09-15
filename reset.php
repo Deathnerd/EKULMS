@@ -8,26 +8,26 @@
 
 	require_once('autoloader.php');
 	require_once('requires/phpmailer/PHPMailerAutoload.php');
-	$Utils = new Utilities();
-	$Db = new Db;
+	$Utils = new Utilities($DB);
+
 
 	if (!$Utils->checkIsSet(array($_GET['action']),
 	                        array("Action is not set"))
 	) {
-		$Utils->closeAndExit($Db);
+		$Utils->closeAndExit();
 	}
 
 	$action = $_GET['action'];
 	$key = $_GET['key'];
 
-	$Users = new Users($Db);
+	$Users = new Users($DB);
 
 	switch ($action) {
 		case 'reset':
 			if (!$Utils->checkIsSet(array($_GET['key'], $_GET['user_name'], $_GET['new_password']),
 			                        array("Key is not set", "User name is not set", "A new password was not provided"))
 			) {
-				$Utils->closeAndExit($Db);
+				$Utils->closeAndExit();
 			}
 			$user_name = $_GET['user_name'];
 			$new_password = $_GET['new_password'];
@@ -35,13 +35,13 @@
 				$user_info = $Users->fetchUser($user_name);
 				$user_id = $user_info['id'];
 			} else {
-				$Utils->closeAndExit($Db, "User does not exist");
+				$Utils->closeAndExit("User does not exist");
 			}
 
 			if ($Users->resetPassword($new_password, $user_id, $key)) {
-				$Utils->closeAndExit($Db, "Success");
+				$Utils->closeAndExit("Success");
 			} else {
-				$Utils->closeAndExit($Db, "Failed to create new password. Please inform the administrator");
+				$Utils->closeAndExit("Failed to create new password. Please inform the administrator");
 			}
 
 			break;
@@ -49,16 +49,16 @@
 			$Utils->checkIsSet(array($_GET['email'], $_GET['user_name']),
 			                   array("Email not supplied", "User name not supplied"));
 			if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
-				$Utils->closeAndExit($Db, "The email provided is not a valid email. Please check your input and try again");
+				$Utils->closeAndExit("The email provided is not a valid email. Please check your input and try again");
 			}
 			$user_name = $_GET['user_name'];
 			$email = $_GET['email'];
 			if (!$Users->checkEmail($user_name, $email)) {
-				$Utils->closeAndExit($Db, "Failed to verify email. Make sure it is correct and is the email you signed up with. If so, then contact your administrator");
+				$Utils->closeAndExit("Failed to verify email. Make sure it is correct and is the email you signed up with. If so, then contact your administrator");
 			}
 			$reset_key = "";
 			if (($reset_key != $Users->generateResetKey($user_name))) {
-				$Utils->closeAndExit($Db, "Failed to generate a key. Please contact your administrator");
+				$Utils->closeAndExit("Failed to generate a key. Please contact your administrator");
 			}
 
 			$to = array(array("address" => $email, "name" => ""));
@@ -76,7 +76,7 @@
 			                     "user_name" => SMTP_USER,
 			                     "password"  => SMTP_PASSWORD);
 
-			$Utils->sendEmail($Db, $to, $from, $subject, $body, $config_vals);
-			$Utils->closeAndExit($Db, "Success");
+			$Utils->sendEmail($to, $from, $subject, $body, $config_vals);
+			$Utils->closeAndExit("Success");
 	}
 

@@ -8,14 +8,13 @@
 
 	require_once('autoloader.php');
 
-	$Utils = new Utilities();
+	$Utils = new Utilities($DB);
 
 	if (!$Utils->checkIsSet(array($_GET['courseId']),
 	                        array("No course id received"))
 	) {
 		exit();
 	}
-	$DB = new Db();
 	$Tests = new Tests($DB);
 	$Courses = new Courses($DB);
 
@@ -39,4 +38,4 @@
 	unset($j);
 
 	$Utils->print_pre(json_encode($json));
-	$Utils->closeAndExit($DB);
+	$Utils->closeAndExit();

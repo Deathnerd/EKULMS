@@ -241,9 +241,9 @@ $(document).ready(function () {
 					action:  'submit'
 				},
 				success: function (results) {
-					/*console.log(results);
+					console.log(results);
 					 results = JSON.parse(results);
-					 $('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');*/
+					 $('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');
 				}
 			})
 		}
