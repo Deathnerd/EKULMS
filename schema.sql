@@ -40,7 +40,7 @@ CREATE TABLE `courses` (
 DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `enrollment` (
+CREATE TABLE `students` (
 	`id`       INT(11) NOT NULL
 	COMMENT 'User Id',
 	`courseId` LONGTEXT
@@ -109,11 +109,10 @@ CREATE TABLE `results` (
 DROP TABLE IF EXISTS `instructors`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teach` (
-	`id`           INT(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `instructors` (
+	`id`           INT(11) NOT NULL,
 	`courseNumber` TEXT
-	               COLLATE latin1_general_ci,
-	PRIMARY KEY (`id`)
+	               COLLATE latin1_general_ci
 )
 	ENGINE =MyISAM
 	DEFAULT CHARSET =latin1
