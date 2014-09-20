@@ -6,9 +6,14 @@
 	/**
 	 * This class contains methods to manipulate user data. Extends the Db class
 	 */
-	class Users {
+	class Users
+	{
 
-		private $Db = null;
+		/**
+		 * @access private
+		 * @var Db The database object
+		 */
+		private $Db;
 
 		/**
 		 * Constructor method
@@ -21,6 +26,7 @@
 		/**
 		 * This function checks if a user exists in the user table
 		 *
+		 * @access public
 		 * @param string $userName The user's name in the database
 		 *
 		 * @return boolean returns true if the operation completed successfully, false if it failed but did not produce an error
@@ -32,7 +38,7 @@
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName)); //sanitize input
 			$table = $DB->tables['Users'];
-			$sql = $DB->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName';", __FILE__, __LINE__);
+			$sql = $DB->query("SELECT * FROM `$table` WHERE userName='$userName';", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -40,6 +46,7 @@
 		/**
 		 * This function checks the user password against the one stored in the database
 		 *
+		 * @access public
 		 * @param string $userName The username associated with the password being checked
 		 * @param string $password The password string being checked
 		 *
@@ -54,7 +61,7 @@
 			$userName = $DB->escapeString(strtolower($userName));
 			$password = $DB->escapeString($password);
 			$table = $DB->tables['Users'];
-			$sql = $DB->queryOrDie("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
+			$sql = $DB->query("SELECT password FROM $table WHERE userName = '$userName'", __FILE__, __LINE__);
 
 			$results = $sql->fetch_array(MYSQLI_ASSOC);
 			$password .= $DB->salt;
@@ -65,6 +72,7 @@
 		/**
 		 * This function retrieves a users's row as both a keyed and a non-keyed array
 		 *
+		 * @access public
 		 * @param string $userName The username whose row you want to fetch
 		 *
 		 * @return array|boolean Return an array that has both keyed and non-keyed values or false if the row was not found
@@ -76,7 +84,7 @@
 			//lowercase and sanitize inputs
 			$userName = $DB->escapeString(strtolower($userName));
 			$table = $DB->tables['Users'];
-			$sql = $this->Db->queryOrDie("SELECT * FROM `$table` WHERE userName='$userName'", __FILE__, __LINE__);
+			$sql = $this->Db->query("SELECT * FROM `$table` WHERE userName='$userName'", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($sql)) {
 				return false;
@@ -89,9 +97,10 @@
 		/**
 		 * This function handles user creation. The user will also have an auto-incremented numerical id associated with their account.
 		 *
+		 * @access public
 		 * @param string $userName The userName that will be inserted into the table
 		 * @param string $password The password that will be inserted into the table
-		 * @param string $email    The email to set
+		 * @param string $email The email to set
 		 *
 		 * @return boolean Return true if creation succeeded, false if it failed but did not produce an error
 		 */
@@ -104,7 +113,7 @@
 			$password = password_hash($DB->escapeString($password) . $DB->salt, PASSWORD_BCRYPT);
 			$email = password_hash($DB->escapeString($email) . $DB->salt, PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
-			$sql = $DB->queryOrDie("INSERT INTO `$table` (userName, password, email, date_created, last_logged_in, reset_key) VALUES ('$userName', '$password', '$email', NOW(), NOW(), NULL)", __FILE__, __LINE__);
+			$sql = $DB->query("INSERT INTO `$table` (userName, password, email, date_created, last_logged_in, reset_key) VALUES ('$userName', '$password', '$email', NOW(), NOW(), NULL)", __FILE__, __LINE__);
 
 			return $this->fetchUser($userName) && $DB->checkResult($sql);
 		}
@@ -112,9 +121,10 @@
 		/**
 		 * This function takes in a new password and the user_id and resets their password
 		 *
+		 * @access public
 		 * @param string $newPassword The new password
-		 * @param int    $user_id     The id of the user to be affected
-		 * @param string $reset_key   The reset key to check against
+		 * @param int $user_id The id of the user to be affected
+		 * @param string $reset_key The reset key to check against
 		 *
 		 * @return bool
 		 */
@@ -129,7 +139,7 @@
 			$reset_key = $DB->escapeString($reset_key);
 			$table = $DB->tables['Users'];
 
-			$sql = $DB->queryOrDie("UPDATE `$table` SET password='$password', reset_key=NULL WHERE id=$user_id AND reset_key <> NULL AND reset_key='$reset_key'", __FILE__, __LINE__);
+			$sql = $DB->query("UPDATE `$table` SET password='$password', reset_key=NULL WHERE id=$user_id AND reset_key <> NULL AND reset_key='$reset_key'", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -137,8 +147,9 @@
 		/**
 		 * This function checks the supplied email against the supplied username and checks if they pair up.
 		 *
+		 * @access public
 		 * @param string $userName The username to check against
-		 * @param string $email    The email to check
+		 * @param string $email The email to check
 		 *
 		 * @return bool
 		 */
@@ -151,7 +162,7 @@
 			$emailHashed = password_verify($DB->escapeString($email) . $DB->salt, PASSWORD_BCRYPT);
 			$table = $DB->tables['Users'];
 
-			$sql = $DB->queryOrDie("SELECT `userName` FROM `$table` WHERE userName = '$userName' AND email='$emailHashed';", __FILE__, __LINE__);
+			$sql = $DB->query("SELECT `userName` FROM `$table` WHERE userName = '$userName' AND email='$emailHashed';", __FILE__, __LINE__);
 
 			return $DB->checkResult($sql);
 		}
@@ -160,6 +171,7 @@
 		/**
 		 * Does what it says on the tin: generates a reset key for a user
 		 *
+		 * @access public
 		 * @param string $userName The user name to generate a key for
 		 *
 		 * @return bool
@@ -174,7 +186,7 @@
 
 			$table = $DB->tables['Users'];
 
-			$sql = $DB->queryOrDie("UPDATE `$table` SET reset_key='$key' WHERE userName = '$userName';", __FILE__, __LINE__);
+			$sql = $DB->query("UPDATE `$table` SET reset_key='$key' WHERE userName = '$userName';", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($sql)) {
 				return false;
@@ -186,6 +198,7 @@
 		/**
 		 * Checks if a user is enrolled in a course given a course id
 		 *
+		 * @access public
 		 * @param String $courseId The course to check if the user is enrolled in
 		 * @param String $userName The user name to check
 		 *
@@ -201,12 +214,13 @@
 
 			$table = $DB->tables['Students'];
 
-			return $DB->checkResult($DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__));
+			return $DB->checkResult($DB->query("SELECT * FROM `$table` WHERE courseId = '$courseId' AND id=$userId;", __FILE__, __LINE__));
 		}
 
 		/**
 		 * This logs by destroying the session and updating the timestamp for the last_logged_out column in the Users table
 		 *
+		 * @access public
 		 * @param string $userName The user to log out
 		 *
 		 * @return bool True if successful, false if otherwise
@@ -223,13 +237,14 @@
 			$table = $DB->tables['Users'];
 			$userName = $user['userName']; //make sure we have the actual user name that's in the database
 
-			return session_destroy() && $DB->checkResult($DB->queryOrDie("UPDATE `$table` SET last_logged_out = NOW() WHERE userName = '$userName';", __FILE__, __LINE__));
+			return session_destroy() && $DB->checkResult($DB->query("UPDATE `$table` SET last_logged_out = NOW() WHERE userName = '$userName';", __FILE__, __LINE__));
 		}
 
 		/**
 		 * Logs in the user by starting a session, initializing all the values in the user's row into the $_SESSION array
 		 * (except for the password), and sets the last_logged_in value in the database for the user to NOW()
 		 *
+		 * @access public
 		 * @param string $userName The username to log in
 		 * @param string $password Their password
 		 *
@@ -244,7 +259,7 @@
 			$table = $DB->tables['Users'];
 			$userName = $userInfo['userName']; //make sure we have the actual user name that's in the database
 
-			if (!$this->checkPassword($userName, $password) || !$DB->checkResult($DB->queryOrDie("UPDATE `$table` SET last_logged_in = NOW() WHERE userName='$userName';", __FILE__, __LINE__))) {
+			if (!$this->checkPassword($userName, $password) || !$DB->checkResult($DB->query("UPDATE `$table` SET last_logged_in = NOW() WHERE userName='$userName';", __FILE__, __LINE__))) {
 				return false;
 			}
 			session_start();
@@ -255,5 +270,58 @@
 			unset($_SESSION['password']); //trash the password
 
 			return true;
+		}
+
+		/**
+		 * Checks if a user is an admin or not
+		 *
+		 * @access public
+		 * @param string $userName The username to check
+		 * @return bool True if they are, false if not
+		 */
+		public function isAdmin($userName) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+			$DB->checkString($userName, __CLASS__, __FUNCTION__);
+
+			return (bool)$this->fetchUser($userName)['admin'];
+		}
+
+		/**
+		 * Given a username, check if the user is listed in the instructor table
+		 *
+		 * @access public
+		 * @param string $userName The username to look for in the instructors table
+		 * @return bool True if the user is listed in the instructors table, false if otherwise
+		 */
+		public function isAnInstructor($userName) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
+			$DB->checkString($userName, __CLASS__, __FUNCTION__);
+
+			$table = $DB->tables['Instructors'];
+			$userId = $this->fetchUser($userName)['id'];
+
+			return $DB->checkResult($DB->query("SELECT * FROM `$table` WHERE id=$userId;", __FILE__, __LINE__));
+		}
+
+		/**
+		 * Given a username and course id, check if the user is indeed an instructor for the given course
+		 *
+		 * @access public
+		 * @param string $userName The username to look for in the instructors table
+		 * @param string $courseId The course id to compare to
+		 * @return bool True if the user is an instructor for a given course, false if otherwise
+		 */
+		public function isAnInstructorForCourse($userName, $courseId) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 2, __CLASS__, __FUNCTION__, true);
+			$DB->checkString(func_get_args(), __CLASS__, __FUNCTION__);
+
+			$table = $DB->tables['Instructors'];
+			$userId = $this->fetchUser($userName)['id'];
+			$courseId = $DB->escapeString($courseId);
+
+			return $DB->checkResult($DB->query("SELECT * FROM `$table` WHERE id=$userId AND courseNumber='$courseId';", __FILE__, __LINE__));
 		}
 	}

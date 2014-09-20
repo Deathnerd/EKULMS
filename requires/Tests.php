@@ -9,10 +9,18 @@
 	/**
 	 * This class is responsible for the management of Tests
 	 */
-	class Tests {
+	class Tests
+	{
+
+		/**
+		 * @access private
+		 * @var Db The database object
+		 */
+		private $Db;
 
 		/**
 		 * Constructor!
+		 * @param Db $db The database object for connections
 		 */
 		function __construct(Db $db) {
 			$this->Db = $db;
@@ -22,6 +30,7 @@
 		 * Does what it says on the tin: Adds a test to the test table. This does not add the questions associated with
 		 * the test
 		 *
+		 * @access public
 		 * @param string $courseId The id of the course to add
 		 * @param string $testName The name of the test to add
 		 *
@@ -39,7 +48,7 @@
 			$table = $DB->tables['Tests'];
 			$currentTestNumber = 1;
 
-			$result = $DB->queryOrDie("SELECT testNumber FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
+			$result = $DB->query("SELECT testNumber FROM `$table` WHERE courseId='$courseId';", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($result)) { //if the course is not listed in the Tests table, add the first record
 				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', 1, '$testName');";
@@ -51,7 +60,7 @@
 				$sql = "INSERT INTO `$table` (courseId, testNumber, testName) VALUES ('$courseId', $currentTestNumber, '$testName');";
 			}
 
-			if (!$DB->checkResult($DB->queryOrDie($sql, __FILE__, __LINE__))) {
+			if (!$DB->checkResult($DB->query($sql, __FILE__, __LINE__))) {
 				return false;
 			}
 
@@ -61,6 +70,7 @@
 		/**
 		 * This function will make a test if it does not exist, or update a current test if it exists
 		 *
+		 * @access public
 		 * @param $data array Takes in an array of the test
 		 *
 		 * @return bool True if successful, false if it fails
@@ -126,7 +136,7 @@
 
 				//insert everything into the current test
 				$sql = "INSERT INTO `$table` (testId, questionNumber, a, b, c, d, correct, prompt) VALUES ($currentTestNumber, $numberOfQuestions, '$choiceValues[0]', '$choiceValues[1]', '$choiceValues[2]', '$choiceValues[3]', '$correct', '$prompt');";
-				$DB->queryOrDie($sql, __FILE__, __LINE__);
+				$DB->query($sql, __FILE__, __LINE__);
 				$numberOfQuestions++;
 			}
 
@@ -136,6 +146,7 @@
 		/**
 		 * This will update a test with new data
 		 *
+		 * @access public
 		 * @param $data array Takes in an array of the test
 		 *
 		 * @return bool Returns true if successful, false if otherwise. Will fail with an error if input is incorrect
@@ -149,7 +160,7 @@
 			$testName = $DB->escapeString($data['_quizName']);
 
 			//check if the test exists
-			$results = $DB->queryOrDie("SELECT testName, testId FROM `$table` WHERE testName='$testName';", __FILE__, __LINE__);
+			$results = $DB->query("SELECT testName, testId FROM `$table` WHERE testName='$testName';", __FILE__, __LINE__);
 			if (!$results) {
 				return false;
 			}
@@ -161,7 +172,7 @@
 			if ($testName != $currentQuizName) { //if the new name is different from the old one
 				//update the name of the quiz
 				$sql = "UPDATE `$table` SET testName='$testName' WHERE testName='$currentQuizName';";
-				if (!$DB->queryOrDie($sql, __FILE__, __LINE__)) {
+				if (!$DB->query($sql, __FILE__, __LINE__)) {
 					return false;
 				}
 			}
@@ -213,7 +224,7 @@
 
 				//update the current test item
 				$sql = "UPDATE `$table` SET a='$choiceValues[0]', b='$choiceValues[1]', c='$choiceValues[2]', d='$choiceValues[3]', correct='$correct', prompt='$prompt' WHERE testId=$testId AND questionNumber=$numberOfQuestions;";
-				$DB->queryOrDie($sql, __FILE__, __LINE__);
+				$DB->query($sql, __FILE__, __LINE__);
 				$numberOfQuestions++;
 			}
 
@@ -224,6 +235,7 @@
 		/**
 		 * This function returns all columns of the
 		 *
+		 * @access public
 		 * @param string $name The name of the test to fetch
 		 *
 		 * @return array|bool Return all columns from Tests table if successful or false if not
@@ -237,7 +249,7 @@
 			$name = $DB->escapeString($name); //sanitize input
 			$table = $DB->tables['Tests'];
 
-			if (!$query = $DB->queryOrDie("SELECT * FROM `$table` WHERE testName='$name';", __FILE__, __LINE__)) {
+			if (!$query = $DB->query("SELECT * FROM `$table` WHERE testName='$name';", __FILE__, __LINE__)) {
 				return false;
 			}
 			//contains testId, testName, testNumber, courseId
@@ -252,7 +264,7 @@
 			//get all questions from the Questions table with the same testId
 			$testId = $testMetadata['testId'];
 			$table = $DB->tables['Questions'];
-			$query = $DB->queryOrDie("SELECT * FROM `$table` WHERE testId='$testId' ORDER BY questionNumber;", __FILE__, __LINE__);
+			$query = $DB->query("SELECT * FROM `$table` WHERE testId='$testId' ORDER BY questionNumber;", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($query)) {
 				return false;
@@ -316,6 +328,7 @@
 		/**
 		 * Does what it says on the tin: Gets a test's id by the name
 		 *
+		 * @access public
 		 * @param string $testName The name of the test you want to get the id for
 		 *
 		 * @return array|bool|null Returns the id if
@@ -326,7 +339,7 @@
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$table = $DB->tables['Tests'];
-			$result = $DB->queryOrDie("SELECT * FROM `$table` WHERE testName = '$testName' LIMIT 1;", __FILE__, __LINE__);
+			$result = $DB->query("SELECT * FROM `$table` WHERE testName = '$testName' LIMIT 1;", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($result)) {
 				return false;
@@ -340,6 +353,7 @@
 		/**
 		 * Like almost all of my functions, it does what it says on the tin: Fetches all tests with the associated Course Id
 		 *
+		 * @access public
 		 * @param string $courseId The id of the course to look up
 		 *
 		 * @return array|bool False if nothing is found, all results in an array if otherwise
@@ -352,7 +366,7 @@
 
 			$table = $DB->tables['Tests'];
 
-			$result = $DB->queryOrDie("SELECT * FROM `$table` WHERE courseId = '$courseId'", __FILE__, __LINE__);
+			$result = $DB->query("SELECT * FROM `$table` WHERE courseId = '$courseId'", __FILE__, __LINE__);
 
 			if (!$DB->checkResult($result)) {
 				return false;
@@ -363,12 +377,14 @@
 
 		/**
 		 * Fetches all tests in the test table
+		 *
+		 * @access public
 		 * @return array|bool Returns false if failed, otherwise returns an array of results
 		 */
 		public function fetchAll() {
 			$DB = $this->Db;
 			$table = $DB->tables['Tests'];
-			$sql = $DB->queryOrDie("SELECT * FROM `$table`", __FILE__, __LINE__);
+			$sql = $DB->query("SELECT * FROM `$table`", __FILE__, __LINE__);
 			if (!$DB->checkResult($sql)) {
 				return false;
 			}
@@ -380,6 +396,7 @@
 		/**
 		 * Checks if a test exists by name
 		 *
+		 * @access public
 		 * @param string $test_name The name of the test to check
 		 *
 		 * @return bool
@@ -392,12 +409,13 @@
 			$table = $DB->tables['Tests'];
 			$test_name = $DB->escapeString($test_name);
 
-			return $DB->checkResult($DB->queryOrDie("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$test_name');", __FILE__, __LINE__));
+			return $DB->checkResult($DB->query("SELECT EXISTS (SELECT 1 FROM `$table` WHERE testName = '$test_name');", __FILE__, __LINE__));
 		}
 
 		/**
 		 * Gets the maximum test number for a course
 		 *
+		 * @access public
 		 * @param string $course_id The course id to look for
 		 *
 		 * @return int The test number if there is one or 0 (false) if not
@@ -409,7 +427,7 @@
 
 			$table = $DB->tables['Tests'];
 			$course_id = $DB->escapeString($course_id);
-			$result = $DB->queryOrDie("SELECT MAX(testNumber) AS 'testNumber' FROM `$table` WHERE courseId='$course_id'; ", __FILE__, __LINE__);
+			$result = $DB->query("SELECT MAX(testNumber) AS 'testNumber' FROM `$table` WHERE courseId='$course_id'; ", __FILE__, __LINE__);
 			if ($DB->checkResult($result)) {
 				return intval($result['testNumber']);
 			}
@@ -420,9 +438,10 @@
 		/**
 		 * This function inserts a new attempt for a test into the database
 		 *
-		 * @param int $user_id          The id of the user that's submitting the test results
-		 * @param int $test_id          The id of the test the user took
-		 * @param int $number_correct   The number of correct questions
+		 * @access public
+		 * @param int $user_id The id of the user that's submitting the test results
+		 * @param int $test_id The id of the test the user took
+		 * @param int $number_correct The number of correct questions
 		 * @param int $number_incorrect The number of incorrect questions
 		 *
 		 * @return bool Success status
@@ -438,7 +457,7 @@
 			$table = $DB->tables['Results'];
 
 			//get current attempt
-			$results = $DB->queryOrDie("SELECT MAX(attempt) AS 'attempt' FROM `$table` WHERE userId=$user_id AND testId=$test_id LIMIT 1;", __FILE__, __LINE__);
+			$results = $DB->query("SELECT MAX(attempt) AS 'attempt' FROM `$table` WHERE userId=$user_id AND testId=$test_id LIMIT 1;", __FILE__, __LINE__);
 			if (!$DB->checkResult($results)) {
 				return false;
 			}
@@ -459,7 +478,7 @@
 			}
 
 			//insert into the table
-			$results = $DB->queryOrDie("INSERT INTO `$table`
+			$results = $DB->query("INSERT INTO `$table`
 										            (userId,
 										             testId,
 										             attempt,
@@ -483,8 +502,9 @@
 		/**
 		 * This function gets all results stored for a user in the database.
 		 *
-		 * @param int  $user_id  The id of the user to select results for
-		 * @param int  $test_id  The id of the test to fetch. Enter -1 is full report is wanted
+		 * @access public
+		 * @param int $user_id The id of the user to select results for
+		 * @param int $test_id The id of the test to fetch. Enter -1 is full report is wanted
 		 * @param null $order_by A MySQL ORDER BY argument
 		 *
 		 * @return array|bool Returns the results if successful, or false if otherwise
@@ -509,7 +529,7 @@
 			} else {
 				$query_string = "SELECT * FROM `$table` WHERE userId='$user_id' AND testId='$test_id' $order_by";
 			}
-			$results = $DB->queryOrDie($query_string, __FILE__, __LINE__);
+			$results = $DB->query($query_string, __FILE__, __LINE__);
 
 			if (!$DB->checkResult($results)) {
 				return false;

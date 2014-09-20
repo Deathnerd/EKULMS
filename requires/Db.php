@@ -9,40 +9,49 @@
 	 */
 	class Db {
 		/**
+		 * @access protected
 		 * @var string The database name from the config file
 		 */
 		protected $database;
 		/**
+		 * @access protected
 		 * @var string The database password from the config file
 		 */
 		protected $password;
 		/**
+		 * @access protected
 		 * @var string The database host from the config file
 		 */
 		protected $host;
 		/**
+		 * @access protected
 		 * @var string The database user from the config file
 		 */
 		protected $user;
 		/**
-		 * @var object The MySQL connection object
+		 * @access protected
+		 * @var resource The MySQLi connection resource
 		 */
 		protected $connection = null;
 		/**
+		 * @access protected
 		 * @var array An array of tables from the config file
 		 */
 		public $tables;
 		/**
+		 * @access public
 		 * @var string The salt
 		 */
 		public $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
 		/**
+		 * @access private
 		 * @var bool Are we in debug mode?
 		 */
 		private $debug = true;
 
 		/**
-		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the user-config.ini file is not found. If both are not found, throw an error
+		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the
+		 * user-config.ini file is not found. If both are not found, throw an error
 		 */
 		function __construct() {
 			$dirname = dirname(__FILE__);
@@ -70,8 +79,10 @@
 
 		/**
 		 * Connects to the database. Dies if it fails
+		 *
+		 * @access public
 		 */
-		function connect() {
+		public function connect() {
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 			if (mysqli_connect_errno($this->connection)) { //failed to connect
 				die("Failed to connect with error: " . mysqli_connect_error());
@@ -84,6 +95,8 @@
 
 		/**
 		 * Closes the connection. Dies if it fails
+		 *
+		 * @access public
 		 */
 		public function close() {
 			mysqli_close($this->connection) or die("Failed to close connection with erro: " . mysqli_connect_error());
@@ -100,6 +113,7 @@
 		/**
 		 * This function fetches all results in an SQL Result
 		 *
+		 * @access public
 		 * @param $SQLResult object The result of an SQL query to get rows from
 		 *
 		 * @return array The resultant rows from the SQL query
@@ -116,6 +130,7 @@
 		/**
 		 * This function checks if an SQL Result returned null, false, or 0 rows
 		 *
+		 * @access public
 		 * @param object $SQLResult The SQL Result object to check
 		 *
 		 * @return bool True if non-false object return, false if otherwise
@@ -131,6 +146,7 @@
 		/**
 		 * This utility function will check the number of arguments
 		 *
+		 * @access public
 		 * @param integer $argumentsSupplied How many arguments were supplied
 		 * @param integer $numberOfArguments How many arguments are required
 		 * @param string  $class             Class name
@@ -160,11 +176,10 @@
 		/**
 		 * This utility function will check an argument type
 		 *
+		 * @access public
 		 * @param mixed  $argument The argument to check
 		 * @param string $type     The type the argument was is supposed to be
-		 *
 		 * @param string $class    The class where the error occurred
-		 *
 		 * @param string $function The function where the error occurred
 		 *
 		 * @return bool True if succeeded
@@ -221,13 +236,14 @@
 		/**
 		 * Simple method to check if the supplied argument is a string and has a length greater than zero
 		 *
+		 * @access public
 		 * @param string|array $string   the string or array containing strings to check
 		 * @param string       $class    The class where the error might occur
 		 * @param string       $function The function where the error might occur
 		 *
 		 * @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
 		 */
-		function checkString($string, $class, $function) {
+		public function checkString($string, $class, $function) {
 			if (gettype($string) == "array") {
 				for ($i = 0; $i < count($string); $i++) {
 					if (!is_string($string[$i]) && strlen($string[$i]) == 0) {
@@ -246,6 +262,7 @@
 		/**
 		 * Simple method to execute a query or die. Checks the query before returning
 		 *
+		 * @access public
 		 * @param string $query The query to run
 		 * @param string $file
 		 * @param string $line
@@ -253,7 +270,7 @@
 		 * @internal param object $link The database link
 		 * @return bool|object Returns the result or false if nothing is returned
 		 */
-		public function queryOrDie($query, $file, $line) {
+		public function query($query, $file, $line) {
 			$this->checkString(array_slice(func_get_args(), 1), __CLASS__, __FUNCTION__);
 
 			$result = mysqli_query($this->connection, $query);
@@ -267,6 +284,7 @@
 		/**
 		 * Simple method to prep a string for mysqli usage
 		 *
+		 * @access public
 		 * @param string $string The string to prep
 		 *
 		 * @return string The prepared string

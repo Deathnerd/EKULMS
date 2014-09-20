@@ -145,27 +145,32 @@
 		}
 
 		/**
-		 * @param array      $to           A multi-level array with the structure of <br />
-		 *                                 [ <br />
-		 *                                 &nbsp  [ <br />
-		 *                                 &nbsp &nbsp  "name" => $name, <br />
-		 *                                 &nbsp &nbsp  "address" => $address, <br />
-		 *                                 &nbsp &nbsp  "reply_to" => $reply_to (optional) <br />
-		 *                                 &nbsp ] <br />
-		 *                                 ]
-		 * @param array      $from         An array with the structure similar to $to, but without "reply_to" key
-		 * @param string     $subject      The subject of the email
-		 * @param string     $body         The HTML body of the email
-		 * @param array      $config_vals  The config values for the email. Requires the following values:
+		 * A nice wrapper to send emails using PHPMailer
+		 *
+		 * @access public
+		 * @param array $to A multi-level array with the structure of such:
+		 * <code>
+		 * array(
+		 *     array(
+		 *         "name" => $name,
+		 *         "address" => $address,
+		 *         "reply_to" => $reply_to (optional)
+		 *     )
+		 * )
+		 * </code>
+		 *
+		 * @param array $from An array with the structure similar to $to, but without "reply_to" key
+		 * @param string $subject The subject of the email
+		 * @param string $body The HTML body of the email
+		 * @param array $config_vals The config values for the email. Requires the following values:
 		 *                                 host, port, user_name, password
-		 * @param null|array $cc           An array with the structure similar to $from
-		 * @param null|array $bcc          An array with the sturcture similar to $cc
+		 * @param null|array $cc An array with the structure similar to $from
+		 * @param null|array $bcc An array with the sturcture similar to $cc
 		 *
 		 * @internal param \Db $Db Requires a Database object for error checking
 		 * @return bool
 		 */
 		public function sendEmail($to, $from, $subject, $body, $config_vals, $cc = null, $bcc = null) {
-			require_once('../../autoloader.php');
 			$Db = $this->DB;
 
 			$Db->checkArgumentType($to, 'array', __CLASS__, __FUNCTION__);
