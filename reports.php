@@ -8,7 +8,6 @@
 
 	require('autoloader.php');
 	session_start();
-	$Utils = new Utilities($DB);
 	if (!$Utils->checkisSet(array($_SESSION['userName'],
 	                              $_GET['action'],
 	                              $_GET['test_name']),

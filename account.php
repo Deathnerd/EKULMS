@@ -5,7 +5,6 @@
 	require_once("autoloader.php");
 	session_start();
 
-	$Utils = new Utilities($DB);
 	if (!$Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if not logged in, go to the login page
 		$Utils->redirectTo("signin.php");
 	}

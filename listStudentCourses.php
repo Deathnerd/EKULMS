@@ -7,7 +7,6 @@
 	 */
 	error_reporting(E_ALL);
 	require_once("autoloader.php");
-	$DB = new Db();
 	$Courses = new Courses($DB);
 	session_start();
 

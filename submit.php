@@ -8,9 +8,8 @@
 
 	session_start();
 	require_once("autoloader.php");
-	$Utilities = new Utilities($DB);
 	//check if user is signed in and correct data is received
-	if (!$Utilities->checkIsSet(array($_SESSION['userName'],
+	if (!$Utils->checkIsSet(array($_SESSION['userName'],
 	                                  $_GET['payload'],
 	                                  $_GET['action']),
 	                            array("User is not logged in. Your session may have expired. Please log in",
@@ -40,11 +39,11 @@
 	if ($Tests->testExists($test_name)) {
 		$test_id = $Tests->getIdByName($test_name);
 	} else {
-		$Utilities->closeAndExit("I have no idea how this happened, but the test does not exist");
+		$Utils->closeAndExit("I have no idea how this happened, but the test does not exist");
 	}
 
 	if ($enrolled_course_id != $payload['_courseId']) {
-		$Utilities->closeAndExit("User is not enrolled in this course. I have no idea how this happened");
+		$Utils->closeAndExit("User is not enrolled in this course. I have no idea how this happened");
 	}
 
 	//calculate the user's number of correct/wrong anwers and their score

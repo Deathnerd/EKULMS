@@ -34,18 +34,36 @@ var removeNull = function (json) {
 	}
 	return json;
 };
+
+var populateTestsDropdown = function () {
+	var courseId = $("#courseName").val().split(" -- ")[0];
+	var courseDropdown = $("#courseDropdown");
+
+	$.ajax({
+		data: {
+			courseId: courseId
+		},
+		url: site("populateCoursesDropdown.php"),
+		success: function (response) {
+			try {
+				response = JSON.parse(response);
+			} catch (err) {
+				alert("Whoops! Try again! " + err);
+				return;
+			}
+			var coursesDropdown = $('#coursesDropdown');
+			coursesDropdown.empty();
+			for (var i = 0; i < response.length; i++) {
+				coursesDropdown.append($('<option></option>').text(response[i]['testName']));
+			}
+		}
+	})
+
+};
 $(document).ready(function () {
 
-	//fix up the selection box
-	var option = $('option');
-	var options = option.splice(0, option.length);
-	//loop through each of the options and trim off the preceding directory name and following file extension
-	$.each(options, function (index) {
-		var word = options[index].value;
-		var slashSplit = word.split('/');
-		var dotSplit = slashSplit[1].split('.');
-		options[index].text = dotSplit[0];
-	});
+	populateTestsDropdown();
+
 	//ready the JSON template
 	var json = jsonReady();
 	//append choices to the question
@@ -149,7 +167,7 @@ $(document).ready(function () {
 	//construct the json from the input fields (works first time! yay!)
 	$(document).on({
 		click: function () {
-			json.courseId = "CSC185";
+			json.courseId = $("#courseName").val().split(" -- ")[0];
 			json._quizName = $('#quizName').val(); //grab the quiz name
 			var questions = $('.question'); //find all the questions
 			for (var i = 0; i < questions.length; i++) { //for all the questions in the page
@@ -162,36 +180,43 @@ $(document).ready(function () {
 					questions_json.choices[j] = {}; //
 					var choices_j = questions_json.choices[j];
 					choices_j.value = $(choices_j[j]).find('[type=text]').val(); //fetch the value of the choice
-					choices_j.correct = $(choices_j[j].find('[type=checkbox]:checked').length > 0); { //if the checkbox is checked set the json property to true
+					choices_j.correct = $(choices_j[j].find('[type=checkbox]:checked').length > 0);
+					{ //if the checkbox is checked set the json property to true
+					}
 				}
+				json = removeNull(json);
+				console.log(json);
+				//send the ajax request with the JSON payload
+				$.ajax({
+					dataType: "json",
+					url: site("post.php"),
+					data: {
+						data: JSON.stringify(json),
+						action: $("#action").text()
+					},
+					crossDomain: true,
+					success: function (data) {
+						if (data != "Request empty") {
+							alert("Quiz saved");
+						}
+						else {
+							alert("Quiz not saved with error: " + data);
+						}
+						console.log(data);
+						location.reload(true); //reload the page. Quick hack to update the select box. Need to do it AJAX style
+					}
+				});
 			}
-			json = removeNull(json);
-			console.log(json);
-			//send the ajax request with the JSON payload
-			$.ajax({
-				dataType:    "json",
-				url:         site("post.php"),
-				data: {
-					data: JSON.stringify(json)
-				},
-				crossDomain: true,
-				success:     function (data) {
-					if (data != "Request empty") {
-						alert("Quiz saved");
-					}
-					else {
-						alert("Quiz not saved with error: " + data);
-					}
-					console.log(data);
-					location.reload(true); //reload the page. Quick hack to update the select box. Need to do it AJAX style
-				}
-			});
-		}
 		}
 	}, '#saveQuiz');
-	//function to populate the page from an existing quiz
+	/**
+	 * function to populate the page from an existing quiz
+	 * @param json The json containing the quiz structure
+	 */
 	var populate = function (json) {
-		$.each($(document).find('.question'), function () { $(this).remove(); });//this will delete all questions on the page
+		$.each($(document).find('.question'), function () {
+			$(this).remove();
+		});//this will delete all questions on the page
 		//Make the questions
 		console.log('Making questions');
 		console.log(json._quizName);
@@ -268,30 +293,66 @@ $(document).ready(function () {
 		click: function () {
 			var value = $('select').val();
 			$.ajax({
-				dataType:    'json',
-				url:         site("fetch.php"),
+				dataType: 'json',
+				url: site("fetch.php"),
 				data: {
-				      data: value
+					data: value
 				},
-				success:     function (data) {
+				success: function (data) {
 					console.log(data);
 					populate(data);
+					$("#action").val("update");
 				},
 				crossDomain: true
 			});
 		}
 	}, '#load');
-	//handle the delete button
+
+	/**
+	 * Revamped load button
+	 */
 	$(document).on({
 		click: function () {
-			if(!confirm("Are you sure you wish to delete this quiz? This action cannot be undone")){
+			var testName = $("#coursesDropdown").val();
+			if (testName == null) {
+				alert("Select a test from the dropdown");
+				return;
+			}
+			$.ajax({
+				dataType: 'json',
+				url: site("fetch.php"),
+				data: {
+					data: testName
+				},
+				success: function (response) {
+					console.log(response);
+					populate(response);
+				}
+			})
+		}
+	}, "#load2");
+
+	/**
+	 *  When the user changes the selected course, repopulate the tests dropdown with its respective tests
+	 */
+	$('#courseName').change(function () {
+		$("#courseDropdown").empty();
+		populateTestsDropdown();
+	});
+
+	/**
+	 * Handle the delete button
+	 */
+	$(document).on({
+		click: function () {
+			if (!confirm("Are you sure you wish to delete this quiz? This action cannot be undone")) {
 				return;
 			}
 			var value = $('select').val();
 			$.ajax({
-				dataType:    'json',
-				url:         site('delete.php'),
-				success:     function (data) {
+				dataType: 'json',
+				url: site('delete.php'),
+				success: function (data) {
 					if (data === "File not found!") {
 						console.log("Error. No data received");
 						return;
@@ -301,7 +362,7 @@ $(document).ready(function () {
 					location.reload(true); //dirty hack. Do this AJAX style in the future
 				},
 				data: {
-				      data: value
+					data: value
 				},
 				crossDomain: true
 			});
@@ -313,4 +374,15 @@ $(document).ready(function () {
 			window.open(site('zip.php'));
 		}
 	}, '#download');
+
+	/**
+	 * Quick and dirty hack to make a blank slate for tests. It reloads the page!
+	 */
+	$(document).on({
+		click: function () {
+			if (confirm("Are you sure you wish to reload and make a new test? This will discard any unsaved changes")) {
+				location.reload(true);
+			}
+		}
+	}, "#newTest");
 });

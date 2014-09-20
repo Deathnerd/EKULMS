@@ -18,3 +18,4 @@
 	});
 
 	$DB = new Db;
+	$Utils = new Utilities($DB);

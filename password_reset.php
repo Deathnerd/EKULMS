@@ -7,7 +7,6 @@
 	 */
 
 	require_once('autoloader.php');
-	$Utils = new Utilities($DB);
 	if ($Utils->checkIsSet(array($_REQUEST['reset_key']), array(""))) {
 		$Utils->redirectTo("reset.php?key=" . $_REQUEST['reset_key']);
 	}

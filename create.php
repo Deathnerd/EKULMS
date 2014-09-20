@@ -5,12 +5,14 @@
 	 */
 	require_once("autoloader.php");
 	session_start();
-	$Utils = new Utilities($DB);
+	$User = new Users($DB);
+	$Tests = new Tests($DB);
+	$Courses = new Courses($DB);
 
-	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there isn't a user logged in, send them to the login page
+	if (!$Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there isn't a user logged in, send them to the login page
 		$Utils->redirectTo("signin.php");
 	}
-	if ($_SESSION['admin'] != '1') { //if user isn't an admin, send them to the index
+	if (!$User->isAdmin($_SESSION['userName']) || !$User->isAnInstructor($_SESSION['userName'])) { //if user isn't an admin, send them to the index
 		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Create Test - EKULMS");
@@ -25,25 +27,36 @@
 		</div>
 		<p id="pageTitle">Quiz Creation</p>
 	</header>
-	<p class="label">Quiz name</p>
-	<input type="text" value="Quiz 1" id="quizName">
+	<input type="hidden" value="make" id="action"/>
+	<label for="courseName">Course Name: </label>
+	<select id="courseName"><?
+			$instructedCourses = $Courses->fetchEnrolledCourses($_SESSION['userName'], 'instructor');
+			foreach ($instructedCourses as $course) {
+				$val = $course['courseId'] . ":" . $course['courseName'];
+				echo "<option val='$val'>{$course['courseId']} -- {$course['courseName']}</option>";
+			}
+		?>
+	</select>
+	<label>
+		<select id="coursesDropdown">
+			<option>Select a course from the left</option>
+		</select>
+	</label>
+	<input type="button" value="Load" id="load2">
+	<input value="New Test" id="newTest" type="button"/>
+	<input type="button" value="Download All Quizzes" id="download">
+	<br/>
+	<label for="quizName">Quiz name</label><input type="text" value="Quiz 1" id="quizName">
 	<input type="button" value="Add question" class="question_add">
 	<input type="button" value="Remove question" class="question_remove">
 	<input type="button" value="Save Quiz" id="saveQuiz">
-	<select><?
-			$files = glob('quizzes/*.json'); //find all the quiz files
-			//populate the dropdown
-			foreach ($files as $file) {
-				echo '<option>$file</option>';
-			} ?>
-	</select>
-	<input type="button" value="Load" id="load">
-	<input type="button" value="Download All Quizzes" id="download">
 
 	<div class="question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>
-		<textarea name="prompt" cols="40" rows="5">Input question here</textarea>
+		<label>
+			<textarea name="prompt" cols="40" rows="5">Input question here</textarea>
+		</label>
 		<br>
 		<input type="button" value="Add Choice" id="add_choice" class="choice_add">
 		<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"><br>
@@ -69,7 +82,10 @@
 		</table>
 		<!-- End choices table -->
 	</div>
+	<script src="js/create.js"></script>
+	<div style="left: 30px"></div>
 <?
+
 	$UI->show('footer');
 	$DB->close();
 ?>

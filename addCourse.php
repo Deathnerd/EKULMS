@@ -8,7 +8,6 @@
 	require_once("autoloader.php");
 	session_start();
 
-	$Utils = new Utilities($DB);
 	$Courses = new Courses($DB);
 
 	if (!$Utils->checkIsSet(array($_SESSION['userName'], $_GET['courseId'], $_GET['courseName']),

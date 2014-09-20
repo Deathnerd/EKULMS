@@ -10,7 +10,6 @@
 	header('Access-Control-Allow-Origin: *');
 	header("Content-type: application/text");
 	$Tests = new Tests($DB);
-	$Utils = new Utilities($DB);
 
 	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))) {
 		exit();

@@ -8,7 +8,6 @@
 	require_once("autoloader.php");
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
-	$Utils = new Utilities($DB);
 	$Tests = new Tests($DB);
 
 	//check to see if $_REQUEST

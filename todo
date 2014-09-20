@@ -4,3 +4,7 @@ Allow multiple classes
 User reporting
     - By class
     - By individual test
+
+Tests Creation and management
+	- List quizzes from the database based on the ones the user is an instructor of
+	- Block off the creation of tests if a user is not an admin or an instructor of that class

@@ -8,8 +8,6 @@
 
 	require_once('autoloader.php');
 
-	$Utils = new Utilities($DB);
-
 	if (!$Utils->checkIsSet(array($_GET['courseId']),
 	                        array("No course id received"))
 	) {

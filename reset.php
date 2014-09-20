@@ -8,8 +8,6 @@
 
 	require_once('autoloader.php');
 	require_once('requires/phpmailer/PHPMailerAutoload.php');
-	$Utils = new Utilities($DB);
-
 
 	if (!$Utils->checkIsSet(array($_GET['action']),
 	                        array("Action is not set"))

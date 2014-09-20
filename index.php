@@ -4,7 +4,6 @@
 	 */
 	require_once("autoloader.php");
 	$Tests = new Tests($DB);
-	$Utils = new Utilities($DB);
 	session_start();
 	$user_name = $_SESSION['userName'];
 	if (!$Utils->checkIsSet(array($user_name), array(""))) { //if not logged in already, go to login page

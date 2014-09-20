@@ -4,9 +4,8 @@
 	 */
 	session_start();
 	require_once("autoloader.php");
-	$Utilities = new Utilities($DB);
-	if ($Utilities->checkIsSet(array($_SESSION['userName']), array(""))) {
-		$Utilities->redirectTo('index.php');
+	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) {
+		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Sign-in - EKULMS");
 	$UI->show("header");

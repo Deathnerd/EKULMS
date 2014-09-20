@@ -10,7 +10,6 @@
 
 	chdir("./quizzes");
 
-	$DB = new Db();
 	$Tests = new Tests($DB);
 	$files = scandir(".");
 	for ($i = 2; $i < count($files); $i++) {
