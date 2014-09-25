@@ -6,6 +6,7 @@
 	 * Date: 8/4/14
 	 * Time: 10:32 PM
 	 */
+
 	class UI
 	{
 
@@ -38,7 +39,9 @@
 		 * @param string $page The filename of the page
 		 * @param string $title The title of the page
 		 */
-		function __construct($page = "", $title = "") {
+		function __construct($page = "", $title = "", $DebugBar = null) {
+			$DebugBarRenderer = $DebugBar->getJavascriptRenderer();
+			$DebugBar['messages']->addMessage("Hi, guys!");
 			$this->pageTitle = $title;
 			$create_script_tag = ($page != "" && $page == "create.php") ? "<script type='text/javascript' src='js/create.js'></script>" : "";
 			$this->headerContent = "<!DOCTYPE html>
@@ -53,8 +56,10 @@
 								<script type='text/javascript' src='js/main.js'></script>
 								<link type='text/css' rel='stylesheet' href='css/reset.css'>
 								<link type='text/css' rel='stylesheet' href='css/main.css'>
+								{$DebugBarRenderer->renderHead()}
 								</head>
 								<body>
+								{$DebugBarRenderer->render()}
 								<header id='topNav'>
 									<div id='logo'>
 										LOGO HERE

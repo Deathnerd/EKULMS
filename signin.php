@@ -7,7 +7,7 @@
 	if ($Utils->checkIsSet(array($_SESSION['userName']), array(""))) {
 		$Utils->redirectTo('index.php');
 	}
-	$UI = new UI($_SERVER['PHP_SELF'], "Sign-in - EKULMS");
+	$UI = new UI($_SERVER['PHP_SELF'], "Sign-in - EKULMS", $DebugBar);
 	$UI->show("header");
 ?>
 	<div id="bodyContainer">
