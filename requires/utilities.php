@@ -127,10 +127,9 @@
 		 *
 		 * @internal param \Db $DB The database object that has the active connection
 		 */
-		function closeAndExit($message = "") {
+		function exitWithMessage($message = "") {
 			header_remove("Content-type");
 			header("Content-type: application/text");
-			$this->DB->close();
 			exit($message);
 		}
 
@@ -219,9 +218,9 @@
 				$Mailer->msgHTML($body);
 				$Mailer->send();
 			} catch (phpmailerException $e) {
-				$this->closeAndExit($e->errorMessage());
+				$this->exitWithMessage($e->errorMessage());
 			} catch (Exception $e) {
-				$this->closeAndExit($e->getMessage());
+				$this->exitWithMessage($e->getMessage());
 			}
 
 			return true;
