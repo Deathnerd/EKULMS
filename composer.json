@@ -1,5 +1,13 @@
 {
 	"require": {
-		"maximebf/debugbar": "1.*"
+		"nesbot/Carbon": "*",
+		"respect/validation": "0.7.*@dev",
+		"php": ">=5.5"
+	},
+	"require-dev": {
+		"maximebf/debugbar": "1.*",
+		"devster/ubench": "1.1.*-dev",
+		"j4mie/idiorm": "dev-master",
+		"phpunit/phpunit": "4.4.*@dev"
 	}
 }
