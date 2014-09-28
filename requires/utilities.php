@@ -7,8 +7,9 @@
 	 */
 //namespace utils;
 
+	use Carbon\Carbon;
 
-	class Utilities {
+	class Utilities extends Carbon {
 		function __construct(Db $db) {
 			$this->DB = $db;
 		}
@@ -225,10 +226,4 @@
 
 			return true;
 		}
-
-
-		//TODO: make this an awesome method
-		/*public function countWhere($iterable, $compare1, $condition, $compare2){
-
-		}*/
 	}
