@@ -78,6 +78,13 @@
 		}
 
 		/**
+		 * Closes database on destruct
+		 */
+		function __destruct(){
+			$this->close();
+		}
+
+		/**
 		 * Connects to the database. Dies if it fails
 		 *
 		 * @access public
