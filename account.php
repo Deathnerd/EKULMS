@@ -23,6 +23,7 @@
 	<div class="bodyContainer">
 		<div id="signupCourse">
 			<p>Course Id:</p>
+			<label for="courseSignupDropdown"></label>
 			<select name="courseSignupDropdown" id="courseSignupDropdown">
 				<option value="none">Select a Course</option>
 				<?
@@ -54,6 +55,7 @@
 	</div>
 	<div id="userStatistics">
 		<input id="getStats" value="Get Course Stats" type="button"/>
+		<label for="courses"></label>
 		<select name="userCourses" id="courses">
 			<?
 				$userCourses = $Courses->fetchEnrolledCourses($userName, 'student');
@@ -70,13 +72,17 @@
 				}
 			?>
 		</select>
-		<select name="tests" id="tests">
 
-		</select>
+		<span id="reporting_selection">
 
-		<div id="statsResultsTable"></div>
+			<label for="report_course">Select a course: </label>
+			<select name="report_course" id="report_course"></select>
+			<label for="tests" class="hide"></label>
+			<select name="tests" id="tests" class="hide"></select>
+		</span>
+
+		<div id="statsResultsTable" class="hide"></div>
 	</div>
 <?
 	$UI->show("footer");
-	$DB->close();
 ?>
