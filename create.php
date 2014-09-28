@@ -51,7 +51,7 @@
 	<input type="button" value="Remove question" class="question_remove">
 	<input type="button" value="Save Quiz" id="saveQuiz">
 
-	<div class="question" id="question_1">
+	<div class="small_padding question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>
 		<label>

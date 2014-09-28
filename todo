@@ -4,5 +4,5 @@ TODO Make some classes static (Utils for one)
 TODO Allow multiple classes
 TODO Restyle with Bootstrap
 TODO User reporting !important
-    - By class
-    - By individual test
+    - By class (need server-side stuff and button handling)
+    - By individual test (need server-side stuff and button handling)

@@ -27,7 +27,10 @@ input[type=text], input[type=button], input[type=password], textarea {
 	float: right;
 }
 
-#holding_div {
+#holding_div,
+.question, div,
+.small_padding,
+#listStudentCourses td {
 	padding: 5px;
 }
 
@@ -42,10 +45,6 @@ input[type=text], input[type=button], input[type=password], textarea {
 .correct_incorrect_box {
 	width: 250px;
 	text-align: center;
-}
-
-.question {
-	padding: 5px;
 }
 
 textarea {
@@ -81,18 +80,14 @@ header a:visited {
 	color: gray;
 }
 
-#listStudentCourses td {
-	padding: 5px;
-}
-
-div {
-	margin: 5px;
-}
-
 #errors {
 	width: auto;
 }
 
 .hide {
 	display: none;
+}
+
+.thin_border {
+	border: solid thin black;
 }

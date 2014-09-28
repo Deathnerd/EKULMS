@@ -12,17 +12,7 @@ $(document).ready(function () {
 		}
 		return url + file;
 	};
-//	var $('#holding_div') = $('#holding_div');
-	//fix up the selection box
-	/*var option = $('option');
-	 var options = option.splice(0, option.length);*/
-	//loop through each of the options and trim off the preceding directory name and following file extension
-	/*$.each(options, function (index) {
-	 var word = options[index].value;
-	 var slashSplit = word.split('/');
-	 var dotSplit = slashSplit[1].split('.');
-	 options[index].text = dotSplit[0];
-	 });*/
+
 	//function to render the questions
 	var render = function (json) {
 		console.log(json);
@@ -63,11 +53,11 @@ $(document).ready(function () {
 	$('#load').click(function () {
 		var value = $('select').val();
 		$.ajax({
-			url:         site('fetch.php'),
-			success:     function (result) {
+			url: site('fetch.php'),
+			success: function (result) {
 				render(result); //render the page using fetched JSON
 			},
-			data:        {
+			data: {
 				data: value
 			},
 			crossDomain: true
@@ -80,8 +70,8 @@ $(document).ready(function () {
 			var password = $('input[type=password]').val();
 			var message = $('#message');
 			$.ajax({
-				url:         site('login.php'),
-				success:     function (response) {
+				url: site('login.php'),
+				success: function (response) {
 					message.text(response).css('display', 'block');
 					if (response.indexOf('Success') != -1) {
 						setTimeout(function () {
@@ -89,7 +79,7 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data:        {
+				data: {
 					userName: userName,
 					password: password
 				},
@@ -105,8 +95,8 @@ $(document).ready(function () {
 			var message = $('#message');
 			var email = $('#email').val();
 			$.ajax({
-				url:         site('signupUser.php'),
-				success:     function (response) {
+				url: site('signupUser.php'),
+				success: function (response) {
 					message.text(response);
 					message.css('display', 'block');
 					if (response === 'logged_in') {
@@ -118,10 +108,10 @@ $(document).ready(function () {
 						}, 2000);
 					}
 				},
-				data:        {
+				data: {
 					userName: userName,
 					password: password,
-					email:    email
+					email: email
 				},
 				crossDomain: true
 			});
@@ -140,13 +130,13 @@ $(document).ready(function () {
 				return;
 			}
 			$.ajax({
-				url:     site("courseSignup.php"),
+				url: site("courseSignup.php"),
 				success: function (response) {
 					var addUser = $('#addUserToCourse > div');
 					addUser.css('display', 'block').text(response);
 				},
-				data:    {
-					action:   'addStudent',
+				data: {
+					action: 'addStudent',
 					courseId: courseId,
 					userName: userName
 				}
@@ -166,12 +156,12 @@ $(document).ready(function () {
 				return;
 			}
 			$.ajax({
-				url:     site("courseSignup.php"),
+				url: site("courseSignup.php"),
 				success: function (response) {
 					message.css('display', 'block').text(response);
 				},
-				data:    {
-					action:   'addStudent',
+				data: {
+					action: 'addStudent',
 					courseId: courseId
 				}
 			});
@@ -182,7 +172,7 @@ $(document).ready(function () {
 		click: function () {
 			var table = $('#listStudentCourses > table');
 			$.ajax({
-				url:     site('listStudentCourses.php'),
+				url: site('listStudentCourses.php'),
 				success: function (results) {
 					console.log(results);
 					console.log(typeof results);
@@ -197,31 +187,31 @@ $(document).ready(function () {
 						var description = results[i].description;
 						//append to table
 						table.append("<tr id='course_row'>" +
-							"<td>" + courseId + "</td>" +
-							"<td>" + courseName + "</td>" +
-							"<td>" + description + "</td>" +
-							"</tr>");
+						"<td>" + courseId + "</td>" +
+						"<td>" + courseName + "</td>" +
+						"<td>" + description + "</td>" +
+						"</tr>");
 					}
 				}
 			})
 		}
 	}, '#listStudentCourses > input[type="button"]');
 	/*$('#getStats').click(function () {
-		var courses = $('#courses');
-		var testName = courses.val();
-		var courseSplit = courses.
+	 var courses = $('#courses');
+	 var testName = courses.val();
+	 var courseSplit = courses.
 
-		$.ajax({
-			url: site('reports.php'),
-			data: {
-			      action: 'all',
+	 $.ajax({
+	 url: site('reports.php'),
+	 data: {
+	 action: 'all',
 
 
-			}
-		})
-	});*/
+	 }
+	 })
+	 });*/
 
-	$('#courses').change(function(){
+	$('#courses').change(function () {
 			var testsDropdown = $('#tests');
 			// ajax to get tests by course id
 			testsDropdown.show();
@@ -235,15 +225,15 @@ $(document).ready(function () {
 				return;
 			}
 			$.ajax({
-				url:     site('submit.php'),
-				data:    {
+				url: site('submit.php'),
+				data: {
 					payload: JSON.stringify(populateSubmit()),
-					action:  'submit'
+					action: 'submit'
 				},
 				success: function (results) {
 					console.log(results);
-					 results = JSON.parse(results);
-					 $('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');
+					results = JSON.parse(results);
+					$('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');
 				}
 			})
 		}
@@ -252,14 +242,14 @@ $(document).ready(function () {
 		var json = {
 			_testName: $('select').val(),
 			_courseId: courseId,
-			answers:   []
+			answers: []
 		};
 		var questions = $('.question_body'); //get all the questions
 		var selectionLetters = ['A', 'B', 'C', 'D'];
 		for (var i = 0; i < questions.length; i++) {
 			json.answers[i] = {
-				text:            "",
-				correct:         false,
+				text: "",
+				correct: false,
 				selectionLetter: ""
 			};
 			var question = questions[i]; //current question
@@ -279,9 +269,9 @@ $(document).ready(function () {
 		var email = $('#email').val();
 		var action = "send_email";
 		$.ajax({
-			url:     site('reset.php'),
-			data:    {
-				email:  email,
+			url: site('reset.php'),
+			data: {
+				email: email,
 				action: action
 			},
 			success: function (results) {
@@ -295,9 +285,46 @@ $(document).ready(function () {
 		})
 	});
 
-	/*$('#addUser').click(function(){
-		var
-	});*/
+	/**
+	 * Handle the account fetching of the tests
+	 */
+	$('#reporting_selection').find('#report_course').change(function () {
+		var selection = $(this).text();
+		selection = selection.split(" -- ");
+		var courseId = selection[0];
+		var courseName = selection[1];
+
+		$.ajax({
+			url: site("populateTestsDropdownForReporting.php"),
+			data: {
+				courseId: courseId,
+				courseName: courseName
+			},
+			success: function (response) {
+				try {
+					var responseJSON = JSON.parse(response);
+				} catch (e if e instanceof SyntaxError) {
+					alert("Something wrong with the syntax of the returned JSON. Here's the message: " + e);
+					return;
+				} catch (e) {
+					alert("General error: " + e)
+					return;
+				}
+
+				/*
+				 * Success! Let's populate the dropdown
+				 */
+				var testsDropdown = $('#reporting_selection').find("#tests");
+				for(var i = 0; i < responseJSON.length; i++){
+					$(testsDropdown).append("<option>"+responseJSON[i]['testName']+"</option>");
+				}
+			}
+		});
+	});
+
+	/**
+	 * TODO: Make another function to handle rendering and fetching the results to the account page
+	 */
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {

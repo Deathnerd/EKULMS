@@ -73,12 +73,21 @@
 			?>
 		</select>
 
-		<span id="reporting_selection">
-
+		<span id="reporting_selection" class="thin_border small_padding">
 			<label for="report_course">Select a course: </label>
-			<select name="report_course" id="report_course"></select>
+			<select name="report_course" id="report_course">
+				<?
+					foreach($userCourses as $course){
+						echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
+					}
+				?>
+			</select>
 			<label for="tests" class="hide"></label>
-			<select name="tests" id="tests" class="hide"></select>
+			<select name="tests" id="tests" class="hide">
+				<option value="">Select a course first</option>
+			</select>
+			<button id="fetch_by_class">Fetch for entire class</button>
+			<button id="fetch_by_test">Fetch for individual test</button>
 		</span>
 
 		<div id="statsResultsTable" class="hide"></div>
