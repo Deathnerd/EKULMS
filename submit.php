@@ -39,11 +39,11 @@
 	if ($Tests->testExists($test_name)) {
 		$test_id = $Tests->getIdByName($test_name);
 	} else {
-		$Utils->closeAndExit("I have no idea how this happened, but the test does not exist");
+		$Utils->exitWithMessage("I have no idea how this happened, but the test does not exist");
 	}
 
 	if ($enrolled_course_id != $payload['_courseId']) {
-		$Utils->closeAndExit("User is not enrolled in this course. I have no idea how this happened");
+		$Utils->exitWithMessage("User is not enrolled in this course. I have no idea how this happened");
 	}
 
 	//calculate the user's number of correct/wrong anwers and their score
@@ -57,7 +57,7 @@
 	$number_of_incorrect_questions = $number_of_questions - $number_of_correct_questions;
 
 	if ($Tests->submitResults($user_id, $test_id, $number_of_correct_questions, $number_of_incorrect_questions)) {
-		$Utils->closeAndExit("Thank you for your submission");
+		$Utils->exitWithMessage("Thank you for your submission");
 	}
 
-	$Utils->closeAndExit("There was an error submitting your results. Please inform the administrator");
+	$Utils->exitWithMessage("There was an error submitting your results. Please inform the administrator");

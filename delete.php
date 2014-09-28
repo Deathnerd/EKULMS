@@ -19,7 +19,7 @@
 	$file = 'quizzes/' . $_GET['data'] . '.json'; //$file contains the name of our file
 
 	if (!$file) {
-		exit("File not found!");
+		$Utils->exitWithMessage("File not found!");
 	}
-	unlink($file) or die("Error in " . __FILE__ . " on line " . __LINE__ . ": " . mysqli_error($this->connection));
-	exit("Success");
+	unlink($file);
+	$Utils->exitWithMessage("Success");

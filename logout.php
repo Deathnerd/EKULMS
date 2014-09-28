@@ -10,4 +10,4 @@
 	if ($Users->logout($_SESSION['userName'])) {
 		header('Location: signin.php');
 	}
-	$Utils->closeAndExit("Ruh-roh, Raggy!");
+	$Utils->exitWithMessage("Ruh-roh, Raggy!");

@@ -17,8 +17,7 @@
 
 	$results = $Tests->fetchByName($_GET['data']);
 	if (!$results) {
-		exit("Failed!");
+		$Utils->exitWithMessage("Failed!");
 	}
 
-	$DB->close();
 	exit(json_encode($results));

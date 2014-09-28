@@ -16,13 +16,13 @@
 	}
 
 	if (!$Courses->courseExists($_GET['courseId'])) {
-		$Utils->closeAndExit("Course does not exist");
+		$Utils->exitWithMessage("Course does not exist");
 	}
 	//insert user into course enrollment table
 	if ($User->isEnrolled($_GET['courseId'], $_SESSION['userName'])) {
-		$Utils->closeAndExit("User is already enrolled in the course");
+		$Utils->exitWithMessage("User is already enrolled in the course");
 	}
 	if (!$Courses->addStudent($_GET['courseId'], $_SESSION['userName'])) {
-		$Utils->closeAndExit("Failed to sign up for course. Contact administrator");
+		$Utils->exitWithMessage("Failed to sign up for course. Contact administrator");
 	}
-	$Utils->closeAndExit("Success");
+	$Utils->exitWithMessage("Success");

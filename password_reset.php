@@ -21,10 +21,11 @@
 		<p>Password:</p>
 		<input type="password"><br/>-->
 		<p>Email: </p>
-		<input id="email" type="text"/><br/>
+		<label for="email"></label><input id="email" type="text"/><br/>
 		<input type="button" value="Reset my password" id="resetButton"><br/>
 
-		<p id="message" style="display: none;">Stuff</p>
+		<p id="message" class="hide">Stuff</p>
 	</div>
 <?
 	$UI->show("footer");
+	exit();

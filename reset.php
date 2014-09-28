@@ -12,7 +12,7 @@
 	if (!$Utils->checkIsSet(array($_GET['action']),
 	                        array("Action is not set"))
 	) {
-		$Utils->closeAndExit();
+		exit();
 	}
 
 	$action = $_GET['action'];
@@ -25,7 +25,7 @@
 			if (!$Utils->checkIsSet(array($_GET['key'], $_GET['user_name'], $_GET['new_password']),
 			                        array("Key is not set", "User name is not set", "A new password was not provided"))
 			) {
-				$Utils->closeAndExit();
+				exit();
 			}
 			$user_name = $_GET['user_name'];
 			$new_password = $_GET['new_password'];
@@ -33,13 +33,13 @@
 				$user_info = $Users->fetchUser($user_name);
 				$user_id = $user_info['id'];
 			} else {
-				$Utils->closeAndExit("User does not exist");
+				$Utils->exitWithMessage("User does not exist");
 			}
 
 			if ($Users->resetPassword($new_password, $user_id, $key)) {
-				$Utils->closeAndExit("Success");
+				$Utils->exitWithMessage("Success");
 			} else {
-				$Utils->closeAndExit("Failed to create new password. Please inform the administrator");
+				$Utils->exitWithMessage("Failed to create new password. Please inform the administrator");
 			}
 
 			break;
@@ -47,16 +47,16 @@
 			$Utils->checkIsSet(array($_GET['email'], $_GET['user_name']),
 			                   array("Email not supplied", "User name not supplied"));
 			if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
-				$Utils->closeAndExit("The email provided is not a valid email. Please check your input and try again");
+				$Utils->exitWithMessage("The email provided is not a valid email. Please check your input and try again");
 			}
 			$user_name = $_GET['user_name'];
 			$email = $_GET['email'];
 			if (!$Users->checkEmail($user_name, $email)) {
-				$Utils->closeAndExit("Failed to verify email. Make sure it is correct and is the email you signed up with. If so, then contact your administrator");
+				$Utils->exitWithMessage("Failed to verify email. Make sure it is correct and is the email you signed up with. If so, then contact your administrator");
 			}
 			$reset_key = "";
 			if (($reset_key != $Users->generateResetKey($user_name))) {
-				$Utils->closeAndExit("Failed to generate a key. Please contact your administrator");
+				$Utils->exitWithMessage("Failed to generate a key. Please contact your administrator");
 			}
 
 			$to = array(array("address" => $email, "name" => ""));
@@ -75,6 +75,6 @@
 			                     "password"  => SMTP_PASSWORD);
 
 			$Utils->sendEmail($to, $from, $subject, $body, $config_vals);
-			$Utils->closeAndExit("Success");
+			$Utils->exitWithMessage("Success");
 	}
 

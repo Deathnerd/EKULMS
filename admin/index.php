@@ -57,7 +57,7 @@
 	<div id="list">
 		<input type="button" id="listCourses" value="List courses">
 
-		<div id="listResults" style="display: hidden">
+		<div id="listResults" class="hide">
 			<table>
 				<tbody>
 					<tr>
@@ -72,4 +72,3 @@
 </div>
 <?
 	$UI->show('footer');
-	$DB->close();

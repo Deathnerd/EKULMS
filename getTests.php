@@ -36,4 +36,4 @@
 	unset($j);
 
 	$Utils->print_pre(json_encode($json));
-	$Utils->closeAndExit();
+	exit();

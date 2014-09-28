@@ -92,3 +92,7 @@ div {
 #errors {
 	width: auto;
 }
+
+.hide {
+	display: none;
+}

@@ -6,7 +6,7 @@
 	$Utils = new Utilities($DB);
 	$Courses = new Courses($DB);
 	//need an action
-	$action = $Utils->checkIsSet(array($_GET['action']), array("Action not set!")) ? $_GET['action'] : $Utils->closeAndExit();
+	$action = $Utils->checkIsSet(array($_GET['action']), array("Action not set!")) ? $_GET['action'] : exit();
 
 	switch ($action) {
 		//if the action is to create a course
@@ -73,7 +73,7 @@
 		{
 			//requires $courseId and $userName
 			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
-				$Utils->closeAndExit();
+				exit();
 			}
 			$userName = $_GET['userName'];
 			$courseId = $_GET['courseId'];
@@ -90,5 +90,4 @@
 			echo "$action is not a valid action";
 			}
 	}
-	$DB->close();
 	exit();

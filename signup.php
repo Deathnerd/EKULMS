@@ -13,18 +13,21 @@
 ?>
 	<div id="bodyContainer">
 		<p>User Name:</p>
-		<input type="text" id="userName"><br/>
+		<label for="userName"></label><input type="text" id="userName"><br/>
 
 		<p>Password:</p>
-		<input type="password"><br/>
+		<label>
+			<input type="password">
+		</label><br/>
 
 		<p>Email:</p>
-		<input type="text" id="email"><br/>
+		<label for="email"></label><input type="text" id="email"><br/>
 		<br>
 		<input type="button" value="Sign up" id="signUpButton"><br/>
 
-		<p id="message" style="display: none;">Default text</p>
+		<p id="message" class="hide"></p>
 	</div>
 <?
 	$UI->show("footer");
+	exit();
 ?>

@@ -8,7 +8,6 @@
 
 	require_once("autoloader.php");
 
-	$_GET['courseId'] = "CSC185";
 	if (!$Utils->checkIsSet(array($_GET['courseId']), array("Course Id not set!"))) {
 		exit();
 	}

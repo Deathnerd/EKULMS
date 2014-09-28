@@ -13,7 +13,7 @@
 
 	$Courses = new Courses($DB);
 	$Tests = new Tests($DB);
-	$UI = new UI($_SERVER['PHP_SELF'], "User Account - EKULMS", $DebugBar);
+	$UI = new UI($_SERVER['PHP_SELF'], "User Account - EKULMS");
 
 	$UI->show("header");
 ?>
@@ -85,4 +85,5 @@
 	</div>
 <?
 	$UI->show("footer");
+	exit();
 ?>

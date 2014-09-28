@@ -23,5 +23,4 @@
 			echo "Fail!<br /><br />";
 		}
 	}
-	$DB->close();
 	exit();

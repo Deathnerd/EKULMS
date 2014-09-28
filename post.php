@@ -12,7 +12,7 @@
 
 	//check to see if $_REQUEST
 	if (!$Utils->checkIsSet(array($_GET['data'], $_GET['action']), array("Request Empty!", "Action Empty!"))) {
-		$Utils->closeAndExit();
+		exit();
 	}
 
 	$data = $_GET['data'];
@@ -24,23 +24,23 @@
 		case "update":
 		{
 			if ($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)) {
-				$Utils->closeAndExit("Success!");
+				$Utils->exitWithMessage("Success!");
 			} else {
-				$Utils->closeAndExit("Failed to update test");
+				$Utils->exitWithMessage("Failed to update test");
 			}
 			break;
 		}
 		case "make":
 		{
 			if (!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)) {
-				$Utils->closeAndExit("Success!");
+				$Utils->exitWithMessage("Success!");
 			} else {
-				$Utils->closeAndExit("Failed to make test");
+				$Utils->exitWithMessage("Failed to make test");
 			}
 			break;
 		}
 		default:
 			{
-			$Utils->closeAndExit("Invalid action!");
+			$Utils->exitWithMessage("Invalid action!");
 			}
 	}

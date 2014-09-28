@@ -48,7 +48,7 @@
 			$test_results[] = $Tests->getResults($user_id, $test_id, $order_by);
 			break;
 		default:
-			$Utils->closeAndExit("Invalid action");
+			$Utils->exitWithMessage("Invalid action");
 	}
 
 	$table_content = "";
@@ -76,4 +76,4 @@
 	$table_content
 </table>";
 
-	$Utils->closeAndExit($table_html);
+	$Utils->exitWithMessage($table_html);

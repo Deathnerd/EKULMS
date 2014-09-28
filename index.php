@@ -59,23 +59,25 @@
 		?>
 	</div>
 	<p id="pageTitle"></p>
-	<select><?
+	<label>
+		<select><?
 
-			if (count($list_of_tests) > 0) {
-				foreach ($list_of_tests as $course) {
-					foreach ($course as $test) {
-						foreach ($test as $t) {
-							$test_id = $t['testId'];
-							$test_name = $t['testName'];
-							echo "<option value='$test_id'>$test_name</option>";
+				if (count($list_of_tests) > 0) {
+					foreach ($list_of_tests as $course) {
+						foreach ($course as $test) {
+							foreach ($test as $t) {
+								$test_id = $t['testId'];
+								$test_name = $t['testName'];
+								echo "<option value='$test_id'>$test_name</option>";
+							}
 						}
 					}
+				} else {
+					echo "<option>No tests found</option>";
 				}
-			} else {
-				echo "<option>No tests found</option>";
-			}
-		?>
-	</select>
+			?>
+		</select>
+	</label>
 	<button type="button" id="load">Load</button>
 </header>
 <p id="userGreeting">
@@ -83,5 +85,5 @@
 </p>
 <?
 	$UI->show("footer");
-	$DB->close();
+	exit();
 ?>

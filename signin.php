@@ -12,18 +12,21 @@
 ?>
 	<div id="bodyContainer">
 		<p>User Name:</p>
-		<input type="text" id="userName"><br/>
+		<label for="userName"></label><input type="text" id="userName"><br/>
 
 		<p>Password:</p>
-		<input type="password"><br/>
+		<label>
+			<input type="password">
+		</label><br/>
 		<input type="button" value="login" id="loginButton"><br/>
 		<a href="signup.php">Not registered? Sign up</a>
 		<br/>
 		<br/>
 		<a href="password_reset.php">Forgot your password?</a>
 
-		<p id="message" style="display: none;">Stuff</p>
+		<p id="message" class="hide">Stuff</p>
 	</div>
 <?
 	$UI->show("footer");
+	exit();
 ?>

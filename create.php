@@ -72,10 +72,16 @@
 				<td width="30">
 					<div align="center">1</div>
 				</td>
-				<td width="323"><input type="text" class="choice" value="Enter choice"></td>
+				<td width="323">
+					<label>
+						<input type="text" class="choice" value="Enter choice">
+					</label>
+				</td>
 				<td width="58">
 					<div align="center">
-						<input name="" type="checkbox" class="correctBox" value="">
+						<label>
+							<input name="" type="checkbox" class="correctBox" value="">
+						</label>
 					</div>
 				</td>
 			</tr>
@@ -85,7 +91,6 @@
 	<script src="js/create.js"></script>
 	<div style="left: 30px"></div>
 <?
-
 	$UI->show('footer');
-	$DB->close();
+	exit();
 ?>

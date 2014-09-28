@@ -11,7 +11,7 @@
 	$password = $_GET['password'];
 	if (!$Utils->checkIsSet(array($userName, $password), array("No user name received", "No password recieved"))) {
 		session_destroy();
-		$Utils->closeAndExit();
+		exit();
 	}
 
 	//check if user exists in database
@@ -27,4 +27,4 @@
 		$message = "User not found. Have you created an account?";
 		session_destroy();
 	}
-	$Utils->closeAndExit($message);
+	$Utils->exitWithMessage($message);

@@ -18,11 +18,11 @@
 	}
 
 	if ($Courses->courseExists($_GET['courseId'])) {
-		$Utils->closeAndExit("Course already exists");
+		$Utils->exitWithMessage("Course already exists");
 	}
 
 	if (!$Courses->addCourse($_GET['courseId'], $_GET['courseName'], $_GET['description'])) {
-		$Utils->closeAndExit("Failed to add course to the database. Contact administrator");
+		$Utils->exitWithMessage("Failed to add course to the database. Contact administrator");
 	}
 
-	$Utils->closeAndExit("Success");
+	$Utils->exitWithMessage("Success");
