@@ -7,8 +7,6 @@
 	 */
 
 	require_once("vendor/autoload.php");
-	use DebugBar\StandardDebugBar;
-	$DebugBar = new StandardDebugBar();
 	require_once("requires/Globals.php");
 
 	spl_autoload_register(function ($class_name) {
