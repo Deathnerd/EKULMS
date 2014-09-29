@@ -110,23 +110,19 @@
 					//get a
 					if ($choices[$i]['correct']) {
 						switch ($i) {
-							case 0:
-							{
+							case 0: {
 								$correct = 'a';
 								break;
 							}
-							case 1:
-							{
+							case 1: {
 								$correct = 'b';
 								break;
 							}
-							case 2:
-							{
+							case 2: {
 								$correct = 'c';
 								break;
 							}
-							case 3:
-							{
+							case 3: {
 								$correct = 'd';
 								break;
 							}
@@ -198,23 +194,19 @@
 					//get a
 					if ($choices[$i]['correct']) {
 						switch ($i) {
-							case 0:
-							{
+							case 0: {
 								$correct = 'a';
 								break;
 							}
-							case 1:
-							{
+							case 1: {
 								$correct = 'b';
 								break;
 							}
-							case 2:
-							{
+							case 2: {
 								$correct = 'c';
 								break;
 							}
-							case 3:
-							{
+							case 3: {
 								$correct = 'd';
 								break;
 							}
@@ -297,23 +289,19 @@
 				}
 				//apply the correct value
 				switch ($correct) {
-					case 'a':
-					{
+					case 'a': {
 						$q['questions'][$i]["choices"][0]['correct'] = (bool)true;
 						break;
 					}
-					case 'b':
-					{
+					case 'b': {
 						$q['questions'][$i]["choices"][1]['correct'] = (bool)true;
 						break;
 					}
-					case 'c':
-					{
+					case 'c': {
 						$q['questions'][$i]["choices"][2]['correct'] = (bool)true;
 						break;
 					}
-					case 'd':
-					{
+					case 'd': {
 						$q['questions'][$i]["choices"][3]['correct'] = (bool)true;
 						break;
 					}
@@ -365,6 +353,7 @@
 			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, true);
 
 			$table = $DB->tables['Tests'];
+			$courseId = $DB->escapeString(trim($courseId));
 
 			$result = $DB->query("SELECT * FROM `$table` WHERE courseId = '$courseId'", __FILE__, __LINE__);
 
@@ -524,10 +513,10 @@
 
 			$table = $DB->tables['Results'];
 
-			if ($test_id = -1) {
-				$query_string = "SELECT * FROM `$table` WHERE userId='$user_id' $order_by;";
+			if ($test_id == -1) {
+				$query_string = "SELECT * FROM `$table` WHERE userId=$user_id $order_by;";
 			} else {
-				$query_string = "SELECT * FROM `$table` WHERE userId='$user_id' AND testId='$test_id' $order_by";
+				$query_string = "SELECT * FROM `$table` WHERE userId=$user_id AND testId=$test_id $order_by";
 			}
 			$results = $DB->query($query_string, __FILE__, __LINE__);
 
@@ -536,5 +525,26 @@
 			}
 
 			return $DB->fetchAllRows($results);
+		}
+
+		/**
+		 * Gets a test name given an id
+		 *
+		 * @param int $id The id of the test to search for
+		 * @return bool|string Returns false if not successful, the string of the test name if it is successful
+		 */
+		public function getNameById($id) {
+			$DB = $this->Db;
+			$DB->checkNumberOfArguments(func_num_args(), 1, __CLASS__, __FUNCTION__, false);
+			$DB->checkArgumentType($id, 'integer', __CLASS__, __FUNCTION__);
+
+			$table = $DB->tables['Tests'];
+			$result = $DB->query("SELECT testName FROM `$table` WHERE testId=$id", __FILE__, __LINE__);
+
+			if (!$DB->checkResult($result)) {
+				return false;
+			}
+
+			return mysqli_fetch_assoc($result)['testName'];
 		}
 	}
