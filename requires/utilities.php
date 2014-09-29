@@ -7,18 +7,19 @@
 	 */
 //namespace utils;
 
-	use Carbon\Carbon;
+//	use Carbon\Carbon;
 
-	class Utilities extends Carbon {
+	class Utilities/* extends Carbon*/
+	{
 		function __construct(Db $db) {
 			$this->DB = $db;
 		}
 
 		/**
-		 * @param int    $line         The line that the error occurred on
+		 * @param int $line The line that the error occurred on
 		 * @param string $functionName The function where the error occurred
-		 * @param string $className    The class where the error occurred
-		 * @param string $fileName     The file where the error occurred
+		 * @param string $className The class where the error occurred
+		 * @param string $fileName The file where the error occurred
 		 */
 		private function _raiseError($line, $functionName, $className, $fileName) {
 			error_reporting(E_ALL);
@@ -78,8 +79,8 @@
 		 * Simple method to check if a file exists and die with a message if not
 		 *
 		 * @param string $location Where is the file?
-		 * @param string $file     Where did we call this function?
-		 * @param string $line     What line did we call this function at?
+		 * @param string $file Where did we call this function?
+		 * @param string $line What line did we call this function at?
 		 */
 		public function checkFile($location, $file, $line) {
 			if (!is_file($location)) {
@@ -102,7 +103,7 @@
 		 * This overeager function checks if a variable is set, empty, null-string, or just plain null in that order.
 		 * If any argument meets the above requirements, the respective error is echoed out.
 		 *
-		 * @param array $vars   The variables to check. It must be an array of variables, even if the variable itself is an array
+		 * @param array $vars The variables to check. It must be an array of variables, even if the variable itself is an array
 		 * @param array $errors The respective errors to echo for each variable
 		 *
 		 * @return bool True if all passed, false if not
@@ -125,11 +126,16 @@
 		 *
 		 * @param string $message The message to echo upon exit
 		 *
+		 * @param bool $json_request Is this json?
 		 * @internal param \Db $DB The database object that has the active connection
 		 */
-		function exitWithMessage($message = "") {
+		function exitWithMessage($message = "", $json_request = false) {
 			header_remove("Content-type");
-			header("Content-type: application/text");
+			if ($json_request) {
+				header("Content-type: application/json");
+			} else {
+				header("Content-type: application/text");
+			}
 			exit($message);
 		}
 
@@ -224,5 +230,22 @@
 			}
 
 			return true;
+		}
+
+		/**
+		 * A recursive array search
+		 * @param mixed $needle What are we looking for?
+		 * @param array $haystack Where are we looking for it
+		 * @return bool|int|string
+		 */
+		function recursive_array_search($needle, $haystack) {
+			foreach ($haystack as $key => $value) {
+				$current_key = $key;
+				if ($needle === $value OR (is_array($value) && $this->recursive_array_search($needle, $value) !== false)) {
+					return $current_key;
+				}
+			}
+
+			return false;
 		}
 	}

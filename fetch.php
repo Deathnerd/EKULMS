@@ -10,7 +10,7 @@
 		exit();
 	}
 
-	$results = $Tests->fetchByName($Tests->getNameById(intval($_GET['data'])));
+	$results = $Tests->fetchByName($_GET['data']);
 	if (!$results) {
 		$Utils->exitWithMessage("Failed!");
 	}

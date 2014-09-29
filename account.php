@@ -16,6 +16,8 @@
 	$UI = new UI($_SERVER['PHP_SELF'], "User Account - EKULMS");
 
 	$UI->show("header");
+	$userCourses = $Courses->fetchEnrolledCourses($userName, 'student');
+	$allCourses = $Courses->fetchAll();
 ?>
 	<p id="userGreeting">
 		<?= "Hello, $userName!"; ?>
@@ -27,7 +29,6 @@
 			<select name="courseSignupDropdown" id="courseSignupDropdown">
 				<option value="none">Select a Course</option>
 				<?
-					$allCourses = $Courses->fetchAll();
 					foreach ($allCourses as $course) {
 						?>
 						<option value="<?= $course['courseId']; ?>"><?= $course['courseName']; ?></option>
@@ -43,7 +44,7 @@
 		</div>
 	</div>
 	<a href="index.php">Take a quiz</a>
-	<div id="listStudentCourses">
+	<!--<div id="listStudentCourses">
 		<input type="button" id="listCourses" value="List courses">
 		<table>
 			<tr>
@@ -52,14 +53,12 @@
 				<th>Course Description</th>
 			</tr>
 		</table>
-	</div>
+	</div>-->
 	<div id="userStatistics">
-		<input id="getStats" value="Get Course Stats" type="button"/>
-		<label for="courses"></label>
+		<!-- <input id="getStats" value="Get Course Stats" type="button"/>
 		<select name="userCourses" id="courses">
 			<?
-				$userCourses = $Courses->fetchEnrolledCourses($userName, 'student');
-				foreach ($userCourses as $course) {
+				/*foreach ($userCourses as $course) {
 					echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
 					$tests = $Tests->fetchAllByCourseId($course['courseId']);
 					if (!$tests) {
@@ -69,9 +68,9 @@
 							echo "<option value='{$course['courseId']}|{$test['testId']}'>-- {$test['testName']}</option>";
 						}
 					}
-				}
+				}*/
 			?>
-		</select>
+		</select> -->
 
 		<span id="reporting_selection" class="thin_border small_padding">
 			<label for="report_course">Select a course: </label>
@@ -86,11 +85,13 @@
 			<select name="tests" id="tests" class="hide">
 				<option value="">Select a course first</option>
 			</select>
-			<button id="fetch_by_class">Fetch for entire class</button>
-			<button id="fetch_by_test">Fetch for individual test</button>
+<!--			<input type="button" id="fetch_by_class" value="Fetch for entire class">-->
+			<input type="button" id="fetch_by_test" disabled="true" value="Fetch history for test">
 		</span>
 
-		<div id="statsResultsTable" class="hide"></div>
+		<div id="statsResults" class="hide">
+			<table id="statsResultsTable"></table>
+		</div>
 	</div>
 <?
 	$UI->show("footer");

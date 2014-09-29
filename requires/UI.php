@@ -52,6 +52,7 @@
 									<script type='text/javascript' src='js/jquery-2.1.0.min.js'></script>
 								$create_script_tag
 								<script type='text/javascript' src='js/main.js'></script>
+								<script type='text/javascript' src='js/numeral.min.js'></script>
 								<link type='text/css' rel='stylesheet' href='css/reset.css'>
 								<link type='text/css' rel='stylesheet' href='css/main.css'>
 								</head>

@@ -1,9 +1,12 @@
 //Client logic goes here
+
+//construct the url to pass to the ajax function
+
 $(document).ready(function () {
 	//set globals
 	var courseId = "";
 	var quizName = "";
-	//construct the url to pass to the ajax function
+
 	var site = function (file) {
 		var url = "http://";
 		var pathArray = window.location['href'].split('/');
@@ -12,6 +15,48 @@ $(document).ready(function () {
 		}
 		return url + file;
 	};
+
+	function reporting_selection_actions() {
+		var selection = $("#report_course").val();
+		selection = selection.split(" -- ");
+		var courseId = selection[0];
+		var courseName = selection[1];
+
+		$.ajax({
+			url: site("populateTestsDropdownForReporting.php"),
+			data: {
+				courseId: courseId,
+				courseName: courseName
+			},
+			success: function (response) {
+				var testsDropdown = $('#reporting_selection').find("#tests");
+				var fetchByTest = $('#fetch_by_test');
+				try {
+					var responseJSON = JSON.parse(response);
+				} catch (e) {
+					if (response == "Error getting tests") {
+						$(testsDropdown).empty().append("<option>No tests for this course</option>");
+						$(fetchByTest).prop('disabled', true);
+						return;
+					}
+					$(testsDropdown).empty().hide();
+					alert("Server responded with an error: " + e);
+					console.log(response);
+					return;
+				}
+				/*
+				 * Success! Let's populate the dropdown
+				 */
+
+				$(testsDropdown).empty().show();
+				$(fetchByTest).prop('disabled', false);
+				for (var i = 0; i < responseJSON.length; i++) {
+					$(testsDropdown).append("<option>" + responseJSON[i]['testName'] + "</option>");
+				}
+			}
+		});
+	}
+
 
 	//function to render the questions
 	var render = function (json) {
@@ -232,8 +277,11 @@ $(document).ready(function () {
 				},
 				success: function (results) {
 					console.log(results);
-					results = JSON.parse(results);
-					$('#holding_div').replaceWith('<p>Thank you for your submission. Your score was: ' + results.score + '</p>');
+					if (results.indexOf("error") == -1) {
+						$('#holding_div').replaceWith(results);
+					} else {
+						alert(results);
+					}
 				}
 			})
 		}
@@ -289,42 +337,80 @@ $(document).ready(function () {
 	 * Handle the account fetching of the tests
 	 */
 	$('#reporting_selection').find('#report_course').change(function () {
-		var selection = $(this).text();
-		selection = selection.split(" -- ");
-		var courseId = selection[0];
-		var courseName = selection[1];
-
-		$.ajax({
-			url: site("populateTestsDropdownForReporting.php"),
-			data: {
-				courseId: courseId,
-				courseName: courseName
-			},
-			success: function (response) {
-				try {
-					var responseJSON = JSON.parse(response);
-				} catch (e if e instanceof SyntaxError) {
-					alert("Something wrong with the syntax of the returned JSON. Here's the message: " + e);
-					return;
-				} catch (e) {
-					alert("General error: " + e)
-					return;
-				}
-
-				/*
-				 * Success! Let's populate the dropdown
-				 */
-				var testsDropdown = $('#reporting_selection').find("#tests");
-				for(var i = 0; i < responseJSON.length; i++){
-					$(testsDropdown).append("<option>"+responseJSON[i]['testName']+"</option>");
-				}
-			}
-		});
+		reporting_selection_actions();
 	});
 
 	/**
 	 * TODO: Make another function to handle rendering and fetching the results to the account page
 	 */
+
+	$('#fetch_by_test').click(function () {
+		var testName = $('#reporting_selection').find('#tests').val();
+		$.ajax({
+			url: site("get_test_report.php"),
+			data: {
+				testName: testName
+			},
+			success: function (response) {
+				var table = $('#statsResultsTable');
+				table.empty();
+				console.log(response);
+				try {
+					var responseJSON = JSON.parse(response);
+				} catch (e) {
+					if (response == "No results found") {
+						alert("It appears you have not taken this test");
+						return;
+					}
+					return;
+				}
+
+				table.append("<tr>" +
+				"<th class='small_padding'>Attempt</th>" +
+				"<th class='small_padding'>Grade</th>" +
+				"<th class='small_padding'>Number Correct</th>" +
+				"<th class='small_padding'>Number Incorrect</th>" +
+				"<th class='small_padding'>Percentage</th>" +
+				"<th class='small_padding'>Date submitted</th>" +
+				"<th class='small_padding'>Time submitted</th>" +
+				"</tr>");
+				for (var i = 0; i < responseJSON.length; i++) {
+					var attempt = responseJSON[i]['attempt'];
+					var grade = responseJSON[i]['grade'];
+					var submitted = responseJSON[i]['submitted'];
+					var num_correct = responseJSON[i]['number_correct'];
+					var num_incorrect = responseJSON[i]['number_incorrect'];
+					var percentage = responseJSON[i]['percentage'];
+					var date_submitted = submitted.split(' ')[0];
+					var time_submitted = submitted.split(' ')[1];
+
+					// Split timestamp into [ Y, M, D, h, m, s ]
+					var t = submitted.split(/[- :]/);
+
+					// Apply each element to the Date function
+					var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+					console.log(d);
+
+					table.append("<tr>" +
+					"<td>" + attempt + "</td>" +
+					"<td>" + grade + "</td>" +
+					"<td>" + num_correct + "</td>" +
+					"<td>" + num_incorrect + "</td>" +
+					"<td>" + numeral(percentage).format("0.00%") + "</td>" +
+					"<td>" + date_submitted + "</td>" +
+					"<td>" + time_submitted + "</td>" +
+					"</tr>");
+
+				}
+				$('#statsResults').show();
+			}
+		})
+	});
+
+	if (location.pathname == "/account.php") {
+		console.log("doing stuff");
+		reporting_selection_actions();
+	}
 });
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {

@@ -274,7 +274,7 @@
 			//get the course ids so we can search and return all courses information the user is enrolled in
 			$courseIds = array();
 			while ($row = $sql->fetch_assoc()) {
-				$courseIds[] = $row['courseNumber'];
+				$courseIds[] = $row['courseId'];
 			}
 
 			$table = $DB->tables['Courses'];

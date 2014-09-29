@@ -68,7 +68,7 @@
 							foreach ($test as $t) {
 								$test_id = $t['testId'];
 								$test_name = $t['testName'];
-								echo "<option value='$test_id'>$test_name</option>";
+								echo "<option>$test_name</option>";
 							}
 						}
 					}

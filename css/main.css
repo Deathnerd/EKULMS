@@ -91,3 +91,7 @@ header a:visited {
 .thin_border {
 	border: solid thin black;
 }
+
+.small_padding {
+	padding: 5px;
+}
