@@ -1,21 +1,16 @@
 <?
 	/**
 	 * This page fetches a requested quiz
-	 * @todo Secure input
-	 * @todo Change to SQL instead of JSON when quiz creation is set up to SQL
-	 * @todo Fix cross-domain AJAX requests
 	 */
 
 	require_once("autoloader.php");
-	header('Access-Control-Allow-Origin: *');
-	header("Content-type: application/text");
 	$Tests = new Tests($DB);
 
 	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))) {
 		exit();
 	}
 
-	$results = $Tests->fetchByName($_GET['data']);
+	$results = $Tests->fetchByName($Tests->getNameById(intval($_GET['data'])));
 	if (!$results) {
 		$Utils->exitWithMessage("Failed!");
 	}
