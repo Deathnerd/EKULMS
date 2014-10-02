@@ -1,0 +1,21 @@
+{
+  "name": "EKULMS",
+  "version": "0.9.0",
+  "description": "A learning management system for Eastern Kentucky University",
+  "authors": [
+    "Wes Gilleland"
+  ],
+  "license": "MIT",
+  "homepage": "github.com/Deathnerd/EKULMS",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}
