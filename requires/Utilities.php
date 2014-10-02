@@ -17,7 +17,7 @@
 
 		/**
 		 * A general raise error function
-		 * @param int $line The line that the error occurred onasgfasgasdg
+		 * @param int $line The line that the error occurred
 		 * @param string $functionName The function where the error occurred
 		 * @param string $className The class where the error occurred
 		 * @param string $fileName The file where the error occurred
