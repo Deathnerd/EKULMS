@@ -1,215 +1,215 @@
 {
 	"_quizName": "Integer Division-Challenging",
-	"courseId":  "CSC185",
-	"quiz":      {
+	"courseId": "CSC185",
+	"quiz": {
 		"questions": [
 			{
-				"prompt":  "A number when divided by 296 leaves 75 as remainder. When the same number is divided by 37, the remainder will be:",
+				"prompt": "A number when divided by 296 leaves 75 as remainder. When the same number is divided by 37, the remainder will be:",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "1"
+						"value": "1"
 					},
 					{
 						"correct": false,
-						"value":   "2"
+						"value": "2"
 					},
 					{
 						"correct": false,
-						"value":   "8"
+						"value": "8"
 					},
 					{
 						"correct": false,
-						"value":   "11"
+						"value": "11"
 					}
 				]
 			},
 			{
-				"prompt":  "In a division sum, the divisor is 10 times the quotient and 5 times the remainder. If the remainder is 46, what is the dividend ?",
+				"prompt": "In a division sum, the divisor is 10 times the quotient and 5 times the remainder. If the remainder is 46, what is the dividend ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "4236\t"
+						"value": "4236\t"
 					},
 					{
 						"correct": false,
-						"value":   "4306"
+						"value": "4306"
 					},
 					{
 						"correct": false,
-						"value":   "4336"
+						"value": "4336"
 					},
 					{
 						"correct": true,
-						"value":   "5336"
+						"value": "5336"
 					}
 				]
 			},
 			{
-				"prompt":  "Which of the following numbers is divisible by each one of 3, 7, 9 and 11 ?",
+				"prompt": "Which of the following numbers is divisible by each one of 3, 7, 9 and 11 ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "639"
+						"value": "639"
 					},
 					{
 						"correct": true,
-						"value":   "2079"
+						"value": "2079"
 					},
 					{
 						"correct": false,
-						"value":   "3791"
+						"value": "3791"
 					},
 					{
 						"correct": false,
-						"value":   "37911"
+						"value": "37911"
 					}
 				]
 			},
 			{
-				"prompt":  "Find the quotient of 202860/-45",
+				"prompt": "Find the quotient of 202860/-45",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "4508"
+						"value": "4508"
 					},
 					{
 						"correct": false,
-						"value":   "450"
+						"value": "450"
 					},
 					{
 						"correct": false,
-						"value":   "-4690"
+						"value": "-4690"
 					},
 					{
 						"correct": true,
-						"value":   "-4508"
+						"value": "-4508"
 					}
 				]
 			},
 			{
-				"prompt":  "A number when divide by 6 leaves a remainder 3. When the square of the number is divided by 6, the remainder is",
+				"prompt": "A number when divide by 6 leaves a remainder 3. When the square of the number is divided by 6, the remainder is",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "0"
+						"value": "0"
 					},
 					{
 						"correct": false,
-						"value":   "1"
+						"value": "1"
 					},
 					{
 						"correct": false,
-						"value":   "2"
+						"value": "2"
 					},
 					{
 						"correct": true,
-						"value":   "3"
+						"value": "3"
 					}
 				]
 			},
 			{
-				"prompt":  "Which one of the following numbers when divided by 99 leaves remainder as 0?",
+				"prompt": "Which one of the following numbers when divided by 99 leaves remainder as 0?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "3572404"
+						"value": "3572404"
 					},
 					{
 						"correct": false,
-						"value":   "135792"
+						"value": "135792"
 					},
 					{
 						"correct": false,
-						"value":   "913464"
+						"value": "913464"
 					},
 					{
 						"correct": true,
-						"value":   "114345"
+						"value": "114345"
 					}
 				]
 			},
 			{
-				"prompt":  "On dividing a number by 68, we get 269 as quotient and 0 as remainder. On dividing the same number by 67, what will the remainder ?",
+				"prompt": "On dividing a number by 68, we get 269 as quotient and 0 as remainder. On dividing the same number by 67, what will the remainder ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "0"
+						"value": "0"
 					},
 					{
 						"correct": true,
-						"value":   "1"
+						"value": "1"
 					},
 					{
 						"correct": false,
-						"value":   "2"
+						"value": "2"
 					},
 					{
 						"correct": false,
-						"value":   "3"
+						"value": "3"
 					}
 				]
 			},
 			{
-				"prompt":  "On dividing a number by 357, we get 39 as remainder. On dividing the same number 17, what will be the remainder ?",
+				"prompt": "On dividing a number by 357, we get 39 as remainder. On dividing the same number 17, what will be the remainder ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "0"
+						"value": "0"
 					},
 					{
 						"correct": false,
-						"value":   "3"
+						"value": "3"
 					},
 					{
 						"correct": true,
-						"value":   "5"
+						"value": "5"
 					},
 					{
 						"correct": false,
-						"value":   "11"
+						"value": "11"
 					}
 				]
 			},
 			{
-				"prompt":  "In a division sum, the divisor is 10 times the quotient and 5 times the remainder. If the remainder is 46, what is the dividend ?",
+				"prompt": "In a division sum, the divisor is 10 times the quotient and 5 times the remainder. If the remainder is 46, what is the dividend ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "4236"
+						"value": "4236"
 					},
 					{
 						"correct": false,
-						"value":   "4306"
+						"value": "4306"
 					},
 					{
 						"correct": false,
-						"value":   "4336"
+						"value": "4336"
 					},
 					{
 						"correct": true,
-						"value":   "5336"
+						"value": "5336"
 					}
 				]
 			},
 			{
-				"prompt":  "When a number is divided by 13, the remainder is 11. When the same number is divided by 17, then remainder is 9. What is the number ?",
+				"prompt": "When a number is divided by 13, the remainder is 11. When the same number is divided by 17, then remainder is 9. What is the number ?",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "339"
+						"value": "339"
 					},
 					{
 						"correct": true,
-						"value":   "349"
+						"value": "349"
 					},
 					{
 						"correct": false,
-						"value":   "369"
+						"value": "369"
 					},
 					{
 						"correct": false,
-						"value":   "370"
+						"value": "370"
 					}
 				]
 			}

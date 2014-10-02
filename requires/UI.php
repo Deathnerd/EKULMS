@@ -6,7 +6,6 @@
 	 * Date: 8/4/14
 	 * Time: 10:32 PM
 	 */
-
 	class UI
 	{
 

@@ -9,7 +9,7 @@
 	require_once('autoloader.php');
 
 	if (!$Utils->checkIsSet(array($_GET['courseId']),
-	                        array("No course id received"))
+		array("No course id received"))
 	) {
 		exit();
 	}

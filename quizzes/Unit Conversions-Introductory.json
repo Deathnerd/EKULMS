@@ -1,215 +1,215 @@
 {
 	"_quizName": "Unit Conversions-Introductory",
-	"courseId":  "CSC185",
-	"quiz":      {
+	"courseId": "CSC185",
+	"quiz": {
 		"questions": [
 			{
-				"prompt":  "The length of the playground is 100 yards.  What is the length in feet?(1yard=3feet)",
+				"prompt": "The length of the playground is 100 yards.  What is the length in feet?(1yard=3feet)",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "100ft"
+						"value": "100ft"
 					},
 					{
 						"correct": false,
-						"value":   "30ft"
+						"value": "30ft"
 					},
 					{
 						"correct": false,
-						"value":   "200ft"
+						"value": "200ft"
 					},
 					{
 						"correct": true,
-						"value":   "300ft"
+						"value": "300ft"
 					}
 				]
 			},
 			{
-				"prompt":  "Miguel kicked the soccer ball 12 meters.  How many centimeters did he kick the soccer ball?(1cm=0.01m)",
+				"prompt": "Miguel kicked the soccer ball 12 meters.  How many centimeters did he kick the soccer ball?(1cm=0.01m)",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "1200cm"
+						"value": "1200cm"
 					},
 					{
 						"correct": false,
-						"value":   "120cm"
+						"value": "120cm"
 					},
 					{
 						"correct": false,
-						"value":   "12000cm"
+						"value": "12000cm"
 					},
 					{
 						"correct": false,
-						"value":   "1000cm"
+						"value": "1000cm"
 					}
 				]
 			},
 			{
-				"prompt":  "The length of the playground is 100 yards.  What is the length in feet?(1yard=3feet)",
+				"prompt": "The length of the playground is 100 yards.  What is the length in feet?(1yard=3feet)",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "100ft"
+						"value": "100ft"
 					},
 					{
 						"correct": false,
-						"value":   "30ft"
+						"value": "30ft"
 					},
 					{
 						"correct": false,
-						"value":   "200ft"
+						"value": "200ft"
 					},
 					{
 						"correct": true,
-						"value":   "300ft"
+						"value": "300ft"
 					}
 				]
 			},
 			{
-				"prompt":  "1 liter is:",
+				"prompt": "1 liter is:",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "1000ml"
+						"value": "1000ml"
 					},
 					{
 						"correct": false,
-						"value":   "100ml"
+						"value": "100ml"
 					},
 					{
 						"correct": false,
-						"value":   "10ml"
+						"value": "10ml"
 					},
 					{
 						"correct": false,
-						"value":   "1ml"
+						"value": "1ml"
 					}
 				]
 			},
 			{
-				"prompt":  "What is the metric unit for volume?",
+				"prompt": "What is the metric unit for volume?",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "litre"
+						"value": "litre"
 					},
 					{
 						"correct": false,
-						"value":   "metre"
+						"value": "metre"
 					},
 					{
 						"correct": false,
-						"value":   "gram"
+						"value": "gram"
 					},
 					{
 						"correct": false,
-						"value":   "kelvin"
+						"value": "kelvin"
 					}
 				]
 			},
 			{
-				"prompt":  "The number 535.602 rounded to 3 significant figures is:",
+				"prompt": "The number 535.602 rounded to 3 significant figures is:",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "535,6"
+						"value": "535,6"
 					},
 					{
 						"correct": false,
-						"value":   "535"
+						"value": "535"
 					},
 					{
 						"correct": true,
-						"value":   "536"
+						"value": "536"
 					},
 					{
 						"correct": false,
-						"value":   "0.602"
+						"value": "0.602"
 					}
 				]
 			},
 			{
-				"prompt":  "When converting 7,000 nA to microamperes, the result is",
+				"prompt": "When converting 7,000 nA to microamperes, the result is",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "0.007"
+						"value": "0.007"
 					},
 					{
 						"correct": false,
-						"value":   "0.7"
+						"value": "0.7"
 					},
 					{
 						"correct": false,
-						"value":   "700"
+						"value": "700"
 					},
 					{
 						"correct": true,
-						"value":   "7"
+						"value": "7"
 					}
 				]
 			},
 			{
-				"prompt":  "Express 3,124 centimeters in meters.",
+				"prompt": "Express 3,124 centimeters in meters.",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "31.24"
+						"value": "31.24"
 					},
 					{
 						"correct": false,
-						"value":   "32"
+						"value": "32"
 					},
 					{
 						"correct": false,
-						"value":   "31"
+						"value": "31"
 					},
 					{
 						"correct": false,
-						"value":   "33"
+						"value": "33"
 					}
 				]
 			},
 			{
-				"prompt":  "Intensity of electric current is expressed in",
+				"prompt": "Intensity of electric current is expressed in",
 				"choices": [
 					{
 						"correct": false,
-						"value":   "volts"
+						"value": "volts"
 					},
 					{
 						"correct": false,
-						"value":   "watts"
+						"value": "watts"
 					},
 					{
 						"correct": true,
-						"value":   "amperes"
+						"value": "amperes"
 					},
 					{
 						"correct": false,
-						"value":   "joules"
+						"value": "joules"
 					}
 				]
 			},
 			{
-				"prompt":  "In the SI system, the basic unit of measurement for mass is the:",
+				"prompt": "In the SI system, the basic unit of measurement for mass is the:",
 				"choices": [
 					{
 						"correct": true,
-						"value":   "kilogram."
+						"value": "kilogram."
 					},
 					{
 						"correct": false,
-						"value":   "metres"
+						"value": "metres"
 					},
 					{
 						"correct": false,
-						"value":   "kilometres"
+						"value": "kilometres"
 					},
 					{
 						"correct": false,
-						"value":   "joules"
+						"value": "joules"
 					}
 				]
 			}

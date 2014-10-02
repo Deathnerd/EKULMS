@@ -15,12 +15,12 @@
 	$check_array = array($_GET['courseId']);
 	$error_array = array("CourseId not set!");
 
-	if(!$Utils->checkIsSet($check_array, $error_array)){
-	    exit();
+	if (!$Utils->checkIsSet($check_array, $error_array)) {
+		exit();
 	}
 
 	$tests = $Tests->fetchAllByCourseId($_GET['courseId']);
-	if(!$tests){
+	if (!$tests) {
 		$Utils->exitWithMessage("Error getting tests");
 	}
 

@@ -16,7 +16,8 @@
 	define("SASL_NTLM_STATE_RESPOND_CHALLENGE", 2);
 	define("SASL_NTLM_STATE_DONE", 3);
 
-	class ntlm_sasl_client_class {
+	class ntlm_sasl_client_class
+	{
 		var $credentials = array();
 		var $state = SASL_NTLM_STATE_START;
 
@@ -179,6 +180,7 @@
 
 					return (SASL_FAIL);
 			}
+
 			return (SASL_CONTINUE);
 		}
 	}

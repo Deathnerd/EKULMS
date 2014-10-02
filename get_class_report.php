@@ -10,7 +10,8 @@
 	session_start();
 
 	if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['courseName']),
-							array("Course id not set", "Course name not set"))) {
+		array("Course id not set", "Course name not set"))
+	) {
 		exit();
 	}
 

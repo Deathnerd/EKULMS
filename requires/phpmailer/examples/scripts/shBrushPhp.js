@@ -44,14 +44,14 @@
 			'trait throw try use var while xor ';
 		var constants = '__FILE__ __LINE__ __METHOD__ __FUNCTION__ __CLASS__';
 		this.regexList = [
-			{ regex: SyntaxHighlighter.regexLib.singleLineCComments, css: 'comments' },			// one line comments
-			{ regex: SyntaxHighlighter.regexLib.multiLineCComments, css: 'comments' },			// multiline comments
-			{ regex: SyntaxHighlighter.regexLib.doubleQuotedString, css: 'string' },			// double quoted strings
-			{ regex: SyntaxHighlighter.regexLib.singleQuotedString, css: 'string' },			// single quoted strings
-			{ regex: /\$\w+/g, css: 'variable' },			// variables
-			{ regex: new RegExp(this.getKeywords(funcs), 'gmi'), css: 'functions' },			// common functions
-			{ regex: new RegExp(this.getKeywords(constants), 'gmi'), css: 'constants' },			// constants
-			{ regex: new RegExp(this.getKeywords(keywords), 'gm'), css: 'keyword' }			// keyword
+			{regex: SyntaxHighlighter.regexLib.singleLineCComments, css: 'comments'},			// one line comments
+			{regex: SyntaxHighlighter.regexLib.multiLineCComments, css: 'comments'},			// multiline comments
+			{regex: SyntaxHighlighter.regexLib.doubleQuotedString, css: 'string'},			// double quoted strings
+			{regex: SyntaxHighlighter.regexLib.singleQuotedString, css: 'string'},			// single quoted strings
+			{regex: /\$\w+/g, css: 'variable'},			// variables
+			{regex: new RegExp(this.getKeywords(funcs), 'gmi'), css: 'functions'},			// common functions
+			{regex: new RegExp(this.getKeywords(constants), 'gmi'), css: 'constants'},			// constants
+			{regex: new RegExp(this.getKeywords(keywords), 'gm'), css: 'keyword'}			// keyword
 		];
 		this.forHtmlScript(SyntaxHighlighter.regexLib.phpScriptTags);
 	};

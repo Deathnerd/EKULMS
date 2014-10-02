@@ -5,7 +5,7 @@
 	require_once('autoloader.php');
 	session_start();
 	if (!$Utils->checkIsSet(array($_GET['userName'], $_GET['password'], $_GET['email']),
-	                            array("No user name received", "No password received", "No email received"))
+		array("No user name received", "No password received", "No email received"))
 	) {
 		session_destroy();
 		exit();

@@ -25,7 +25,8 @@
 	 * @author  Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
 	 * @author  Brent R. Matzelle (original founder)
 	 */
-	class PHPMailer {
+	class PHPMailer
+	{
 		/**
 		 * The PHPMailer Version number.
 		 * @type string
@@ -591,11 +592,11 @@
 		 * claims to be sendmail), don't pass params (not a perfect fix,
 		 * but it will do)
 		 *
-		 * @param string $to      To
+		 * @param string $to To
 		 * @param string $subject Subject
-		 * @param string $body    Message Body
-		 * @param string $header  Additional Header(s)
-		 * @param string $params  Params
+		 * @param string $body Message Body
+		 * @param string $header Additional Header(s)
+		 * @param string $params Params
 		 *
 		 * @access private
 		 * @return boolean
@@ -757,7 +758,7 @@
 		 * Add an address to one of the recipient arrays.
 		 * Addresses that have been added already return false, but do not throw exceptions
 		 *
-		 * @param string $kind    One of 'to', 'cc', 'bcc', 'ReplyTo'
+		 * @param string $kind One of 'to', 'cc', 'bcc', 'ReplyTo'
 		 * @param string $address The email address to send to
 		 * @param string $name
 		 *
@@ -807,8 +808,8 @@
 		/**
 		 * Set the From and FromName properties.
 		 *
-		 * @param string  $address
-		 * @param string  $name
+		 * @param string $address
+		 * @param string $name
 		 * @param boolean $auto Whether to also set the Sender address, defaults to true
 		 *
 		 * @throws phpmailerException
@@ -851,7 +852,7 @@
 		/**
 		 * Check that a string looks like an email address.
 		 *
-		 * @param string $address       The email address to check
+		 * @param string $address The email address to check
 		 * @param string $patternselect A selector for the validation pattern to use :
 		 *                              * `auto` Pick strictest one automatically;
 		 *                              * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0, PHP >= 5.3.2, 5.2.14;
@@ -1070,7 +1071,7 @@
 		 * Send mail using the $Sendmail program.
 		 *
 		 * @param string $header The message headers
-		 * @param string $body   The message body
+		 * @param string $body The message body
 		 *
 		 * @see    PHPMailer::$Sendmail
 		 * @throws phpmailerException
@@ -1133,7 +1134,7 @@
 		 * Send mail using the PHP mail() function.
 		 *
 		 * @param string $header The message headers
-		 * @param string $body   The message body
+		 * @param string $body The message body
 		 *
 		 * @link   http://www.php.net/manual/en/book.mail.php
 		 * @throws phpmailerException
@@ -1196,7 +1197,7 @@
 		 * @see    PHPMailer::getSMTPInstance() to use a different class.
 		 *
 		 * @param string $header The message headers
-		 * @param string $body   The message body
+		 * @param string $body The message body
 		 *
 		 * @throws phpmailerException
 		 * @uses   SMTP
@@ -1383,7 +1384,7 @@
 		 * Returns false if it cannot load the language file.
 		 * The default language is English.
 		 *
-		 * @param string $langcode  ISO 639-1 2-character language code (e.g. French is "fr")
+		 * @param string $langcode ISO 639-1 2-character language code (e.g. French is "fr")
 		 * @param string $lang_path Path to the language file directory, with trailing separator (slash)
 		 *
 		 * @return boolean
@@ -1445,7 +1446,7 @@
 		 * @access public
 		 *
 		 * @param string $type
-		 * @param array  $addr An array of recipient,
+		 * @param array $addr An array of recipient,
 		 *                     where each recipient is a 2-element indexed array with element 0 containing an address
 		 *                     and element 1 containing a name, like:
 		 *                     array(array('joe@example.com', 'Joe User'), array('zoe@example.com', 'Zoe User'))
@@ -1486,8 +1487,8 @@
 		 * and for quoted-printable encoded messages.
 		 * Original written by philippe.
 		 *
-		 * @param string  $message The message to wrap
-		 * @param integer $length  The line length to wrap to
+		 * @param string $message The message to wrap
+		 * @param integer $length The line length to wrap to
 		 * @param boolean $qp_mode Whether to run in Quoted-Printable mode
 		 *
 		 * @access public
@@ -1577,8 +1578,8 @@
 		 * Original written by Colin Brown.
 		 * @access public
 		 *
-		 * @param string  $encodedText utf-8 QP text
-		 * @param integer $maxLength   find last character boundary prior to this length
+		 * @param string $encodedText utf-8 QP text
+		 * @param integer $maxLength find last character boundary prior to this length
 		 *
 		 * @return integer
 		 */
@@ -2063,10 +2064,10 @@
 		 * Add an attachment from a path on the filesystem.
 		 * Returns false if the file could not be found or read.
 		 *
-		 * @param string $path        Path to the attachment.
-		 * @param string $name        Overrides the attachment name.
-		 * @param string $encoding    File encoding (see $Encoding).
-		 * @param string $type        File extension (MIME) type.
+		 * @param string $path Path to the attachment.
+		 * @param string $name Overrides the attachment name.
+		 * @param string $encoding File encoding (see $Encoding).
+		 * @param string $type File extension (MIME) type.
 		 * @param string $disposition Disposition to use
 		 *
 		 * @throws phpmailerException
@@ -2230,7 +2231,7 @@
 		 * Encode a file attachment in requested format.
 		 * Returns an empty string on failure.
 		 *
-		 * @param string $path     The full path to the file
+		 * @param string $path The full path to the file
 		 * @param string $encoding The encoding to use; one of 'base64', '7bit', '8bit', 'binary', 'quoted-printable'
 		 *
 		 * @throws phpmailerException
@@ -2276,7 +2277,7 @@
 		 * Encode a string in requested format.
 		 * Returns an empty string on failure.
 		 *
-		 * @param string $str      The text to encode
+		 * @param string $str The text to encode
 		 * @param string $encoding The encoding to use; one of 'base64', '7bit', '8bit', 'binary', 'quoted-printable'
 		 *
 		 * @access public
@@ -2410,7 +2411,7 @@
 		 * @link   http://www.php.net/manual/en/function.mb-encode-mimeheader.php#60283
 		 * @access public
 		 *
-		 * @param string $str       multi-byte text to wrap encode
+		 * @param string $str multi-byte text to wrap encode
 		 * @param string $linebreak string to use as linefeed/end-of-line
 		 *
 		 * @return string
@@ -2453,7 +2454,7 @@
 		 * According to RFC2045 section 6.7.
 		 * @access public
 		 *
-		 * @param string  $string   The text to encode
+		 * @param string $string The text to encode
 		 * @param integer $line_max Number of chars allowed on a line before wrapping
 		 *
 		 * @return string
@@ -2479,7 +2480,7 @@
 		 * @see        PHPMailer::encodeQP()
 		 * @access     public
 		 *
-		 * @param string  $string
+		 * @param string $string
 		 * @param integer $line_max
 		 * @param boolean $space_conv
 		 *
@@ -2499,7 +2500,7 @@
 		 * Encode a string using Q encoding.
 		 * @link   http://tools.ietf.org/html/rfc2047
 		 *
-		 * @param string $str      the text to encode
+		 * @param string $str the text to encode
 		 * @param string $position Where the text is going to be used, see the RFC for what that means
 		 *
 		 * @access public
@@ -2551,10 +2552,10 @@
 		 * This method can be used to attach ascii or binary data,
 		 * such as a BLOB record from a database.
 		 *
-		 * @param string $string      String attachment data.
-		 * @param string $filename    Name of the attachment.
-		 * @param string $encoding    File encoding (see $Encoding).
-		 * @param string $type        File extension (MIME) type.
+		 * @param string $string String attachment data.
+		 * @param string $filename Name of the attachment.
+		 * @param string $encoding File encoding (see $Encoding).
+		 * @param string $type File extension (MIME) type.
 		 * @param string $disposition Disposition to use
 		 *
 		 * @return void
@@ -2591,12 +2592,12 @@
 		 * This is used in HTML messages that embed the images
 		 * the HTML refers to using the $cid value.
 		 *
-		 * @param string $path        Path to the attachment.
-		 * @param string $cid         Content ID of the attachment; Use this to reference
+		 * @param string $path Path to the attachment.
+		 * @param string $cid Content ID of the attachment; Use this to reference
 		 *                            the content when using an embedded image in HTML.
-		 * @param string $name        Overrides the attachment name.
-		 * @param string $encoding    File encoding (see $Encoding).
-		 * @param string $type        File MIME type.
+		 * @param string $name Overrides the attachment name.
+		 * @param string $encoding File encoding (see $Encoding).
+		 * @param string $type File MIME type.
 		 * @param string $disposition Disposition to use
 		 *
 		 * @return boolean True on successfully adding an attachment
@@ -2639,12 +2640,12 @@
 		 * Be sure to set the $type to an image type for images:
 		 * JPEG images use 'image/jpeg', GIF uses 'image/gif', PNG uses 'image/png'.
 		 *
-		 * @param string $string      The attachment binary data.
-		 * @param string $cid         Content ID of the attachment; Use this to reference
+		 * @param string $string The attachment binary data.
+		 * @param string $cid Content ID of the attachment; Use this to reference
 		 *                            the content when using an embedded image in HTML.
 		 * @param string $name
-		 * @param string $encoding    File encoding (see $Encoding).
-		 * @param string $type        MIME type.
+		 * @param string $encoding File encoding (see $Encoding).
+		 * @param string $type MIME type.
 		 * @param string $disposition Disposition to use
 		 *
 		 * @return boolean True on successfully adding an attachment
@@ -2891,7 +2892,7 @@
 		 * both header name and value (name:value)
 		 * @access public
 		 *
-		 * @param string $name  Custom header name
+		 * @param string $name Custom header name
 		 * @param string $value Header value
 		 *
 		 * @return void
@@ -2912,8 +2913,8 @@
 		 * Overwrites any existing values in $this->Body and $this->AltBody
 		 * @access public
 		 *
-		 * @param string  $message  HTML message string
-		 * @param string  $basedir  baseline directory for path
+		 * @param string $message HTML message string
+		 * @param string $basedir baseline directory for path
 		 * @param boolean $advanced Whether to use the advanced HTML to text converter
 		 *
 		 * @return string $message
@@ -2968,7 +2969,7 @@
 		/**
 		 * Convert an HTML string into plain text.
 		 *
-		 * @param string  $html     The HTML text to convert
+		 * @param string $html The HTML text to convert
 		 * @param boolean $advanced Should this use the more complex html2text converter or just a simple one?
 		 *
 		 * @return string
@@ -3118,7 +3119,7 @@
 		 * Works similarly to the one in PHP >= 5.2.0
 		 * @link http://www.php.net/manual/en/function.pathinfo.php#107461
 		 *
-		 * @param string         $path    A filename or path, does not need to exist as a file
+		 * @param string $path A filename or path, does not need to exist as a file
 		 * @param integer|string $options Either a PATHINFO_* constant,
 		 *                                or a string name to return only the specified piece, allows 'filename' to work on PHP < 5.2
 		 *
@@ -3169,7 +3170,7 @@
 		 * @access public
 		 *
 		 * @param string $name
-		 * @param mixed  $value
+		 * @param mixed $value
 		 * NOTE: will not work with arrays, there are no arrays to set/reset
 		 *
 		 * @throws phpmailerException
@@ -3338,8 +3339,8 @@
 		 * @access public
 		 *
 		 * @param string $headers_line Header lines
-		 * @param string $subject      Subject
-		 * @param string $body         Body
+		 * @param string $subject Subject
+		 * @param string $body Body
 		 *
 		 * @return string
 		 */
@@ -3450,12 +3451,12 @@
 		 * Perform a callback.
 		 *
 		 * @param boolean $isSent
-		 * @param array   $to
-		 * @param array   $cc
-		 * @param array   $bcc
-		 * @param string  $subject
-		 * @param string  $body
-		 * @param string  $from
+		 * @param array $to
+		 * @param array $cc
+		 * @param array $bcc
+		 * @param string $subject
+		 * @param string $body
+		 * @param string $from
 		 */
 		protected function doCallback($isSent, $to, $cc, $bcc, $subject, $body, $from) {
 			if (!empty($this->action_function) && is_callable($this->action_function)) {
@@ -3469,7 +3470,8 @@
 	 * PHPMailer exception handler
 	 * @package PHPMailer
 	 */
-	class phpmailerException extends Exception {
+	class phpmailerException extends Exception
+	{
 		/**
 		 * Prettify error message output
 		 * @return string

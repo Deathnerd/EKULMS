@@ -6,9 +6,9 @@
 	/**
 	 * Create a zip file
 	 *
-	 * @param array   $files       An array of strings containing names of files to be compressed. Defaults to current directory files
-	 * @param string  $destination The absolute path to the  destination folder
-	 * @param boolean $overwrite   Set to true to overwrite the previous zip
+	 * @param array $files An array of strings containing names of files to be compressed. Defaults to current directory files
+	 * @param string $destination The absolute path to the  destination folder
+	 * @param boolean $overwrite Set to true to overwrite the previous zip
 	 *
 	 * @return boolean Returns true if successful and false if not successful or the zip file exists and $overwrite is false
 	 */

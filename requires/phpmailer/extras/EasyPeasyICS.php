@@ -15,7 +15,8 @@
 	/* 2010/12/17 - Manuel Reinhard - when it all started
 	/* ------------------------------------------------------------------------ */
 
-	class EasyPeasyICS {
+	class EasyPeasyICS
+	{
 
 		protected $calendarName;
 		protected $events = array();

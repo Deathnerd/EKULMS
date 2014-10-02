@@ -7,7 +7,8 @@
 	 * Class for facilitating Database connections
 	 * @todo change from ini configuration file to JSON
 	 */
-	class Db {
+	class Db
+	{
 		/**
 		 * @access protected
 		 * @var string The database name from the config file
@@ -73,14 +74,16 @@
 			$this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
 
 			if (mysqli_connect_errno($this->connection)) { //failed to connect
-				die("Failed to connect with error: " . mysqli_connect_error());
+				$str = "Failed to connect with error: " . mysqli_connect_error();
+				echo($str);
+				die($str);
 			}
 		}
 
 		/**
 		 * Closes database on destruct
 		 */
-		function __destruct(){
+		function __destruct() {
 			$this->close();
 		}
 
@@ -96,7 +99,7 @@
 			}
 		}
 
-		function __wakeup(){
+		function __wakeup() {
 			$this->connect();
 		}
 
@@ -156,9 +159,9 @@
 		 * @access public
 		 * @param integer $argumentsSupplied How many arguments were supplied
 		 * @param integer $numberOfArguments How many arguments are required
-		 * @param string  $class             Class name
-		 * @param string  $function          Function name
-		 * @param bool    $exact             Should the number be exact? Default to false
+		 * @param string $class Class name
+		 * @param string $function Function name
+		 * @param bool $exact Should the number be exact? Default to false
 		 *
 		 * @return bool True if successful
 		 */
@@ -184,9 +187,9 @@
 		 * This utility function will check an argument type
 		 *
 		 * @access public
-		 * @param mixed  $argument The argument to check
-		 * @param string $type     The type the argument was is supposed to be
-		 * @param string $class    The class where the error occurred
+		 * @param mixed $argument The argument to check
+		 * @param string $type The type the argument was is supposed to be
+		 * @param string $class The class where the error occurred
 		 * @param string $function The function where the error occurred
 		 *
 		 * @return bool True if succeeded
@@ -244,9 +247,9 @@
 		 * Simple method to check if the supplied argument is a string and has a length greater than zero
 		 *
 		 * @access public
-		 * @param string|array $string   the string or array containing strings to check
-		 * @param string       $class    The class where the error might occur
-		 * @param string       $function The function where the error might occur
+		 * @param string|array $string the string or array containing strings to check
+		 * @param string $class The class where the error might occur
+		 * @param string $function The function where the error might occur
 		 *
 		 * @return boolean returns true if argument is a string and has a length greater than zero, false if otherwise
 		 */

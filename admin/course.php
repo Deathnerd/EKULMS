@@ -10,12 +10,11 @@
 
 	switch ($action) {
 		//if the action is to create a course
-		case "createCourse":
-		{
+		case "createCourse": {
 			//create course requires $courseName, $courseId, and $description
 
 			if (!$Utils->checkIsSet(array($_GET['courseName'], $_GET['courseId'], $_GET['userName']),
-			                       array("Course name required!", "Course id required!", "Username required!"))
+				array("Course name required!", "Course id required!", "Username required!"))
 			) {
 				break;
 			}
@@ -38,8 +37,7 @@
 			break;
 		}
 		//if the action is to list the courses
-		case "list":
-		{
+		case "list": {
 			$list = $Courses->fetchAll();
 			if ($list) {
 				header('Access-Control-Allow-Origin: *');
@@ -52,8 +50,7 @@
 			}
 		}
 		//if the action is to add a student
-		case "addStudent":
-		{
+		case "addStudent": {
 			//requires $courseId an and $userName
 			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
 				break;
@@ -69,8 +66,7 @@
 			break;
 		}
 		//if the action is to add a student
-		case "addInstructor":
-		{
+		case "addInstructor": {
 			//requires $courseId and $userName
 			if (!$Utils->checkIsSet(array($_GET['courseId'], $_GET['userName']), array("Course id required!", "Username required!"))) {
 				exit();
@@ -85,9 +81,8 @@
 			}
 			break;
 		}
-		default:
-			{
-			echo "$action is not a valid action";
-			}
+		default: {
+		echo "$action is not a valid action";
+		}
 	}
 	exit();

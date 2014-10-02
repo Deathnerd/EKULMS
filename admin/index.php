@@ -12,63 +12,63 @@
 	$UI = new UI($_SERVER['PHP_SELF'], "Administrator Page - EKULMS");
 	$UI->show('header');
 ?>
-<link rel="stylesheet" href="../css/admin.css"/>
-<script src="../js/admin.js"></script>
-<p id="userGreeting">
-	<?="Hello, {$_SESSION['userName']} !"; ?>
-</p>
+	<link rel="stylesheet" href="../css/admin.css"/>
+	<script src="../js/admin.js"></script>
+	<p id="userGreeting">
+		<?= "Hello, {$_SESSION['userName']} !"; ?>
+	</p>
 
-<div class="bodyContainer">
-	<div id="courseSetup">
-		<p>Course id:</p>
-		<input type="text" id="courseId">
+	<div class="bodyContainer">
+		<div id="courseSetup">
+			<p>Course id:</p>
+			<input type="text" id="courseId">
+			<br>
+
+			<p>Course name:</p>
+			<input type="text" id="courseName">
+			<br>
+
+			<p>Course description (optional):</p>
+			<textarea cols="40" rows="5" id="description"></textarea>
+			<br>
+			<input type="button" id="addCourse" value="Add Course">
+			<br>
+
+			<div id="message"></div>
+		</div>
+		<div id="addUserToCourse">
+			<p>Username:</p>
+			<input type="text" id="userName">
+			<br>
+
+			<p>Course Id:</p>
+			<input type="text" id="courseId">
+			<br>
+
+			<p>Instructor:</p>
+			<input type="checkbox" id="instructor">
+			<br>
+			<input type="button" id="addUser" value="Add User to Course">
+
+			<div id="message"></div>
+		</div>
 		<br>
 
-		<p>Course name:</p>
-		<input type="text" id="courseName">
-		<br>
+		<div id="list">
+			<input type="button" id="listCourses" value="List courses">
 
-		<p>Course description (optional):</p>
-		<textarea cols="40" rows="5" id="description"></textarea>
-		<br>
-		<input type="button" id="addCourse" value="Add Course">
-		<br>
-
-		<div id="message"></div>
-	</div>
-	<div id="addUserToCourse">
-		<p>Username:</p>
-		<input type="text" id="userName">
-		<br>
-
-		<p>Course Id:</p>
-		<input type="text" id="courseId">
-		<br>
-
-		<p>Instructor:</p>
-		<input type="checkbox" id="instructor">
-		<br>
-		<input type="button" id="addUser" value="Add User to Course">
-
-		<div id="message"></div>
-	</div>
-	<br>
-
-	<div id="list">
-		<input type="button" id="listCourses" value="List courses">
-
-		<div id="listResults" class="hide">
-			<table>
-				<tbody>
+			<div id="listResults" class="hide">
+				<table>
+					<tbody>
 					<tr>
 						<th>Course Name</th>
 						<th>Course Id</th>
 						<th>Course Description</th>
 					</tr>
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
 <?
 	$UI->show('footer');

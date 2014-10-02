@@ -11,9 +11,9 @@
 	if (!$Utils->checkisSet(array($_SESSION['userName'],
 	                              $_GET['action'],
 	                              $_GET['test_name']),
-	                        array("You are not logged in. Please do so",
-	                              "Action was not set",
-	                              "Test Name was not set"))
+		array("You are not logged in. Please do so",
+		      "Action was not set",
+		      "Test Name was not set"))
 	) {
 		exit();
 	}

@@ -10,7 +10,7 @@
 		$Utils->redirectTo('signin.php');
 	}
 	$Users = new Users($DB);
-
+	$UI = new UI($_SERVER['PHP_SELF'], "Index - EKULMS");
 	$errors = array();
 	$user = $Users->fetchUser($user_name);
 	if (!$user) {

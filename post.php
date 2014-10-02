@@ -21,8 +21,7 @@
 	$json = json_decode(stripslashes($data), true);
 
 	switch ($action) {
-		case "update":
-		{
+		case "update": {
 			if ($Tests->testExists($json['_quizName']) && $Tests->updateTest($json)) {
 				$Utils->exitWithMessage("Success!");
 			} else {
@@ -30,8 +29,7 @@
 			}
 			break;
 		}
-		case "make":
-		{
+		case "make": {
 			if (!$Tests->testExists($json['_quizName']) && $Tests->makeTest($json)) {
 				$Utils->exitWithMessage("Success!");
 			} else {
@@ -39,8 +37,7 @@
 			}
 			break;
 		}
-		default:
-			{
-			$Utils->exitWithMessage("Invalid action!");
-			}
+		default: {
+		$Utils->exitWithMessage("Invalid action!");
+		}
 	}

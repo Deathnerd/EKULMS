@@ -57,7 +57,7 @@
 	$number_of_incorrect_questions = $number_of_questions - $number_of_correct_questions;
 	$test_id = $Tests->getIdByName($payload['_testName']);
 	if ($Tests->submitResults($user_id, $test_id, $number_of_correct_questions, $number_of_incorrect_questions)) {
-		$score = $number_of_correct_questions . '/' . ($number_of_correct_questions+$number_of_incorrect_questions);
+		$score = $number_of_correct_questions . '/' . ($number_of_correct_questions + $number_of_incorrect_questions);
 		$Utils->exitWithMessage("Thank you for your submission. Your score is: $score");
 	}
 

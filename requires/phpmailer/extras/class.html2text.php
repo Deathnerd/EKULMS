@@ -23,7 +23,8 @@
 	/**
 	 * Converts HTML to formatted plain text
 	 */
-	class Html2Text {
+	class Html2Text
+	{
 		/**
 		 * Contains the HTML content to convert.
 		 *
@@ -266,9 +267,9 @@
 		 * will instantiate with that source propagated, all that has
 		 * to be done it to call get_text().
 		 *
-		 * @param string  $source    HTML content
+		 * @param string $source HTML content
 		 * @param boolean $from_file Indicates $source is a file to pull content from
-		 * @param array   $options   Set configuration options
+		 * @param array $options Set configuration options
 		 */
 		public function __construct($source = '', $from_file = false, $options = array()) {
 			$this->_options = array_merge($this->_options, $options);
@@ -283,7 +284,7 @@
 		/**
 		 * Loads source HTML into memory, either from $source string or a file.
 		 *
-		 * @param string  $source    HTML content
+		 * @param string $source HTML content
 		 * @param boolean $from_file Indicates $source is a file to pull content from
 		 */
 		public function set_html($source, $from_file = false) {
@@ -447,9 +448,9 @@
 		 * appeared. Also makes an effort at identifying and handling absolute
 		 * and relative links.
 		 *
-		 * @param string $link    URL of the link
+		 * @param string $link URL of the link
 		 * @param string $display Part of the text to associate number with
-		 * @param null   $link_override
+		 * @param null $link_override
 		 *
 		 * @return string
 		 */
@@ -606,6 +607,7 @@
 
 					return $this->_build_link_list($url, $matches[5], $link_override);
 			}
+
 			return '';
 		}
 

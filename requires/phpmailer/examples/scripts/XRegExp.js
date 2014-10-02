@@ -38,9 +38,13 @@ if (XRegExp) {
 		flags = flags || "";
 		context = { // `this` object for custom tokens
 			hasNamedCapture: false,
-			captureNames:    [],
-			hasFlag:         function (flag) {return flags.indexOf(flag) > -1;},
-			setFlag:         function (flag) {flags += flag;}
+			captureNames: [],
+			hasFlag: function (flag) {
+				return flags.indexOf(flag) > -1;
+			},
+			setFlag: function (flag) {
+				flags += flag;
+			}
 		};
 		while (pos < pattern.length) {
 			// Check for custom tokens at the current position
@@ -70,7 +74,7 @@ if (XRegExp) {
 		}
 		regex = RegExp(output.join(""), nativ.replace.call(flags, flagClip, ""));
 		regex._xregexp = {
-			source:       pattern,
+			source: pattern,
 			captureNames: context.hasNamedCapture ? context.captureNames : null
 		};
 		return regex;
@@ -92,11 +96,11 @@ if (XRegExp) {
 		tokens = [],
 	// Copy native globals for reference ("native" is an ES3 reserved keyword)
 		nativ = {
-			exec:    RegExp.prototype.exec,
-			test:    RegExp.prototype.test,
-			match:   String.prototype.match,
+			exec: RegExp.prototype.exec,
+			test: RegExp.prototype.test,
+			match: String.prototype.match,
 			replace: String.prototype.replace,
-			split:   String.prototype.split
+			split: String.prototype.split
 		},
 		compliantExecNpcg = nativ.exec.call(/()??/, "")[1] === undefined, // check `exec` handling of nonparticipating capturing groups
 		compliantLastIndexIncrement = function () {
@@ -121,7 +125,7 @@ if (XRegExp) {
 		tokens.push({
 			pattern: clone(regex, "g" + (hasNativeY ? "y" : "")),
 			handler: handler,
-			scope:   scope || XRegExp.OUTSIDE_CLASS,
+			scope: scope || XRegExp.OUTSIDE_CLASS,
 			trigger: trigger || null
 		});
 	};
@@ -484,7 +488,7 @@ if (XRegExp) {
 		regex = XRegExp(regex.source, getNativeFlags(regex) + (additionalFlags || ""));
 		if (x) {
 			regex._xregexp = {
-				source:       x.source,
+				source: x.source,
 				captureNames: x.captureNames ? x.captureNames.slice(0) : null
 			};
 		}
@@ -493,10 +497,10 @@ if (XRegExp) {
 
 	function getNativeFlags(regex) {
 		return (regex.global ? "g" : "") +
-			(regex.ignoreCase ? "i" : "") +
-			(regex.multiline ? "m" : "") +
-			(regex.extended ? "x" : "") + // Proposed for ES4; included in AS3
-			(regex.sticky ? "y" : "");
+		(regex.ignoreCase ? "i" : "") +
+		(regex.multiline ? "m" : "") +
+		(regex.extended ? "x" : "") + // Proposed for ES4; included in AS3
+		(regex.sticky ? "y" : "");
 	}
 
 	function runTokens(pattern, index, scope, context) {
@@ -514,7 +518,7 @@ if (XRegExp) {
 					if (match && match.index === index) {
 						result = {
 							output: t.handler.call(context, match, scope),
-							match:  match
+							match: match
 						};
 						break;
 					}
@@ -580,7 +584,7 @@ if (XRegExp) {
 			// Keep backreferences separate from subsequent literal numbers. Preserve back-
 			// references to named groups that are undefined at this point as literal strings
 			return index > -1 ?
-				"\\" + (index + 1) + (isNaN(match.input.charAt(match.index + match[0].length)) ? "" : "(?:)") :
+			"\\" + (index + 1) + (isNaN(match.input.charAt(match.index + match[0].length)) ? "" : "(?:)") :
 				match[0];
 		}
 	);
@@ -610,14 +614,20 @@ if (XRegExp) {
 			return nativ.test.call(quantifier, match.input.slice(match.index + match[0].length)) ? "" : "(?:)";
 		},
 		XRegExp.OUTSIDE_CLASS,
-		function () {return this.hasFlag("x");}
+		function () {
+			return this.hasFlag("x");
+		}
 	);
 	// Dot, in dotall (aka singleline) mode only
 	XRegExp.addToken(
 		/\./,
-		function () {return "[\\s\\S]";},
+		function () {
+			return "[\\s\\S]";
+		},
 		XRegExp.OUTSIDE_CLASS,
-		function () {return this.hasFlag("s");}
+		function () {
+			return this.hasFlag("s");
+		}
 	);
 	//---------------------------------
 	//  Backward compatibility

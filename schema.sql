@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `courses` (
-	`courseId`    TEXT NOT NULL,
-	`courseName`  TEXT NOT NULL,
-	`description` TEXT NOT NULL
+  `courseId`    TEXT NOT NULL,
+  `courseName`  TEXT NOT NULL,
+  `description` TEXT NOT NULL
 )
-	ENGINE =InnoDB
-	DEFAULT CHARSET =latin1;
+  ENGINE =InnoDB
+  DEFAULT CHARSET =latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,14 +41,14 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `students` (
-	`id`       INT(11) NOT NULL
-	COMMENT 'User Id',
-	`courseId` LONGTEXT
-	           COLLATE latin1_general_ci
+  `id`       INT(11) NOT NULL
+  COMMENT 'User Id',
+  `courseId` LONGTEXT
+             COLLATE latin1_general_ci
 )
-	ENGINE =MyISAM
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,24 +59,24 @@ DROP TABLE IF EXISTS `questions`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `questions` (
-	`testId`         INT(11)                   NOT NULL,
-	`questionNumber` INT(11) DEFAULT NULL,
-	`a`              TEXT
-	                 COLLATE latin1_general_ci,
-	`b`              TEXT
-	                 COLLATE latin1_general_ci,
-	`c`              TEXT
-	                 COLLATE latin1_general_ci,
-	`d`              TEXT
-	                 COLLATE latin1_general_ci,
-	`correct`        CHAR(1)
-	                 COLLATE latin1_general_ci DEFAULT NULL,
-	`prompt`         LONGTEXT
-	                 COLLATE latin1_general_ci NOT NULL
+  `testId`         INT(11)                   NOT NULL,
+  `questionNumber` INT(11)                   DEFAULT NULL,
+  `a`              TEXT
+                   COLLATE latin1_general_ci,
+  `b`              TEXT
+                   COLLATE latin1_general_ci,
+  `c`              TEXT
+                   COLLATE latin1_general_ci,
+  `d`              TEXT
+                   COLLATE latin1_general_ci,
+  `correct`        CHAR(1)
+                   COLLATE latin1_general_ci DEFAULT NULL,
+  `prompt`         LONGTEXT
+                   COLLATE latin1_general_ci NOT NULL
 )
-	ENGINE =MyISAM
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,19 +87,19 @@ DROP TABLE IF EXISTS `results`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `results` (
-	`userId`           INT(11)        NOT NULL,
-	`testId`           INT(11) DEFAULT NULL,
-	`attempt`          INT(11) DEFAULT NULL,
-	`grade`            CHAR(1)
-	                   COLLATE latin1_general_ci DEFAULT NULL,
-	`submitted`        TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`number_correct`   INT(11)        NOT NULL,
-	`number_incorrect` INT(11)        NOT NULL,
-	`percentage`       DECIMAL(10, 2) NOT NULL
+  `userId`           INT(11)        NOT NULL,
+  `testId`           INT(11)                        DEFAULT NULL,
+  `attempt`          INT(11)                        DEFAULT NULL,
+  `grade`            CHAR(1)
+                     COLLATE latin1_general_ci      DEFAULT NULL,
+  `submitted`        TIMESTAMP      NOT NULL        DEFAULT CURRENT_TIMESTAMP,
+  `number_correct`   INT(11)        NOT NULL,
+  `number_incorrect` INT(11)        NOT NULL,
+  `percentage`       DECIMAL(10, 2) NOT NULL
 )
-	ENGINE =MyISAM
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,13 +110,13 @@ DROP TABLE IF EXISTS `instructors`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `instructors` (
-	`id`           INT(11) NOT NULL,
-	`courseNumber` TEXT
-	               COLLATE latin1_general_ci
+  `id`           INT(11) NOT NULL,
+  `courseNumber` TEXT
+                 COLLATE latin1_general_ci
 )
-	ENGINE =MyISAM
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,18 +127,18 @@ DROP TABLE IF EXISTS `tests`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tests` (
-	`testId`     INT(11) NOT NULL AUTO_INCREMENT,
-	`courseId`   LONGTEXT
-	             COLLATE latin1_general_ci,
-	`testNumber` INT(11) DEFAULT NULL,
-	`testName`   TEXT
-	             COLLATE latin1_general_ci,
-	PRIMARY KEY (`testId`)
+  `testId`     INT(11) NOT NULL AUTO_INCREMENT,
+  `courseId`   LONGTEXT
+               COLLATE latin1_general_ci,
+  `testNumber` INT(11) DEFAULT NULL,
+  `testName`   TEXT
+               COLLATE latin1_general_ci,
+  PRIMARY KEY (`testId`)
 )
-	ENGINE =MyISAM
-	AUTO_INCREMENT =11
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  AUTO_INCREMENT =11
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,25 +149,25 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-	`id`              INT(11)                   NOT NULL AUTO_INCREMENT,
-	`userName`        TEXT
-	                  COLLATE latin1_general_ci,
-	`password`        TEXT
-	                  COLLATE latin1_general_ci,
-	`admin`           TINYINT(1)                NOT NULL DEFAULT '0',
-	`date_created`    DATETIME                  NOT NULL,
-	`last_logged_in`  DATETIME                  NOT NULL,
-	`last_logged_out` TIMESTAMP                 NULL DEFAULT NULL,
-	`reset_key`       TEXT
-	                  COLLATE latin1_general_ci,
-	`email`           TEXT
-	                  COLLATE latin1_general_ci NOT NULL,
-	PRIMARY KEY (`id`)
+  `id`              INT(11)                   NOT NULL AUTO_INCREMENT,
+  `userName`        TEXT
+                    COLLATE latin1_general_ci,
+  `password`        TEXT
+                    COLLATE latin1_general_ci,
+  `admin`           TINYINT(1)                NOT NULL DEFAULT '0',
+  `date_created`    DATETIME                  NOT NULL,
+  `last_logged_in`  DATETIME                  NOT NULL,
+  `last_logged_out` TIMESTAMP                 NULL     DEFAULT NULL,
+  `reset_key`       TEXT
+                    COLLATE latin1_general_ci,
+  `email`           TEXT
+                    COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
 )
-	ENGINE =MyISAM
-	AUTO_INCREMENT =21
-	DEFAULT CHARSET =latin1
-	COLLATE =latin1_general_ci;
+  ENGINE =MyISAM
+  AUTO_INCREMENT =21
+  DEFAULT CHARSET =latin1
+  COLLATE =latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
 

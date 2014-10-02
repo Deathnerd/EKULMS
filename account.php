@@ -36,7 +36,7 @@
 					}
 				?>
 			</select>
-<!--			<input type="text" id="courseId">-->
+			<!--			<input type="text" id="courseId">-->
 			<br>
 			<input type="button" id="addUser" value="Sign up for course">
 
@@ -58,25 +58,25 @@
 		<!-- <input id="getStats" value="Get Course Stats" type="button"/>
 		<select name="userCourses" id="courses">
 			<?
-				/*foreach ($userCourses as $course) {
-					echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
-					$tests = $Tests->fetchAllByCourseId($course['courseId']);
-					if (!$tests) {
-						echo "<option> -- No tests found</option>";
-					} else {
-						foreach ($tests as $test) {
-							echo "<option value='{$course['courseId']}|{$test['testId']}'>-- {$test['testName']}</option>";
-						}
+			/*foreach ($userCourses as $course) {
+				echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
+				$tests = $Tests->fetchAllByCourseId($course['courseId']);
+				if (!$tests) {
+					echo "<option> -- No tests found</option>";
+				} else {
+					foreach ($tests as $test) {
+						echo "<option value='{$course['courseId']}|{$test['testId']}'>-- {$test['testName']}</option>";
 					}
-				}*/
-			?>
+				}
+			}*/
+		?>
 		</select> -->
 
 		<span id="reporting_selection" class="thin_border small_padding">
 			<label for="report_course">Select a course: </label>
 			<select name="report_course" id="report_course">
 				<?
-					foreach($userCourses as $course){
+					foreach ($userCourses as $course) {
 						echo "<option>{$course['courseId']} -- {$course['courseName']}</option>";
 					}
 				?>

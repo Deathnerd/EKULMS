@@ -27,7 +27,8 @@
 	 * @author  Jim Jagielski (jimjag) <jimjag@gmail.com>
 	 * @author  Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
 	 */
-	class POP3 {
+	class POP3
+	{
 		/**
 		 * The POP3 PHPMailer Version number.
 		 * @type string
@@ -132,8 +133,8 @@
 		 * @param         $host
 		 * @param boolean $port
 		 * @param boolean $tval
-		 * @param string  $username
-		 * @param string  $password
+		 * @param string $username
+		 * @param string $password
 		 * @param integer $debug_level
 		 *
 		 * @return boolean
@@ -157,12 +158,12 @@
 		 * appropriate for POP-before SMTP authorisation.
 		 * @access public
 		 *
-		 * @param string          $host
+		 * @param string $host
 		 * @param integer|boolean $port
 		 * @param integer|boolean $tval
-		 * @param string          $username
-		 * @param string          $password
-		 * @param integer         $debug_level
+		 * @param string $username
+		 * @param string $password
+		 * @param integer $debug_level
 		 *
 		 * @return boolean
 		 */
@@ -205,9 +206,9 @@
 		 * Connect to a POP3 server.
 		 * @access public
 		 *
-		 * @param string          $host
+		 * @param string $host
 		 * @param integer|boolean $port
-		 * @param integer         $tval
+		 * @param integer $tval
 		 *
 		 * @return boolean
 		 */
@@ -240,10 +241,10 @@
 			if ($this->pop_conn === false) {
 				//  It would appear not...
 				$this->setError(array(
-					                'error'  => "Failed to connect to server $host on port $port",
-					                'errno'  => $errno,
-					                'errstr' => $errstr
-				                ));
+					'error'  => "Failed to connect to server $host on port $port",
+					'errno'  => $errno,
+					'errstr' => $errstr
+				));
 
 				return false;
 			}
@@ -365,10 +366,10 @@
 		private function checkResponse($string) {
 			if (substr($string, 0, 3) !== '+OK') {
 				$this->setError(array(
-					                'error'  => "Server reported an error: $string",
-					                'errno'  => 0,
-					                'errstr' => ''
-				                ));
+					'error'  => "Server reported an error: $string",
+					'errno'  => 0,
+					'errstr' => ''
+				));
 
 				return false;
 			} else {
@@ -397,19 +398,19 @@
 		 * POP3 connection error handler.
 		 *
 		 * @param integer $errno
-		 * @param string  $errstr
-		 * @param string  $errfile
+		 * @param string $errstr
+		 * @param string $errfile
 		 * @param integer $errline
 		 *
 		 * @access private
 		 */
 		private function catchWarning($errno, $errstr, $errfile, $errline) {
 			$this->setError(array(
-				                'error'   => "Connecting to the POP3 server raised a PHP warning: ",
-				                'errno'   => $errno,
-				                'errstr'  => $errstr,
-				                'errfile' => $errfile,
-				                'errline' => $errline
-			                ));
+				'error'   => "Connecting to the POP3 server raised a PHP warning: ",
+				'errno'   => $errno,
+				'errstr'  => $errstr,
+				'errfile' => $errfile,
+				'errline' => $errline
+			));
 		}
 	}

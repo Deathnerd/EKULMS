@@ -19,7 +19,8 @@
 	 * PHPMailer - PHP email transport unit test class
 	 * Performs authentication tests
 	 */
-	class PHPMailerLangTest extends PHPUnit_Framework_TestCase {
+	class PHPMailerLangTest extends PHPUnit_Framework_TestCase
+	{
 		/**
 		 * Holds a phpmailer instance.
 		 * @private

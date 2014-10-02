@@ -1,6 +1,7 @@
 <?php
 
-	class Table {
+	class Table
+	{
 
 		public $header = array();
 
@@ -26,8 +27,8 @@
 		 * Begins the creation of a new table. With this, it is also possible to set the id, class, and attributes
 		 * of the table tag.
 		 *
-		 * @param string $id         The id(s) to add to the tag
-		 * @param string $class      The class(es) to add to the tag
+		 * @param string $id The id(s) to add to the tag
+		 * @param string $class The class(es) to add to the tag
 		 * @param string $attributes The attribute(s) to add to the tag
 		 *
 		 * @internal param string $tattributes The HTML attributes to add to the tag
@@ -91,10 +92,10 @@
 		 * This function takes an array of row(s) and inserts them at the specified position. If position is not given, then
 		 * it inserts them at the end of the rows
 		 *
-		 * @param array $cells      A single-depth array of cells to add to the rows. They may have the following attributes,
+		 * @param array $cells A single-depth array of cells to add to the rows. They may have the following attributes,
 		 *                          each relating to an html property: attributes, content, id, class.
 		 *
-		 * @param null  $position
+		 * @param null $position
 		 *
 		 * @return bool|int
 		 */
@@ -226,8 +227,8 @@
 		/**
 		 * This private method will insert an array into another array at the specified position
 		 *
-		 * @param int   $pos      The index to insert at
-		 * @param array $needle   The array to insert
+		 * @param int $pos The index to insert at
+		 * @param array $needle The array to insert
 		 * @param array $haystack The array to insert into
 		 *
 		 * @return array The resultant array

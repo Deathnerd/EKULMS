@@ -10,7 +10,7 @@
 	require_once('requires/phpmailer/PHPMailerAutoload.php');
 
 	if (!$Utils->checkIsSet(array($_GET['action']),
-	                        array("Action is not set"))
+		array("Action is not set"))
 	) {
 		exit();
 	}
@@ -23,7 +23,7 @@
 	switch ($action) {
 		case 'reset':
 			if (!$Utils->checkIsSet(array($_GET['key'], $_GET['user_name'], $_GET['new_password']),
-			                        array("Key is not set", "User name is not set", "A new password was not provided"))
+				array("Key is not set", "User name is not set", "A new password was not provided"))
 			) {
 				exit();
 			}
@@ -45,7 +45,7 @@
 			break;
 		case 'send_email':
 			$Utils->checkIsSet(array($_GET['email'], $_GET['user_name']),
-			                   array("Email not supplied", "User name not supplied"));
+				array("Email not supplied", "User name not supplied"));
 			if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
 				$Utils->exitWithMessage("The email provided is not a valid email. Please check your input and try again");
 			}
