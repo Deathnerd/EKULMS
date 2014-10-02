@@ -18,6 +18,7 @@
 	 * it will return www.example.com
 	 */
 	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
+	define('DS', DIRECTORY_SEPARATOR);
 
 	define('SMTP_SERVER', 'smtp.server.com');
 	define('SMTP_USER', 'user@server.com');

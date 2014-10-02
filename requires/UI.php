@@ -41,31 +41,8 @@
 		function __construct($page = "", $title = "") {
 			$this->pageTitle = $title;
 			$create_script_tag = ($page != "" && $page == "create.php") ? "<script type='text/javascript' src='js/create.js'></script>" : "";
-			$this->headerContent = "<!DOCTYPE html>
-								<html>
-								<head>
-									<title>$title</title>
-									<meta name='description' content='Quiz Creation'>
-									<meta name='author' content='Wes Gilleland'>
-									<meta name='published' content='TODO'>
-									<script type='text/javascript' src='js/jquery-2.1.0.min.js'></script>
-								$create_script_tag
-								<script type='text/javascript' src='js/main.js'></script>
-								<script type='text/javascript' src='js/numeral.min.js'></script>
-								<link type='text/css' rel='stylesheet' href='css/reset.css'>
-								<link type='text/css' rel='stylesheet' href='css/main.css'>
-								</head>
-								<body>
-								<header id='topNav'>
-									<div id='logo'>
-										LOGO HERE
-									</div>
-									<div id='dropdown'>
-										<p>DROPDOWN HERE</p>
-									</div>
-									<p id='pageTitle'>Quiz Creation</p>
-									<a href='logout.php'>Log out</a>
-								</header>";
+			$this->headerContent = $this->_parseTemplate("header", array("title"             => $this->pageTitle,
+			                                                             "create_script_tag" => $create_script_tag));
 		}
 
 		/**
@@ -118,5 +95,25 @@
 		 */
 		public function setPageTitle($title) {
 			$this->pageTitle = $title;
+		}
+
+		/**
+		 * Parses a template file
+		 * @param string $filename The name of the template file to parse
+		 * @param array $variables The variables to use while parsing
+		 * @return mixed|string The template parsed with the variables replaced and ready to go
+		 */
+		private function _parseTemplate($filename, array $variables = null) {
+			try {
+				$template_file = file_get_contents(__DIR__ . DS . "templates" . DS . "$filename.html");
+			} catch (Exception $e) {
+				exit("Error reading template file $filename");
+			}
+
+			foreach ($variables as $name => $value) {
+				$template_file = str_replace("{{" . $name . "}}", $value, $template_file);
+			}
+
+			return $template_file;
 		}
 	}
