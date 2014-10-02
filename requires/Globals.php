@@ -5,7 +5,40 @@
 	 * Date: 8/2/14
 	 * Time: 4:58 PM
 	 */
-//	error_reporting(E_ALL);
+	define('DS', DIRECTORY_SEPARATOR);
+	/*
+	 * Load debug file
+	 */
+	$debug_ini_file = __DIR__ . DS . "debug.ini";
+	if (file_exists($debug_ini_file)) {
+		$debugs = parse_ini_file($debug_ini_file, true);
+		foreach ($debugs['debugs'] as $key => $value) {
+			define("DEBUG_" . strtoupper($key), boolval($value));
+		}
+	}
+	/*
+	 * Parse the error_reporting values
+	 */
+	$error_ini_file = __DIR__ . DS . "error_reporting.ini";
+	if(file_exists($error_ini_file)){
+		$error_config = parse_ini_file($error_ini_file);
+		$error_bitmask = 0;
+		if($error_config['E_ALL']){
+			//error reporting for everything has been chosen, skip everything else
+			$error_bitmask = E_ALL;
+		} else {
+			for($i = 0; $i < count($error_config['errors']); $i++){
+				/*
+				 * Bitmask calculations based on http://www.bx.com.au/tools/ultimate-php-error-reporting-wizard
+				 */
+				//multiply by the true/false of the configuration to include or exclude it from the bitmask
+				$error_bitmask += pow(2, $i) * intval($error_config['errors'][$i]);
+			}
+		}
+		//Apply the bitmask
+		error_reporting(E_ALL);
+	}
+
 	//check the php version. Requires at least 5.5
 	if (version_compare(phpversion(), '5.5', '<')) {
 		trigger_error("EKULMS requires at least PHP version 5.5. Please check your installation", E_USER_ERROR);
@@ -18,7 +51,6 @@
 	 * it will return www.example.com
 	 */
 	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
-	define('DS', DIRECTORY_SEPARATOR);
 
 	define('SMTP_SERVER', 'smtp.server.com');
 	define('SMTP_USER', 'user@server.com');
