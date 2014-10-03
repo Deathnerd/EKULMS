@@ -4,8 +4,6 @@
 
 The goal of this project is to create a Learning Management System suited for the specific needs of Eastern Kentucky University, specifically (for now) the Computer Science department. This is part of an undergraduate research project into the current state of Learning Management Systems and how they can be better improved to support student learning.
 
-As of April 8th, 2014, EKULMS is in alpha stage. This is a proof of concept that focuses on basic functions for creating tests and courses, and allowing users to track their progress. After April 28th, 2014, EKULMS will undergo a major overhaul in code quality and usability. 
-
 ###Features to be completed at launch (Beginning of Fall 2014 semester)
 
 * Basic user account management - **Complete**
@@ -29,5 +27,3 @@ As of April 8th, 2014, EKULMS is in alpha stage. This is a proof of concept that
 * Questions where the user will have to code and said code will be evaluated for correctness
 * Full responsive design
 * Anything else that is requested, within reason
-
-Again, this is currently in very rough, incomplete Alpha stage and is not completely indicative of what will be available at launch
