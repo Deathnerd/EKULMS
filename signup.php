@@ -11,19 +11,21 @@
 	$UI = new UI($_SERVER['PHP_SELF'], "Sign-up - EKULMS");
 	$UI->executeHeaderTemplate('header_v2')->show("header");
 ?>
-	<div id="bodyContainer">
-		<p>User Name:</p>
-		<label for="userName"></label><input type="text" id="userName"><br/>
+	<div id="bodyContainer" class="col-lg-3">
+		<label for="userName">User Name:</label>
+		<input type="text" id="userName" class="form-control">
+		<br/>
 
-		<p>Password:</p>
-		<label>
-			<input type="password">
-		</label><br/>
+		<label for="password">Password:</label>
+		<input type="password" name="password" class="form-control">
+		<br/>
 
-		<p>Email:</p>
-		<label for="email"></label><input type="text" id="email"><br/>
-		<br>
-		<input type="button" value="Sign up" id="signUpButton"><br/>
+		<label for="email">Email:</label>
+		<input type="text" id="email" class="form-control">
+		<br/>
+
+		<button id="signUpButton" class="form-control">Sign up</button>
+		<br/>
 
 		<p id="message" class="hide"></p>
 	</div>

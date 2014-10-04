@@ -1,1 +1,8 @@
-#bodyContainer{padding-top: 50px;}
+.question_body{
+	padding: 10px;
+}
+
+.index-head-spacer {
+	width: 100%;
+	padding: 20px;
+}

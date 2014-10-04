@@ -53,6 +53,7 @@
 		 */
 		public function setTemplateVariables($template_variables) {
 			$this->template_variables = $template_variables;
+
 			return $this;
 		}
 
@@ -63,7 +64,9 @@
 		function __construct($page = "", $title = "") {
 			$this->pageTitle = $title;
 			$create_script_tag = ($page != "" && $page == "create.php") ? "<script type='text/javascript' src='js/create.js'></script>" : "";
-			$this->template_variables = array("title" => $this->pageTitle, "create_script_tag" => $create_script_tag);
+			$this->template_variables = array("title"             => $this->pageTitle,
+			                                  "create_script_tag" => $create_script_tag,
+			                                  "site_root"         => SITE_ROOT);
 		}
 
 		/**
@@ -141,8 +144,9 @@
 			foreach ($variables as $name => $value) {
 				$template_file = str_replace("{{" . $name . "}}", $value, $template_file);
 			}
+
 			//clean up any left over variables before we send it out
-			return  preg_replace('/{{.*}}/', "", $template_file);
+			return preg_replace('/{{.*}}/', "", $template_file);
 		}
 
 		/**
@@ -152,6 +156,7 @@
 		 */
 		public function executeHeaderTemplate($template) {
 			$this->headerContent = $this->_parseTemplate($template, $this->template_variables);
+
 			return $this;
 		}
 
@@ -160,8 +165,9 @@
 		 * @param array $array The array of template variables to add
 		 * @return $this
 		 */
-		public function addToTemplateVariables(array $array){
+		public function addToTemplateVariables(array $array) {
 			$this->template_variables = array_merge($this->template_variables, $array);
+
 			return $this;
 		}
 
@@ -172,10 +178,11 @@
 		 * @param array $array An array of strings of the keys to remove from the array
 		 * @return $this
 		 */
-		public function removeFromTemplateVariables(array $array){
-			foreach($array as $var){
+		public function removeFromTemplateVariables(array $array) {
+			foreach ($array as $var) {
 				unset($this->template_variables[$var]);
 			}
+
 			return $this;
 		}
 
@@ -186,10 +193,11 @@
 		 * @param array $array
 		 * @return $this
 		 */
-		public function updateTemplateVariables(array $array){
-			foreach($array as $key => $value){
+		public function updateTemplateVariables(array $array) {
+			foreach ($array as $key => $value) {
 				$this->template_variables[$key] = $value;
 			}
+
 			return $this;
 		}
 	}

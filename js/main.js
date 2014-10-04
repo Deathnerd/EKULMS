@@ -5,7 +5,6 @@
 $(document).ready(function () {
 	//set globals
 	var courseId = "";
-	var quizName = "";
 
 	var site = function (file) {
 		var url = "http://";
@@ -92,7 +91,7 @@ $(document).ready(function () {
 			//at first through the stylesheet
 			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
-		$('#holding_div').append('<input type="button" value="Submit Test" id="submit_test">');
+		$('#holding_div').append('<input type="button" value="Submit Test" id="submit_test" class="btn btn-default">');
 	};
 	//The function to render a test
 	$('#load').click(function () {
@@ -414,9 +413,9 @@ $(document).ready(function () {
 //checks if the clicked radial was the correct answer
 var answer_check = function (correct, number) {
 	if (correct) {
-		$("#box_" + number).text("Correct!").css("background-color", "rgba(0, 255, 0, .5)").css("border", "solid 1px rgba(0, 255, 0, .75)").css('display', 'block');
+		$("#box_"+number).empty().attr("class", "panel panel-success").append("<div class='panel-heading'>Correct!</div>");
 	}
 	else {
-		$("#box_" + number).text("Incorrect").css("background-color", "rgba(255, 0, 0, .5)").css("border", "solid 1px rgba(255, 0, 0, .75)").css("display", "block");
+		$("#box_"+number).empty().attr("class", "panel panel-danger").append("<div class='panel-heading'>Incorrect</div>");
 	}
 };

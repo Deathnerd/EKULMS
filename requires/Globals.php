@@ -6,6 +6,7 @@
 	 * Time: 4:58 PM
 	 */
 	define('DS', DIRECTORY_SEPARATOR);
+	define('SITE_ROOT', (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']);
 	/*
 	 * Load debug file
 	 */

@@ -80,10 +80,13 @@
 	/*
 	 * Set the template variables with the new values, parse the header template, and show the header and footer
 	 */
+	if(boolval($_SESSION['admin'])){
+		$UI->addToTemplateVariables(array("admin_link" => "<li><a href='admin/index.php'><span class='glyphicon glyphicon-wrench'></span> Admin Area</a></li>"));
+	}
 	$UI->addToTemplateVariables(array("errors_to_display" => $errors_to_display,
 	                                  "test_options"      => $test_options,
 	                                  "description"       => "Tests for EKULMS",
-	                                  "home_active"       => "class='active'"))
+	                                  "home_active"       => 'active'))
 		->executeHeaderTemplate("index_header")
 		->show("header")->show("footer");
 	exit();

@@ -8,60 +8,49 @@
 		$Utils->redirectTo('Location: ../signin.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Administrator Page - EKULMS");
-	$UI->show('header');
+	if($_SESSION['admin']){
+		$base_url = SITE_ROOT;
+		$UI->addToTemplateVariables(array("admin_link" => "<li class='active'><a href='$base_url/admin'><span class='glyphicon glyphicon-wrench'></span> Admin Area</a></li>"));
+	}
+	$UI->executeHeaderTemplate("header_v2")->show('header');
 ?>
-	<link rel="stylesheet" href="../css/admin.css"/>
 	<script src="../js/admin.js"></script>
 
-	<div id="courseSetup">
-		<p>Course id:</p>
-		<input type="text" id="courseId">
-		<br>
+	<div id="courseSetup" class="col-md-6">
+		<label for="courseId">Course id:</label>
+		<input type="text" id="courseId" class="form-control">
+		<br/>
 
-		<p>Course name:</p>
-		<input type="text" id="courseName">
-		<br>
+		<label for="courseName">Course name:</label>
+		<input type="text" id="courseName" class="form-control">
+		<br/>
 
-		<p>Course description (optional):</p>
-		<textarea cols="40" rows="5" id="description"></textarea>
-		<br>
-		<input type="button" id="addCourse" value="Add Course">
-		<br>
+		<label for="description">Course Description (optional):</label>
+		<textarea cols="40" rows="5" id="description" class="form-control"></textarea>
+		<br/>
 
-		<div id="message"></div>
-	</div>
-	<div id="addUserToCourse">
-		<p>Username:</p>
-		<input type="text" id="userName">
-		<br>
-
-		<p>Course Id:</p>
-		<input type="text" id="courseId">
-		<br>
-
-		<p>Instructor:</p>
-		<input type="checkbox" id="instructor">
-		<br>
-		<input type="button" id="addUser" value="Add User to Course">
+		<button class="btn btn-default" id="addCourse">Add Course</button>
+		<br/>
 
 		<div id="message"></div>
 	</div>
-	<br>
+	<div id="addUserToCourse" class="col-md-6">
+		<label for="userName">Username:</label>
+		<input type="text" id="userName" class="form-control">
+		<br/>
 
-	<div id="list">
-		<input type="button" id="listCourses" value="List courses">
+		<label for="courseId">Course Id:</label>
+		<input type="text" id="courseId" name="courseId" class="form-control">
+		<br/>
 
-		<div id="listResults" class="hide">
-			<table>
-				<tbody>
-				<tr>
-					<th>Course Name</th>
-					<th>Course Id</th>
-					<th>Course Description</th>
-				</tr>
-				</tbody>
-			</table>
-		</div>
+		<label for="instructor">Instructor:</label>
+		<input type="checkbox" id="instructor" class="checkbox checkbox-default">
+
+		<br/>
+		<button class="btn btn-default" id="addUser">Add User to Course</button>
 	</div>
+	<br/>
+
+	<div id="message"></div>
 <?
 	$UI->show('footer');

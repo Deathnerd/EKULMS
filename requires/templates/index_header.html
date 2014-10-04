@@ -10,8 +10,8 @@
 	<script src="js/numeral.min.js"></script>
 	<script type='text/javascript' src='js/main.js'></script>
 	{{create_script_tag}}
-	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" href="css/bootstrap-simplex.min.css"/>
+	<link rel="stylesheet" href="css/main_v2.css"/>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-inverse" id="topNav" role="navigation">
@@ -23,13 +23,16 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php">EKULMS</a>
+			<a class="navbar-brand" href="{{site_root}}/index.php">EKULMS</a>
 		</div>
 		<div id="navbarCollapse" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li {{home_active}}><a href="index.php">Take A Quiz</a></li>
-				<li {{account_active}}><a href="account.php">My Account</a></li>
-				<li><a href="logout.php">Log Out</a></li>
+				<li class='{{home_active}}'><a href="index.php"><span class="glyphicon glyphicon-pencil"></span> Take A
+					Quiz</a></li>
+				<li class="{{account_active}}"><a href="account.php"><span class="glyphicon glyphicon-user"></span> My
+					Account</a></li>
+				<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+				{{admin_link}}
 			</ul>
 		</div>
 	</div>
@@ -38,10 +41,13 @@
 	<div id="errors" style="float: right; width: auto;">
 		{{errors_to_display}}
 	</div>
-	<p id="pageTitle"></p>
-	<label>
-		<select>
+	<div class="col-md-4">
+		<label for="select_test">Select a test: </label>
+		<select name="select_test" class="form-control" id="select_test">
 			{{test_options}}
 		</select>
-	</label>
-	<button type="button" id="load">Load</button>
+		<br/>
+		<button type="button" class="btn btn-default" id="load">Load</button>
+	</div>
+	<span class="clearfix"></span>
+	<div class="index-head-spacer"></div>

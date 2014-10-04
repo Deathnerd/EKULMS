@@ -16,6 +16,10 @@
 		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Create Test - EKULMS");
+	if($_SESSION['admin']){
+		$base_url = SITE_ROOT;
+		$UI->addToTemplateVariables(array("admin_link" => "<li><a href='$base_url/admin'>><span class='glyphicon glyphicon-wrench'></span> Admin Area</a></li>"));
+	}
 	$UI->executeHeaderTemplate('header_v2')->show('header');
 ?>
 	<input type="hidden" value="make" id="action"/>
@@ -48,9 +52,10 @@
 		<label>
 			<textarea name="prompt" cols="40" rows="5">Input question here</textarea>
 		</label>
-		<br>
+		<br/>
 		<input type="button" value="Add Choice" id="add_choice" class="choice_add">
-		<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove"><br>
+		<input type="button" value="Remove Last Choice" id="remove_choice" class="choice_remove">
+		<br/>
 		<!-- End question prompt and buttons -->
 		<!-- Begin choices table -->
 		<table width="430" border="0" cellspacing="0" cellpadding="0">
