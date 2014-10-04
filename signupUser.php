@@ -10,6 +10,7 @@
 		session_destroy();
 		exit();
 	}
+	$Utils->exitWithMessage("Registration isn't open yet!");
 	$Users = new Users($DB);
 	//check if user exists in database
 	if (!$Users->userExists($_GET['userName'])) { //if user does not already exist, then attempt to create it
