@@ -13,6 +13,12 @@
 		private $Db;
 
 		/**
+		 * @access public
+		 * @var bool Are we in debug mode?
+		 */
+		public $debug = DEBUG_COURSES;
+
+		/**
 		 * Constructor!
 		 */
 		function __construct(Db $db) {
@@ -274,7 +280,11 @@
 			//get the course ids so we can search and return all courses information the user is enrolled in
 			$courseIds = array();
 			while ($row = $sql->fetch_assoc()) {
-				$courseIds[] = $row['courseId'];
+				if(strtolower($type) == 'instructor'){
+					$courseIds[] = $row['courseNumber'];
+				} else {
+					$courseIds[] = $row['courseId'];
+				}
 			}
 
 			$table = $DB->tables['Courses'];

@@ -8,9 +8,8 @@
 		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Sign-in - EKULMS");
-	$UI->show("header");
+	$UI->executeHeaderTemplate('header_v2')->show("header");
 ?>
-	<div id="bodyContainer">
 		<p>User Name:</p>
 		<label for="userName"></label><input type="text" id="userName"><br/>
 

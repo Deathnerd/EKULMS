@@ -11,6 +11,17 @@
 
 	class Utilities/* extends Carbon*/
 	{
+
+		/**
+		 * @access public
+		 * @var bool Are we in debug mode?
+		 */
+		public $debug = DEBUG_UTILITIES;
+
+		/**
+		 * Constructor!
+		 * @param Db $db
+		 */
 		function __construct(Db $db) {
 			$this->DB = $db;
 		}

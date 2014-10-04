@@ -16,17 +16,8 @@
 		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Create Test - EKULMS");
-	$UI->show('header');
+	$UI->executeHeaderTemplate('header_v2')->show('header');
 ?>
-	<header id="topNav">
-		<div id="logo">
-			LOGO HERE
-		</div>
-		<div id="dropdown">
-			<p>DROPDOWN HERE</p>
-		</div>
-		<p id="pageTitle">Quiz Creation</p>
-	</header>
 	<input type="hidden" value="make" id="action"/>
 	<label for="courseName">Course Name: </label>
 	<select id="courseName"><?

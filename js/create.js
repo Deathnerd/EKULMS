@@ -8,7 +8,7 @@
 var hover_id = ''; //store the current div being hovered over
 var current_choice_count = 1; //how many choices are in the current, working question?
 var current_question_count = 1; //how many questions have we created?
-var body = $('body');
+var body = $('body > .container');
 //construct the url string for the ajax request
 var site = function (file) {
 	var url = "http://";

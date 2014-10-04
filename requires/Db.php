@@ -45,10 +45,10 @@
 		 */
 		public $salt = "î¹ñËyãÙOinRÃIîÃÙËì»A]9îè¨ç°²aµÌ»òdJnl¸¦Ø";
 		/**
-		 * @access private
+		 * @access public
 		 * @var bool Are we in debug mode?
 		 */
-		private $debug = true;
+		public $debug = DEBUG_DB;
 
 		/**
 		 * Constructor method. First checks for a user-config.ini file, then a default-config.ini file if the

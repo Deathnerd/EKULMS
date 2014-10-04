@@ -19,6 +19,12 @@
 		private $Db;
 
 		/**
+		 * @access public
+		 * @var bool Are we in debug mode?
+		 */
+		public $debug = DEBUG_TESTS;
+
+		/**
 		 * Constructor!
 		 * @param Db $db The database object for connections
 		 */

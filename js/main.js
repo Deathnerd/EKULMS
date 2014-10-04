@@ -65,7 +65,7 @@ $(document).ready(function () {
 		_courseId = json.courseId;
 		$('#holding_div').empty(); //clear out the holding div
 		//create the holding div for the quiz
-		var body = $('body');
+		var body = $('#main_container');
 		body.append('<div id="holding_div"></div>');
 		$('#holding_div').append('<p id="quiz_name">' + json._quizName + '</p>');
 		var questions = json.quiz.questions; //loop through each question
@@ -340,10 +340,6 @@ $(document).ready(function () {
 		reporting_selection_actions();
 	});
 
-	/**
-	 * TODO: Make another function to handle rendering and fetching the results to the account page
-	 */
-
 	$('#fetch_by_test').click(function () {
 		var testName = $('#reporting_selection').find('#tests').val();
 		$.ajax({
@@ -354,6 +350,7 @@ $(document).ready(function () {
 			success: function (response) {
 				var table = $('#statsResultsTable');
 				table.empty();
+
 				console.log(response);
 				try {
 					var responseJSON = JSON.parse(response);
@@ -365,15 +362,17 @@ $(document).ready(function () {
 					return;
 				}
 
-				table.append("<tr>" +
-				"<th class='small_padding'>Attempt</th>" +
-				"<th class='small_padding'>Grade</th>" +
-				"<th class='small_padding'>Number Correct</th>" +
-				"<th class='small_padding'>Number Incorrect</th>" +
-				"<th class='small_padding'>Percentage</th>" +
-				"<th class='small_padding'>Date submitted</th>" +
-				"<th class='small_padding'>Time submitted</th>" +
-				"</tr>");
+				table.append("<thead>" +
+								"<tr>" +
+									"<th>Attempt</th>" +
+									"<th>Grade</th>" +
+									"<th>Number Correct</th>" +
+									"<th>Number Incorrect</th>" +
+									"<th>Percentage</th>" +
+									"<th>Date submitted</th>" +
+									"<th>Time submitted</th>" +
+								"</tr>" +
+							"</thead>");
 				for (var i = 0; i < responseJSON.length; i++) {
 					var attempt = responseJSON[i]['attempt'];
 					var grade = responseJSON[i]['grade'];

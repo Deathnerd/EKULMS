@@ -9,13 +9,7 @@
 	/*
 	 * Load debug file
 	 */
-	$debug_ini_file = __DIR__ . DS . "debug.ini";
-	if (file_exists($debug_ini_file)) {
-		$debugs = parse_ini_file($debug_ini_file, true);
-		foreach ($debugs['debugs'] as $key => $value) {
-			define("DEBUG_" . strtoupper($key), boolval($value));
-		}
-	}
+	require_once("Debugs.php");
 	/*
 	 * Parse the error_reporting values
 	 */

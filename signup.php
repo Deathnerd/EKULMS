@@ -9,7 +9,7 @@
 	}
 
 	$UI = new UI($_SERVER['PHP_SELF'], "Sign-up - EKULMS");
-	$UI->show("header");
+	$UI->executeHeaderTemplate('header_v2')->show("header");
 ?>
 	<div id="bodyContainer">
 		<p>User Name:</p>

@@ -16,6 +16,12 @@
 		private $Db;
 
 		/**
+		 * @access public
+		 * @var boolean Are we in debug mode?
+		 */
+		public $debug = DEBUG_USERS;
+
+		/**
 		 * Constructor method
 		 * @var Db $database the database object to use
 		 */
