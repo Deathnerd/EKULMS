@@ -38,16 +38,20 @@
 	</div>
 </nav>
 <div class="container" id="main_container">
-	<div id="errors" style="float: right; width: auto;">
+	<div id="errors">
 		{{errors_to_display}}
 	</div>
-	<div class="col-md-4">
-		<label for="select_test">Select a test: </label>
-		<select name="select_test" class="form-control" id="select_test">
-			{{test_options}}
-		</select>
-		<br/>
-		<button type="button" class="btn btn-default" id="load">Load</button>
-	</div>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="select_test" class="col-xs-2 control-label rad">Select a test: </label>
+			<div class="col-xs-4">
+				<select name="select_test" class="form-control" id="select_test">
+					{{test_options}}
+				</select>
+			</div>
+			<button type="button" class="btn btn-default" id="load"><span class="glyphicon glyphicon-download"></span> Load</button>
+		</div>
+	</form>
+
 	<span class="clearfix"></span>
 	<div class="index-head-spacer"></div>

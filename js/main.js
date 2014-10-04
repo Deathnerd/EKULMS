@@ -72,7 +72,7 @@ $(document).ready(function () {
 			$('#holding_div').append('<div class="question_body" id="question_' + question + '"></div>'); //create question_body div
 			//create a new question div
 			var question_body = $("#question_" + question);
-			question_body.append("<p>" + questions[question].prompt + "</p>");
+			question_body.append("<p>" + questions[question].prompt + "</p><ul class='list-unstyled'></ul>");
 			//loop through each choice
 			var choices = questions[question].choices;
 			for (var choice = 0; choice < choices.length; choice++) {
@@ -81,17 +81,17 @@ $(document).ready(function () {
 					continue;
 				}
 				if (choices[choice].correct === true) {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')">' + choices[choice].value + '</input><br />');
+					question_body.find('ul').append('<li></li>').find(':last-child').append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(true, ' + question + ')" class="radio-inline">' + choices[choice].value + '</input>');
 				}
 				else {
-					question_body.append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')">' + choices[choice].value + '</input><br />');
+					question_body.find('ul').append('<li></li>').find(':last-child').append('<input name="question_' + question + '_choice" type="radio" onclick="answer_check(false, ' + question + ')" class="radio-inline">' + choices[choice].value + '</input>');
 				}
 			}
 			//append a correct/incorrect box to the end of the question. It's set to invisible
 			//at first through the stylesheet
 			question_body.append('<div class="correct_incorrect_box" id="box_' + question + '"></div>');
 		}
-		$('#holding_div').append('<input type="button" value="Submit Test" id="submit_test" class="btn btn-default">');
+		$('#holding_div').append('<button id="submit_test" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Submit Test</button>');
 	};
 	//The function to render a test
 	$('#load').click(function () {

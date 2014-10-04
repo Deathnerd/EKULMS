@@ -16,36 +16,47 @@
 		$Utils->redirectTo('index.php');
 	}
 	$UI = new UI($_SERVER['PHP_SELF'], "Create Test - EKULMS");
-	if($_SESSION['admin']){
+	if ($_SESSION['admin']) {
 		$base_url = SITE_ROOT;
-		$UI->addToTemplateVariables(array("admin_link" => "<li><a href='$base_url/admin'>><span class='glyphicon glyphicon-wrench'></span> Admin Area</a></li>"));
+		$UI->addToTemplateVariables(array("admin_link" => "<li><a href='$base_url/admin'><span class='glyphicon glyphicon-wrench'></span> Admin Area</a></li>"));
 	}
 	$UI->executeHeaderTemplate('header_v2')->show('header');
 ?>
 	<input type="hidden" value="make" id="action"/>
-	<label for="courseName">Course Name: </label>
-	<select id="courseName"><?
-			$instructedCourses = $Courses->fetchEnrolledCourses($_SESSION['userName'], 'instructor');
-			foreach ($instructedCourses as $course) {
-				$val = $course['courseId'] . ":" . $course['courseName'];
-				echo "<option val='$val'>{$course['courseId']} -- {$course['courseName']}</option>";
-			}
-		?>
-	</select>
-	<label>
-		<select id="coursesDropdown">
+
+	<div class="col-md-6">
+		<label for="courseName">Course Name: </label>
+		<select id="courseName" class="form-control"><?
+				$instructedCourses = $Courses->fetchEnrolledCourses($_SESSION['userName'], 'instructor');
+				foreach ($instructedCourses as $course) {
+					$val = $course['courseId'] . ":" . $course['courseName'];
+					echo "<option val='$val'>{$course['courseId']} -- {$course['courseName']}</option>";
+				}
+			?>
+		</select>
+		<br/>
+		<select id="coursesDropdown" class="form-control">
 			<option>Select a course from the left</option>
 		</select>
-	</label>
-	<input type="button" value="Load" id="load2">
-	<input value="New Test" id="newTest" type="button"/>
-	<input type="button" value="Download All Quizzes" id="download">
-	<br/>
-	<label for="quizName">Quiz name</label><input type="text" value="Quiz 1" id="quizName">
-	<input type="button" value="Add question" class="question_add">
-	<input type="button" value="Remove question" class="question_remove">
-	<input type="button" value="Save Quiz" id="saveQuiz">
+		<br/>
+		<button id="newTest" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> New Test</button>
+		<button id="load2" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Load</button>
+		<button id="download" class="btn btn-info">
+			<span class="glyphicon glyphicon-download"></span>
+			Download All Quizzes
+		</button>
+	</div>
 
+	<div class="col-md-6">
+		<label for="quizName">Quiz ame</label>
+		<input type="text" value="Quiz 1" id="quizName" class="form-control">
+		<br/>
+		<button class="question_add btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Question</button>
+		<button class="question_remove btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Remove Question</button>
+		<button id="saveQuiz" class="btn btn-info"><span class="glyphicon glyphicon-save"></span> Save Quiz</button>
+	</div>
+	<span class="clearfix"></span>
+	<div class="index-head-spacer"></div>
 	<div class="small_padding question" id="question_1">
 		<!-- Begin question prompt and buttons -->
 		<p class="question_label">Question 1</p>

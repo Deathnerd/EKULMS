@@ -19,7 +19,7 @@
 		<br/>
 		<input type="password" id="password" class="form-control">
 		<br/>
-		<button class="btn btn-default" id="loginButton">Log In</button>
+		<button class="btn btn-default" id="loginButton">Log In <span class="glyphicon glyphicon-log-in"></span></button>
 		<br/>
 		<br/>
 		<a href="signup.php">Not registered? Sign up</a>
