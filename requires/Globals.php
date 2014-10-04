@@ -15,7 +15,7 @@
 	 * Parse the error_reporting values
 	 */
 	$error_ini_file = __DIR__ . DS . "error_reporting.ini";
-	if(file_exists($error_ini_file)){
+	if(file_exists($error_ini_file) && false){
 		$error_config = parse_ini_file($error_ini_file);
 		$error_bitmask = 0;
 		if($error_config['E_ALL']){
