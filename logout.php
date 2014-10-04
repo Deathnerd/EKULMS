@@ -7,7 +7,7 @@
 	session_start();
 	$Users = new Users($DB);
 
-	if ($Users->logout($_SESSION['userName'])) {
+	if (!$Utils->checkIsSet(array($_SESSION['userName']), array()) || $Users->logout($_SESSION['userName'])) {
 		header('Location: signin.php');
 	}
 	$Utils->exitWithMessage("Ruh-roh, Raggy!");
