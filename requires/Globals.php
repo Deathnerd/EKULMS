@@ -45,8 +45,6 @@
 	 * Returns the root domain. For example, if the script is www.example.com/foo/bar.php,
 	 * it will return www.example.com
 	 */
-	define('SITE_ROOT', $_SERVER['HTTP_HOST']);
-
 	define('SMTP_SERVER', 'smtp.server.com');
 	define('SMTP_USER', 'user@server.com');
 	define('SMTP_PORT', 587);
