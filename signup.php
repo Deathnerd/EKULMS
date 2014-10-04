@@ -13,18 +13,18 @@
 ?>
 	<div id="bodyContainer" class="col-lg-3">
 		<label for="userName">User Name:</label>
-		<input type="text" id="userName" class="form-control">
+		<input type="text" id="userName" class="form-control" autofocus>
 		<br/>
 
 		<label for="password">Password:</label>
-		<input type="password" name="password" class="form-control">
+		<input type="password" id="password" class="form-control">
 		<br/>
 
 		<label for="email">Email:</label>
 		<input type="text" id="email" class="form-control">
 		<br/>
 
-		<button id="signUpButton" class="form-control">Sign up</button>
+		<button id="signUpButton" class="btn btn-default">Sign up</button>
 		<br/>
 
 		<p id="message" class="hide"></p>
