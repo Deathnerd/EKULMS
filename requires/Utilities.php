@@ -5,11 +5,7 @@
 	 * Date: 6/22/14
 	 * Time: 4:30 PM
 	 */
-//namespace utils;
-
-//	use Carbon\Carbon;
-
-	class Utilities/* extends Carbon*/
+	class Utilities
 	{
 
 		/**
@@ -259,5 +255,38 @@
 			}
 
 			return false;
+		}
+
+		/**
+		 * A convenience method for the filter_var function
+		 * @param object $var The variable to filter
+		 * @param string $type The type of filter to run
+		 * @return bool|mixed
+		 */
+		public function validate($var, $type) {
+			switch (strtolower($type)) {
+				case "email":
+					return filter_var($var, FILTER_VALIDATE_EMAIL);
+
+				case "ip address":
+				case "ip":
+					return filter_var($var, FILTER_VALIDATE_IP);
+
+				case "float":
+					return filter_var($var, FILTER_VALIDATE_FLOAT);
+
+				case "int":
+				case "integer":
+					return filter_var($var, FILTER_VALIDATE_INT);
+
+				case "regex":
+					return filter_var($var, FILTER_VALIDATE_REGEXP);
+
+				case "url":
+					return filter_var($var, FILTER_VALIDATE_URL);
+
+				default:
+					return false;
+			}
 		}
 	}

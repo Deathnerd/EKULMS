@@ -10,7 +10,14 @@
 		session_destroy();
 		exit();
 	}
-	$Utils->exitWithMessage("Registration isn't open yet!");
+
+	if (!REGISTRATION_OPEN) {
+		$Utils->exitWithMessage("Registration is currently closed. Please check back later!");
+	}
+
+	if (!$Utils->validate($_GET['email'], "email")) {
+		$Utils->exitWithMessage("Check that your email is valid");
+	}
 	$Users = new Users($DB);
 	//check if user exists in database
 	if (!$Users->userExists($_GET['userName'])) { //if user does not already exist, then attempt to create it

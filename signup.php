@@ -10,6 +10,23 @@
 
 	$UI = new UI($_SERVER['PHP_SELF'], "Sign-up - EKULMS");
 	$UI->executeHeaderTemplate('header_v2')->show("header");
+
+	if (!REGISTRATION_OPEN) {
+		$input_disabled = "disabled='true'";
+	}
+
+	if (!REGISTRATION_OPEN) {
+		?>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h1 class="panel-title">Registration temporarily closed</h1>
+			</div>
+			<div class="panel-body">Thank you for your interest in EKULMS, but registration is temporarily closed.
+				Please check back later
+			</div>
+		</div>
+	<?
+	}
 ?>
 	<div id="bodyContainer" class="col-lg-3">
 		<label for="userName">User Name:</label>
@@ -24,10 +41,10 @@
 		<input type="text" id="email" class="form-control">
 		<br/>
 
-		<button id="signUpButton" class="btn btn-default">Sign up</button>
+		<button id="signUpButton" class="btn btn-default" <?= $input_disabled; ?> >Sign up</button>
 		<br/>
 
-		<p id="message" class="hide"></p>
+		<p id="message"></p>
 	</div>
 <?
 	$UI->show("footer");
