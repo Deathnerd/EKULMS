@@ -21,9 +21,6 @@
 		}
 		exit();
 	}
-	$Users = new Users($DB);
-	$Courses = new Courses($DB);
-	$Tests = new Tests($DB);
 
 	$user_name = $_SESSION['userName'];
 	//get all columns from user's row

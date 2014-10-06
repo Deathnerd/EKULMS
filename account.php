@@ -11,8 +11,6 @@
 
 	$userName = $_SESSION['userName'];
 
-	$Courses = new Courses($DB);
-	$Tests = new Tests($DB);
 	$UI = new UI($_SERVER['PHP_SELF'], "User Account - EKULMS");
 	if(boolval($_SESSION['admin'])){
 		$base_url = SITE_ROOT;

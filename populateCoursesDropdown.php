@@ -12,10 +12,6 @@
 		exit();
 	}
 
-	$Tests = new Tests($DB);
-	$Users = new Users($DB);
-	$Courses = new Courses($DB);
-
 	if ($Courses->courseExists($_GET['courseId'])) {
 		$testsInCourse = $Tests->fetchAllByCourseId($_GET['courseId']);
 		$json = json_encode($testsInCourse);

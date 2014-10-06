@@ -8,7 +8,6 @@
 	require_once("autoloader.php");
 	//Allow cross-domain AJAX *UNSAFE. FIND ANOTHER WAY*
 	header('Access-Control-Allow-Origin: *');
-	$Tests = new Tests($DB);
 
 	//check to see if $_REQUEST
 	if (!$Utils->checkIsSet(array($_GET['data'], $_GET['action']), array("Request Empty!", "Action Empty!"))) {

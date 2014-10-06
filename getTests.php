@@ -13,8 +13,6 @@
 	) {
 		exit();
 	}
-	$Tests = new Tests($DB);
-	$Courses = new Courses($DB);
 
 	$username = "admin";
 	$courseId = $_GET['courseId'];

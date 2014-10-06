@@ -12,8 +12,6 @@
 		exit();
 	}
 
-	$Tests = new Tests($DB);
-
 	$results = $Tests->getResults((int)$_SESSION['id'], (int)$Tests->getIdByName($_GET['testName']), 'submitted ASC');
 	if (!$results) {
 		$Utils->exitWithMessage("No results found");

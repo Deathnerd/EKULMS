@@ -4,7 +4,6 @@
 	 */
 
 	require_once("autoloader.php");
-	$Tests = new Tests($DB);
 
 	if (!$Utils->checkIsSet(array($_GET['data']), array("Request empty!"))) {
 		exit();

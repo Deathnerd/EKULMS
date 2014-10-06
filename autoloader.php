@@ -20,3 +20,6 @@
 
 	$DB = new Db;
 	$Utils = new Utilities($DB);
+	$Users = new Users($DB);
+	$Courses = new Courses($DB);
+	$Tests = new Tests($DB);

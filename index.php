@@ -13,10 +13,7 @@
 	/*
 	 * Class declarations
 	 */
-	$Tests = new Tests($DB);
-	$Users = new Users($DB);
 	$UI = new UI($_SERVER['PHP_SELF'], "Index - EKULMS");
-	$Courses = new Courses($DB);
 
 	$errors = array();
 	$user = $Users->fetchUser($user_name);

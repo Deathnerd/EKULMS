@@ -5,9 +5,6 @@
 	 */
 	require_once("autoloader.php");
 	session_start();
-	$User = new Users($DB);
-	$Tests = new Tests($DB);
-	$Courses = new Courses($DB);
 
 	if (!$Utils->checkIsSet(array($_SESSION['userName']), array(""))) { //if there isn't a user logged in, send them to the login page
 		$Utils->redirectTo("signin.php");

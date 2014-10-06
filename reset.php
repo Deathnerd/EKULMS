@@ -18,8 +18,6 @@
 	$action = $_GET['action'];
 	$key = $_GET['key'];
 
-	$Users = new Users($DB);
-
 	switch ($action) {
 		case 'reset':
 			if (!$Utils->checkIsSet(array($_GET['key'], $_GET['user_name'], $_GET['new_password']),

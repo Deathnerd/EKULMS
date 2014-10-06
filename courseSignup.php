@@ -8,8 +8,6 @@
 
 	require_once("autoloader.php");
 	session_start();
-	$Courses = new Courses($DB);
-	$User = new Users($DB);
 
 	if (!$Utils->checkIsSet(array($_SESSION['userName'], $_GET['courseId']), array("User name not set!", "CourseId not set!"))) {
 		exit();

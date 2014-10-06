@@ -8,9 +8,6 @@
 
 	require_once('autoloader.php');
 	session_start();
-	$Courses = new Courses($DB);
-	$Users = new Users($DB);
-	$Tests = new Tests($DB);
 
 	$check_array = array($_GET['courseId']);
 	$error_array = array("CourseId not set!");

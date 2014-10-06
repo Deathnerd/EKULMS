@@ -3,7 +3,6 @@
 	 * This page logs in the user and requires the User.php file.
 	 */
 	require_once("autoloader.php");
-	$Users = new Users($DB);
 	session_start();
 
 	$sessionUserName = $_SESSION['userName'];

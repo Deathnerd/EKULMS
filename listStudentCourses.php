@@ -7,7 +7,6 @@
 	 */
 	error_reporting(E_ALL);
 	require_once("autoloader.php");
-	$Courses = new Courses($DB);
 	session_start();
 
 	$enrolledCourses = $Courses->fetchEnrolledCourses($_SESSION['userName'], 'student');

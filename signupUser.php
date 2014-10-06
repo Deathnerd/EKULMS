@@ -18,7 +18,6 @@
 	if (!$Utils->validate($_GET['email'], "email")) {
 		$Utils->exitWithMessage("Check that your email is valid");
 	}
-	$Users = new Users($DB);
 	//check if user exists in database
 	if (!$Users->userExists($_GET['userName'])) { //if user does not already exist, then attempt to create it
 		if ($Users->create($_GET['userName'], $_GET['password'], $_GET['email'])) { //if user created successfully

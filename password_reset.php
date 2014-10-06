@@ -12,7 +12,7 @@
 	}
 
 	$UI = new  UI($_SERVER['PHP_SELF'], "Password Reset - EKULMS");
-	$UI->show("header");
+	$UI->executeHeaderTemplate('header_v2');
 ?>
 	<div id="bodyContainer">
 		<!--<p>User Name:</p>

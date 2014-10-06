@@ -14,7 +14,3 @@
 	) {
 		exit();
 	}
-
-	$Courses = new Courses($DB);
-	$Tests = new Tests($DB);
-	$Users = new Users($DB);
